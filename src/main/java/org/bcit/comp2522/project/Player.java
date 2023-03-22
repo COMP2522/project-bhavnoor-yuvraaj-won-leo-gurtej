@@ -7,12 +7,18 @@ import java.awt.*;
 
 public class Player extends Sprite implements Comparable{
 
+  public static Player singleInstance;
 
-  public Player(PVector position, PVector direction, float size, float speed, Color color, Window window) {
+  private Player(PVector position, PVector direction, float size, float speed, Color color, Window window) {
     super(position, direction, size, speed, color, window);
   }
 
-  /**
+  public static Player getInstance(PVector position, PVector direction, float size, float speed, Color color, Window window){
+    if (singleInstance == null) {
+      singleInstance = new Player(position, direction, size, speed, color, window);
+    }
+    return singleInstance;
+  }  /**
    * compareTo method.
    * @param o the object to be compared.
    * @return positive or negative integer based on which object is larger

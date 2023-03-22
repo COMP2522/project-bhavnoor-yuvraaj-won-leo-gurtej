@@ -60,13 +60,15 @@ public class Window extends PApplet implements Drawable{
 
     enemies = new ArrayList<Sprite>();
     sprites = new ArrayList<Sprite>();
-    player = new Player(
+    player = Player.getInstance(
       new PVector(this.width/2,this.height/2),
       new PVector(0,1),
       minSize + 1,
       2,
       new Color(0,255,0),
       this);
+
+    //refactored player to singleton
 
     for (int i = 0; i < numEnemies; i++) {
       enemies.add(new Sprite(
