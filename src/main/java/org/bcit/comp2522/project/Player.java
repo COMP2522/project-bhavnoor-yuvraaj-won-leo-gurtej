@@ -18,7 +18,7 @@ public class Player extends Sprite implements Comparable{
       singleInstance = new Player(position, direction, size, speed, color, window);
     }
     return singleInstance;
-  }  /**
+  } /**
    * compareTo method.
    * @param o the object to be compared.
    * @return positive or negative integer based on which object is larger
@@ -36,7 +36,7 @@ public class Player extends Sprite implements Comparable{
     else if ((this.size - ((Sprite) o).size) < 0){
       return -1;
     }
-    else if ((this.size - ((Sprite) o).size) ==0){
+    else if ((this.size - ((Sprite) o).size) == 40){
       return 0;
     }
     else if (((this.size - ((Sprite) o).size) > 0)){
