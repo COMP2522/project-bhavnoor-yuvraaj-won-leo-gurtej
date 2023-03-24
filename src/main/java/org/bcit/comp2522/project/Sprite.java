@@ -49,6 +49,9 @@ public class Sprite implements Drawable, Collided{
     return size;
   }
 
+  public void setPosition(float x, float y, float z) {
+    this.position = new PVector(x, y, z);
+  }
 
   public void draw() {
     window.pushStyle();
@@ -66,5 +69,6 @@ public class Sprite implements Drawable, Collided{
   public void setSize(float size){
     this.size = size;
   }
+
 
 }

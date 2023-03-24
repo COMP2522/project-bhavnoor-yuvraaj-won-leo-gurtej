@@ -91,11 +91,11 @@ public class Window extends PApplet implements Drawable{
     switch( keyCode ) {
       case LEFT:
         // handle left
-        player.setDirection(player.getDirection().rotate(-Window.PI / 16));
+        player.setPosition(player.getPosition().x - 20, player.getPosition().y, player.getPosition().z);
         break;
       case RIGHT:
         // handle right
-        player.setDirection(player.getDirection().rotate(Window.PI / 16));
+        player.setPosition(player.getPosition().x + 20, player.getPosition().y, player.getPosition().z);
         break;
     }
   }
