@@ -8,9 +8,14 @@ import java.awt.*;
 public class Player extends Sprite implements Comparable{
 
   public static Player singleInstance;
+  private Coin coin;
+  private int score;
+  private int health;
+
 
   private Player(PVector position, PVector direction, float size, float speed, Color color, Window window) {
     super(position, direction, size, speed, color, window);
+    this.coin = new Coin(position, size);
   }
 
   public static Player getInstance(PVector position, PVector direction, float size, float speed, Color color, Window window){
@@ -69,6 +74,35 @@ public class Player extends Sprite implements Comparable{
 
     return true;
   }
+
+  public int getScore() {
+    return score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
+  }
+
+  public int getHealth() {
+    return health;
+  }
+
+  public void setHealth(int health) {
+    this.health = health;
+  }
+
+  public boolean isCollidingWithCoin(Coin coin) {
+    return this.getPosition().dist(coin.getPosition()) <= (this.getSize() + coin.getSize()) / 2;
+  }
+
+  public void eatCoin(Coin coin) {
+    if (this.isCollidingWithCoin(coin) && !coin.isEaten()) {
+      this.coin.eaten();
+      this.setScore(this.getScore() + 1);
+      this.setHealth(this.getHealth() + 1);
+    }
+  }
+
 
 
 
