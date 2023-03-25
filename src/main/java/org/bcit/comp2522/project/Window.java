@@ -1,6 +1,7 @@
 package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 
@@ -23,6 +24,11 @@ public class Window extends PApplet implements Drawable{
   ArrayList<Sprite> sprites;
   ArrayList<Sprite> enemies;
   Player player;
+  PImage backgroundImage;
+
+  float backgroundX = 0;
+  float backgroundSpeed = 1;
+
 
   Wall wall;
   int numEnemies = 0;
@@ -36,6 +42,8 @@ public class Window extends PApplet implements Drawable{
    */
   public void settings() {
     size(640, 360);
+    String userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
+    backgroundImage = loadImage(userDir + "background.jpeg");
   }
 
 
@@ -123,17 +131,21 @@ public class Window extends PApplet implements Drawable{
    * in order of function calls.
    */
   public void draw() {
+      // Update the background position
+      backgroundX -= backgroundSpeed;
 
-//    grav
-    if (player.position.y > 100)
-    player.direction.y +=0.1;
+      // Draw the background image repeatedly in a loop
+      float x = backgroundX;
+      while (x < width) {
+        image(backgroundImage, x, 0);
+        x += backgroundImage.width;
+      }
 
+      // Move the camera to follow the player
+      float cameraX = -player.position.x + width/2;
+      translate(cameraX, 0);
 
-    float cameraX = -player.position.x + width/2;
-    translate(cameraX, 0);
-
-    background(0);
-    for (Sprite sprite : sprites) {
+      for (Sprite sprite : sprites) {
       sprite.update();
       sprite.draw();
     }
