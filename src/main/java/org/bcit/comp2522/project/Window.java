@@ -4,6 +4,7 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class Window extends PApplet implements Drawable{
   Player player;
 
   Wall wall;
-  int numEnemies = 10;
+  int numEnemies = 0;
   int minSize = 10;
   int maxSize = 20;
 
@@ -50,9 +51,9 @@ public class Window extends PApplet implements Drawable{
 
     wall = new Wall(
 
-      new PVector(this.width/3,this.height/3),
+      new PVector(50,200),
       new PVector(0,0),
-      minSize + 30,
+      minSize + 80,
       0,
       new Color(255,3,3),
       this);
@@ -62,7 +63,7 @@ public class Window extends PApplet implements Drawable{
     sprites = new ArrayList<Sprite>();
     player = Player.getInstance(
       new PVector(this.width/2,this.height/2),
-      new PVector(0,1),
+      new PVector(0,0),
       minSize + 1,
       2,
       new Color(0,255,0),
@@ -87,17 +88,33 @@ public class Window extends PApplet implements Drawable{
 
   @Override
   public void keyPressed(KeyEvent event) {
+    print(player.direction.x + "\n");
+    print(player.position + "\n");
     int keyCode = event.getKeyCode();
     switch( keyCode ) {
       case LEFT:
         // handle left
-        player.setPosition(player.getPosition().x - 20, player.getPosition().y, player.getPosition().z);
+//        player.setPosition(player.getPosition().x - 20, player.getPosition().y, player.getPosition().z);
+        if (player.direction.x > -10) {
+          player.direction.x -= 1;
+        }
         break;
       case RIGHT:
         // handle right
-        player.setPosition(player.getPosition().x + 20, player.getPosition().y, player.getPosition().z);
+//        player.setPosition(player.getPosition().x + 20, player.getPosition().y, player.getPosition().z);
+//        player.direction.x +=10;
+        if (player.direction.x < 10) {
+          player.direction.x += 1;
+        }
         break;
+      default:
+        player.direction.x *= 0.9;
+        if (player.direction.x < 5 && player.direction.x > -5){
+          player.direction.x = 0;
+        }
+
     }
+
   }
 
   /**
@@ -106,6 +123,15 @@ public class Window extends PApplet implements Drawable{
    * in order of function calls.
    */
   public void draw() {
+
+//    grav
+    if (player.position.y > 100)
+    player.direction.y +=0.1;
+
+
+    float cameraX = -player.position.x + width/2;
+    translate(cameraX, 0);
+
     background(0);
     for (Sprite sprite : sprites) {
       sprite.update();
@@ -128,11 +154,15 @@ public class Window extends PApplet implements Drawable{
       }
       if (Collided.collided(wall, enemy)){
         enemy.direction.rotate(this.HALF_PI);
+
       }
     }
-    if (Collided.collided(wall, player)){
-      player.direction.rotate(this.HALF_PI);
+    if (player.position.y > this.height){
+//      player.direction.rotate(this.HALF_PI);
+//      player.direction.y = -(player.direction.y);
     }
+
+
     for (Sprite enemy : toRemove) {
       this.remove(enemy);
     }

@@ -24,8 +24,8 @@ public class Sprite implements Drawable, Collided{
   }
 
   public void bounce() {
-    if (this.position.x <= 0 ||
-        this.position.x >= window.width ||
+    if (
+//        this.position.x >= window.width ||
         this.position.y <= 0 ||
         this.position.y >= window.height) {
       this.direction.rotate(window.HALF_PI);
