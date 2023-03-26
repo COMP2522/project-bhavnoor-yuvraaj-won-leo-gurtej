@@ -32,7 +32,7 @@ public class Window extends PApplet implements Drawable{
 
 
   Wall wall;
-  int numEnemies = 10;
+  int numbEnemies = 3;
   int minSize = 4;
   int maxSize = 10;
 
@@ -57,6 +57,7 @@ public class Window extends PApplet implements Drawable{
   }
 
   public void init() {
+    print("started at beginning");
 
     wall = new Wall(
 
@@ -80,18 +81,8 @@ public class Window extends PApplet implements Drawable{
 
     //refactored player to singleton
 
-    for (int i = 0; i < numEnemies; i++) {
-      enemies.add(new Enemy(
-        new PVector(random(0, this.width), random(0, this.height)),
-        new PVector(random(-1, 1), random(-1,1)),
-        random(minSize, maxSize),
-        random(0,2),
-        new Color(255, 0, 0),
-        (int)random(3, 5),
-        random(4, 12),
-        this
-      ));
-    }
+
+    enemies.addAll(createEnemies(numbEnemies));//add enemies that were created into enemies arraylist
     sprites.addAll(enemies);
     sprites.add(player);
     sprites.add(wall);
@@ -169,12 +160,13 @@ public class Window extends PApplet implements Drawable{
         }
     }
 
+//      ensure gravity movement
         player.setPosition(player.getPosition().x, player.getPosition().y + 2, player.getPosition().z);
 
 
 //      minimum x movement
       if (started){
-//        player.setPosition(player.getPosition().x + 2, player.getPosition().y, player.getPosition().z);
+        player.setPosition(player.getPosition().x + 2, player.getPosition().y, player.getPosition().z);
       }
 
 
@@ -182,16 +174,29 @@ public class Window extends PApplet implements Drawable{
     ArrayList<Sprite> toRemove = new ArrayList<Sprite>();
     for (Sprite enemy : enemies) {
       if (Collided.collided(player, enemy)) {
-        if (player.compareTo(enemy) == -1) {
-          init();
+        print("COLLIDED");
+        if (player.compareTo(enemy) <= 0) {
+          print("you lost!!!!!!!");
+          exit();
         }
-        if (player.compareTo(enemy) == 1) {
-          toRemove.add(enemy);
-          player.setSize(player.getSize() > 50 ? player.getSize(): player.getSize() - 2); //enemy.getSize()); //player should later increase by 1, size capped at 50 for now
-          print("enemy hit!");
+
+        if (player.compareTo(enemy) == 1){
+          player.setSize((player.getSize() - 1));
+//          toRemove.add(enemy);
+          this.remove(enemy);
+          print("added enemy to remove");
+          break;
         }
-        //toRemove.add(enemy);
-        //print("added to list\n");
+
+          break;
+
+//        print("here");
+//       if (player.compareTo(enemy) > 0) {
+////        player.setSize(player.getSize() > 50 ? player.getSize(): player.getSize() - 2); //enemy.getSize()); //player should later increase by 1, size capped at 50 for now
+//          player.setSize(player.getSize() -2);
+//          print("enemy hit!");
+//        }
+//       print("end hit data");
       }
       if (Collided.collided(wall, player)){
         player.direction.rotate(this.HALF_PI);
@@ -201,6 +206,16 @@ public class Window extends PApplet implements Drawable{
 
       }
     }
+
+    //regen enemies as they continue through the map
+    if (player.position.x % 1280 == 0){
+      ArrayList<Enemy> newEnemies = new ArrayList<Enemy>();
+      newEnemies.addAll(createEnemies(numbEnemies));
+      enemies.addAll(newEnemies);
+      sprites.addAll(newEnemies);
+    }
+
+
     if (player.position.y > this.height - 10){
 //      player.direction.rotate(this.HALF_PI);
 //      player.direction.y = -(player.direction.y);
@@ -219,6 +234,24 @@ public class Window extends PApplet implements Drawable{
 
   }
 
+  private ArrayList createEnemies(int numEnemies) {
+    ArrayList<Enemy> enems = new ArrayList<Enemy>();
+    for (int i = 0; i < numEnemies; i++) {
+      Enemy j = new Enemy(
+              new PVector(random(player.position.x + 320, player.position.x + 320  + this.width), random(0, this.height)),
+              new PVector(random(-1, 1), random(-1,1)),
+              10,
+              random(0,2),
+              new Color(255, 0, 0),
+              (int)random(3, 5),
+              10,
+              this
+      );
+      enems.add(j);
+    }
+    numbEnemies++;
+    return enems;
+  }
 
 
   /**

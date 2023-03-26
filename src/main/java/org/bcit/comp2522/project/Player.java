@@ -32,6 +32,7 @@ public class Player extends Sprite implements Comparable{
    */
   //@Override
   public int compareTo(Object o) {
+    System.out.println(this.size - (((Sprite)o).size));
     if (o == null){
       throw new NullPointerException(); //null pointer exception if object is null
     }
@@ -43,9 +44,10 @@ public class Player extends Sprite implements Comparable{
     else if ((this.size - ((Sprite) o).size) < 0){
       return -1;
     }
-    else if ((this.size - ((Sprite) o).size) == 40){
+    else if ((this.size - ((Sprite) o).size) == 0){
       return 0;
     }
+
     else if (((this.size - ((Sprite) o).size) > 0)){
       return 1;
     }

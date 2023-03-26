@@ -78,24 +78,24 @@ public class Enemy extends Sprite implements Comparable {
     window.strokeWeight(1);
     window.beginShape();
     if (sides == 3) { // draw triangle
-      float x1 = position.x - radius;
-      float y1 = position.y + radius;
+      float x1 = position.x - size;
+      float y1 = position.y + size;
       float x2 = position.x;
-      float y2 = position.y - radius;
-      float x3 = position.x + radius;
-      float y3 = position.y + radius;
+      float y2 = position.y - size;
+      float x3 = position.x + size;
+      float y3 = position.y + size;
       window.vertex(x1, y1);
       window.vertex(x2, y2);
       window.vertex(x3, y3);
     } else if (sides == 4) { // draw square
-      float x1 = position.x - radius;
-      float y1 = position.y - radius;
-      float x2 = position.x + radius;
-      float y2 = position.y - radius;
-      float x3 = position.x + radius;
-      float y3 = position.y + radius;
-      float x4 = position.x - radius;
-      float y4 = position.y + radius;
+      float x1 = position.x - size;
+      float y1 = position.y - size;
+      float x2 = position.x + size;
+      float y2 = position.y - size;
+      float x3 = position.x + size;
+      float y3 = position.y + size;
+      float x4 = position.x - size;
+      float y4 = position.y + size;
       window.vertex(x1, y1);
       window.vertex(x2, y2);
       window.vertex(x3, y3);
