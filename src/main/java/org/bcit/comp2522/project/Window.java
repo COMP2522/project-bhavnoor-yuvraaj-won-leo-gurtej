@@ -43,7 +43,7 @@ public class Window extends PApplet implements Drawable{
    */
   public void settings() {
     size(640, 360);
-    String userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
+    String userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
     backgroundImage = loadImage(userDir + "blue.jpg");
   }
 
@@ -96,15 +96,15 @@ public class Window extends PApplet implements Drawable{
     print("\npos: " + player.position);
     int keyCode = event.getKeyCode();
     switch( keyCode ) {
-      case LEFT:
-        // handle left
-        player.setPosition(player.getPosition().x - 20, player.getPosition().y, player.getPosition().z);
-        break;
-      case RIGHT:
-        // handle right
-        player.setPosition(player.getPosition().x + 20, player.getPosition().y, player.getPosition().z);
-        break;
-      case ' ': {
+//      case LEFT:
+//        // handle left
+//        player.setPosition(player.getPosition().x - 20, player.getPosition().y, player.getPosition().z);
+//        break;
+//      case RIGHT:
+//        // handle right
+//        player.setPosition(player.getPosition().x + 20, player.getPosition().y, player.getPosition().z);
+//        break;
+      case ' ', UP, 'W', 'w': {
         if (!player.isJumping()){
 //          player.setPosition(player.getPosition().x, player.getPosition().y - 100, player.getPosition().z);
           player.setJumping(true);
