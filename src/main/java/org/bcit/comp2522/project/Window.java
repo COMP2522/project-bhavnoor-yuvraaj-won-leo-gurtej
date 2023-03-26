@@ -43,8 +43,15 @@ public class Window extends PApplet implements Drawable{
    */
   public void settings() {
     size(640, 360);
-    String userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
+    String userDir;
+
+    if(System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+      userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
+    } else {
+      userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
+    }
     backgroundImage = loadImage(userDir + "blue.jpg");
+
   }
 
 
