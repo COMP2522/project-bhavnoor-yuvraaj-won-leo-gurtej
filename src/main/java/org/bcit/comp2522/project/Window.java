@@ -26,14 +26,15 @@ public class Window extends PApplet implements Drawable{
   Player player;
   PImage backgroundImage;
 
+  private boolean started = false;
   float backgroundX = 0;
   float backgroundSpeed = 1;
 
 
   Wall wall;
-  int numEnemies = 0;
-  int minSize = 10;
-  int maxSize = 20;
+  int numEnemies = 10;
+  int minSize = 4;
+  int maxSize = 10;
 
 
 
@@ -43,7 +44,7 @@ public class Window extends PApplet implements Drawable{
   public void settings() {
     size(640, 360);
     String userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
-    backgroundImage = loadImage(userDir + "background.jpeg");
+    backgroundImage = loadImage(userDir + "blue.jpg");
   }
 
 
@@ -71,9 +72,9 @@ public class Window extends PApplet implements Drawable{
     sprites = new ArrayList<Sprite>();
     player = Player.getInstance(
       new PVector(this.width/2,this.height/2),
-      new PVector(0,0),
-      minSize + 1,
-      2,
+      new PVector(1,0),
+      minSize + 10,
+      0,
       new Color(0,255,0),
       this);
 
@@ -96,30 +97,28 @@ public class Window extends PApplet implements Drawable{
 
   @Override
   public void keyPressed(KeyEvent event) {
-    print(player.direction.x + "\n");
-    print(player.position + "\n");
+    started = true;
+//    print(System.getProperty("os.name"));
+    print("\nSpeed: " + player.speed);
+    print("\npos: " + player.position);
     int keyCode = event.getKeyCode();
     switch( keyCode ) {
       case LEFT:
         // handle left
-//        player.setPosition(player.getPosition().x - 20, player.getPosition().y, player.getPosition().z);
-        if (player.direction.x > -10) {
-          player.direction.x -= 1;
-        }
+        player.setPosition(player.getPosition().x - 20, player.getPosition().y, player.getPosition().z);
         break;
       case RIGHT:
         // handle right
-//        player.setPosition(player.getPosition().x + 20, player.getPosition().y, player.getPosition().z);
-//        player.direction.x +=10;
-        if (player.direction.x < 10) {
-          player.direction.x += 1;
+        player.setPosition(player.getPosition().x + 20, player.getPosition().y, player.getPosition().z);
+        break;
+      case ' ': {
+        if (!player.isJumping()){
+          player.setPosition(player.getPosition().x, player.getPosition().y - 100, player.getPosition().z);
+          player.setJumping(true);
         }
         break;
-      default:
-        player.direction.x *= 0.9;
-        if (player.direction.x < 5 && player.direction.x > -5){
-          player.direction.x = 0;
-        }
+      }
+
 
     }
 
@@ -150,6 +149,17 @@ public class Window extends PApplet implements Drawable{
       sprite.draw();
     }
 
+//      gravity
+      if (player.isJumping()) {
+      player.setPosition(player.getPosition().x, player.getPosition().y + 2, player.getPosition().z);
+    }
+
+//      minimum x movement
+      if (started){
+//        player.setPosition(player.getPosition().x + 2, player.getPosition().y, player.getPosition().z);
+      }
+
+
 
     ArrayList<Sprite> toRemove = new ArrayList<Sprite>();
     for (Sprite enemy : enemies) {
@@ -159,7 +169,8 @@ public class Window extends PApplet implements Drawable{
         }
         if (player.compareTo(enemy) == 1) {
           toRemove.add(enemy);
-          player.setSize(player.getSize() + enemy.getSize());
+          player.setSize(player.getSize() + 15); //enemy.getSize());
+          print("enemy hit!");
         }
         //toRemove.add(enemy);
         //print("added to list\n");
@@ -169,9 +180,11 @@ public class Window extends PApplet implements Drawable{
 
       }
     }
-    if (player.position.y > this.height){
+    if (player.position.y > this.height - 10){
 //      player.direction.rotate(this.HALF_PI);
 //      player.direction.y = -(player.direction.y);
+        player.position.y = this.height - 10;
+        player.setJumping(false);
     }
 
 
