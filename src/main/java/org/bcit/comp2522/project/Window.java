@@ -142,6 +142,11 @@ public class Window extends PApplet implements Drawable{
         image(backgroundImage, x, 0);
         x += backgroundImage.width;
       }
+    textSize(16);
+    textAlign(LEFT, TOP);
+    fill(255);
+    text("Health: " + player.getSize(), 10, 10);
+    text("Score: " + player.getPosition().x, 10, 30);
 
       // Move the camera to follow the player
       float cameraX = -player.position.x + width/2;
