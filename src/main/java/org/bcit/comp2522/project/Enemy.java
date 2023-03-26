@@ -1,16 +1,22 @@
 package org.bcit.comp2522.project;
 
 import processing.core.PVector;
-
 import java.awt.*;
+import static processing.core.PConstants.CLOSE;
 
 /**
  * Public class Enemy.
  * This is enemy class.
  */
-public class Enemy extends Sprite implements Comparable{
-  public Enemy(PVector position, PVector direction, float size, float speed, Color color, Window window) {
+public class Enemy extends Sprite implements Comparable {
+
+  public int sides;
+  public float radius;
+
+  public Enemy(PVector position, PVector direction, float size, float speed, Color color, int sides, float radius, Window window) {
     super(position, direction, size, speed, color, window);
+    this.sides = sides;
+    this.radius = radius;
   }
 
   /**
@@ -65,5 +71,36 @@ public class Enemy extends Sprite implements Comparable{
     return true;
   }
 
-
+  @Override
+  public void draw() {
+    window.fill(color.getRGB());
+    window.stroke(0);
+    window.strokeWeight(1);
+    window.beginShape();
+    if (sides == 3) { // draw triangle
+      float x1 = position.x - radius;
+      float y1 = position.y + radius;
+      float x2 = position.x;
+      float y2 = position.y - radius;
+      float x3 = position.x + radius;
+      float y3 = position.y + radius;
+      window.vertex(x1, y1);
+      window.vertex(x2, y2);
+      window.vertex(x3, y3);
+    } else if (sides == 4) { // draw square
+      float x1 = position.x - radius;
+      float y1 = position.y - radius;
+      float x2 = position.x + radius;
+      float y2 = position.y - radius;
+      float x3 = position.x + radius;
+      float y3 = position.y + radius;
+      float x4 = position.x - radius;
+      float y4 = position.y + radius;
+      window.vertex(x1, y1);
+      window.vertex(x2, y2);
+      window.vertex(x3, y3);
+      window.vertex(x4, y4);
+    }
+    window.endShape(CLOSE);
+  }
 }
