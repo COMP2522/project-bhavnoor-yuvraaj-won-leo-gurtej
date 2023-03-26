@@ -11,13 +11,13 @@ import java.util.ArrayList;
 
 
 /**
- * Lab-02 starter code.
+ *
  * Runs the applet for the Lab-02 bouncing
  * balls starter code.
  * Based on code from Keith Peters demonstrating
  * multiple-object collision.
  *
- * @author paul_bucci
+ *
  *
  */
 public class Window extends PApplet implements Drawable{
@@ -73,7 +73,7 @@ public class Window extends PApplet implements Drawable{
     player = Player.getInstance(
       new PVector(this.width/2,this.height/2),
       new PVector(1,0),
-      minSize + 10,
+      minSize + 40,
       0,
       new Color(0,255,0),
       this);
@@ -81,12 +81,14 @@ public class Window extends PApplet implements Drawable{
     //refactored player to singleton
 
     for (int i = 0; i < numEnemies; i++) {
-      enemies.add(new Sprite(
+      enemies.add(new Enemy(
         new PVector(random(0, this.width), random(0, this.height)),
         new PVector(random(-1, 1), random(-1,1)),
         random(minSize, maxSize),
         random(0,2),
         new Color(255, 0, 0),
+        (int)random(3, 5),
+        random(4, 12),
         this
       ));
     }
@@ -99,7 +101,7 @@ public class Window extends PApplet implements Drawable{
   public void keyPressed(KeyEvent event) {
     started = true;
 //    print(System.getProperty("os.name"));
-    print("\nSpeed: " + player.speed);
+    print("\nsize: " + player.getSize());
     print("\npos: " + player.position);
     int keyCode = event.getKeyCode();
     switch( keyCode ) {
@@ -113,8 +115,9 @@ public class Window extends PApplet implements Drawable{
         break;
       case ' ': {
         if (!player.isJumping()){
-          player.setPosition(player.getPosition().x, player.getPosition().y - 100, player.getPosition().z);
+//          player.setPosition(player.getPosition().x, player.getPosition().y - 100, player.getPosition().z);
           player.setJumping(true);
+          player.setJumpcount(1);
         }
         break;
       }
@@ -151,8 +154,18 @@ public class Window extends PApplet implements Drawable{
 
 //      gravity
       if (player.isJumping()) {
-      player.setPosition(player.getPosition().x, player.getPosition().y + 2, player.getPosition().z);
+        if (player.getJumpcount() > 0){
+          player.setPosition(player.getPosition().x, player.getPosition().y -(player.getSize()/2), player.getPosition().z);
+          player.setJumpcount(player.getJumpcount() + 10);
+        }
+
+        if (player.getJumpcount() >= 100){
+          player.setJumpcount(0);
+        }
     }
+
+        player.setPosition(player.getPosition().x, player.getPosition().y + 2, player.getPosition().z);
+
 
 //      minimum x movement
       if (started){
@@ -169,14 +182,17 @@ public class Window extends PApplet implements Drawable{
         }
         if (player.compareTo(enemy) == 1) {
           toRemove.add(enemy);
-          player.setSize(player.getSize() + 15); //enemy.getSize());
+          player.setSize(player.getSize() > 50 ? player.getSize(): player.getSize() - 2); //enemy.getSize()); //player should later increase by 1, size capped at 50 for now
           print("enemy hit!");
         }
         //toRemove.add(enemy);
         //print("added to list\n");
       }
-      if (Collided.collided(wall, enemy)){
-        enemy.direction.rotate(this.HALF_PI);
+      if (Collided.collided(wall, player)){
+        player.direction.rotate(this.HALF_PI);
+        if (player.getPosition().y < wall.getPosition().y){
+          player.setPosition(player.getPosition().x, wall.getPosition().y - player.getSize() + 25, wall.getPosition().z);
+        }
 
       }
     }
@@ -184,7 +200,11 @@ public class Window extends PApplet implements Drawable{
 //      player.direction.rotate(this.HALF_PI);
 //      player.direction.y = -(player.direction.y);
         player.position.y = this.height - 10;
-        player.setJumping(false);
+
+    }
+
+    if (player.position.y == this.height - 10){
+      player.setJumping(false);
     }
 
 
@@ -193,12 +213,6 @@ public class Window extends PApplet implements Drawable{
     }
 
   }
-
-
-
-
-
-
 
 
 

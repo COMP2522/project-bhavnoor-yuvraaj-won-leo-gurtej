@@ -14,6 +14,8 @@ public class Player extends Sprite implements Comparable{
 
   private boolean jumping = false;
 
+  private int jumpcount = 0;
+
 
   private Player(PVector position, PVector direction, float size, float speed, Color color, Window window) {
     super(position, direction, size, speed, color, window);
@@ -112,6 +114,14 @@ public class Player extends Sprite implements Comparable{
 
   public void setJumping(boolean jumping) {
     this.jumping = jumping;
+  }
+
+  public int getJumpcount() {
+    return jumpcount;
+  }
+
+  public void setJumpcount(int jumpcount) {
+    this.jumpcount = jumpcount;
   }
 }
 
