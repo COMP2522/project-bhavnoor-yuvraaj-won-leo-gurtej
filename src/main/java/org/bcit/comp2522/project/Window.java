@@ -42,7 +42,7 @@ public class Window extends PApplet implements Drawable {
     } else {
       userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
     }
-    backgroundImage = loadImage(userDir + "blue.jpg");
+    backgroundImage = loadImage(userDir + "background.jpeg");
 
   }
 
@@ -75,7 +75,7 @@ public class Window extends PApplet implements Drawable {
     player = Player.getInstance(
             new PVector(this.width / 2, this.height / 2),
             new PVector(1, 0),
-            minSize + 70,
+            minSize + 50,
             0,
             new Color(0, 255, 0),
             playerImage,
@@ -199,12 +199,12 @@ public class Window extends PApplet implements Drawable {
     }
 
 
-    if (player.position.y > this.height - 10) {
-      player.position.y = this.height - 10;
+    if (player.position.y > this.height - 40) {
+      player.position.y = this.height - 40;
 
     }
 
-    if (player.position.y == this.height - 10) {
+    if (player.position.y == this.height - 40) {
       player.setJumping(false);
     }
 
