@@ -59,7 +59,7 @@ public class Window extends PApplet implements Drawable{
     backgroundImage = loadImage(userDir + "blue.jpg");
     playerImage = loadImage(userDir + "topG.png"); //added this for player to be an image.
     print("started at beginning");
-    this.init();
+    this.init();a
 
   }
 
