@@ -12,12 +12,8 @@ import java.util.ArrayList;
 
 /**
  *
- *
- *
- *
- *
  */
-public class Window extends PApplet implements Drawable{
+public class Window extends PApplet implements Drawable {
   ArrayList<Sprite> sprites;
   ArrayList<Sprite> enemies;
   Player player;
@@ -41,7 +37,7 @@ public class Window extends PApplet implements Drawable{
    */
   public void settings() {
     size(640, 360);
-    if(System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+    if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
       userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
     } else {
       userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
@@ -64,12 +60,12 @@ public class Window extends PApplet implements Drawable{
 
     wall = new Wall(
 
-      new PVector(50,200),
-      new PVector(0,0),
-      minSize + 80,
-      0,
-      new Color(255,3,3),
-      this);
+            new PVector(50, 200),
+            new PVector(0, 0),
+            minSize + 80,
+            0,
+            new Color(255, 3, 3),
+            this);
 
 
     enemies = new ArrayList<Sprite>();
@@ -77,15 +73,14 @@ public class Window extends PApplet implements Drawable{
 
     playerImage = loadImage(userDir + "topG.png"); //added this for player to be an image.
     player = Player.getInstance(
-      new PVector(this.width/2,this.height/2),
-      new PVector(1,0),
-      minSize + 70,
-      0,
-      new Color(0,255,0),
-      playerImage,
-      this);
+            new PVector(this.width / 2, this.height / 2),
+            new PVector(1, 0),
+            minSize + 70,
+            0,
+            new Color(0, 255, 0),
+            playerImage,
+            this);
 
-    //refactored player to singleton
 
 
     enemies.addAll(createEnemies(numbEnemies));//add enemies that were created into enemies arraylist
@@ -97,22 +92,13 @@ public class Window extends PApplet implements Drawable{
   @Override
   public void keyPressed(KeyEvent event) {
     started = true;
-//    print(System.getProperty("os.name"));
     print("\nsize: " + player.getSize());
     print("\npos: " + player.position);
     int keyCode = event.getKeyCode();
-    switch( keyCode ) {
-//      case LEFT:
-//        // handle left
-//        player.setPosition(player.getPosition().x - 20, player.getPosition().y, player.getPosition().z);
-//        break;
-//      case RIGHT:
-//        // handle right
-//        player.setPosition(player.getPosition().x + 20, player.getPosition().y, player.getPosition().z);
-//        break;
+    switch (keyCode) {
+
       case ' ', UP, 'W', 'w': {
-        if (!player.isJumping()){
-//          player.setPosition(player.getPosition().x, player.getPosition().y - 100, player.getPosition().z);
+        if (!player.isJumping()) {
           player.setJumping(true);
           player.setJumpcount(1);
         }
@@ -130,51 +116,50 @@ public class Window extends PApplet implements Drawable{
    * in order of function calls.
    */
   public void draw() {
-      // Update the background position
-      backgroundX -= backgroundSpeed;
+    // Update the background position
+    backgroundX -= backgroundSpeed;
 
-      // Draw the background image repeatedly in a loop
-      float x = backgroundX;
-      while (x < width) {
-        image(backgroundImage, x, 0);
-        x += backgroundImage.width;
-      }
+    // Draw the background image repeatedly in a loop
+    float x = backgroundX;
+    while (x < width) {
+      image(backgroundImage, x, 0);
+      x += backgroundImage.width;
+    }
     textSize(16);
     textAlign(LEFT, TOP);
     fill(255);
     text("Health: " + player.getSize(), 10, 10);
     text("Score: " + player.getPosition().x, 10, 30);
 
-      // Move the camera to follow the player
-      float cameraX = -player.position.x + width/2;
-      translate(cameraX, 0);
+    // Move the camera to follow the player
+    float cameraX = -player.position.x + width / 2;
+    translate(cameraX, 0);
 
-      for (Sprite sprite : sprites) {
+    for (Sprite sprite : sprites) {
       sprite.update();
       sprite.draw();
     }
 
 //      gravity
-      if (player.isJumping()) {
-        if (player.getJumpcount() > 0){
-          player.setPosition(player.getPosition().x, player.getPosition().y -(player.getSize()/2), player.getPosition().z);
-          player.setJumpcount(player.getJumpcount() + 10);
-        }
+    if (player.isJumping()) {
+      if (player.getJumpcount() > 0) {
+        player.setPosition(player.getPosition().x, player.getPosition().y - (player.getSize() / 2), player.getPosition().z);
+        player.setJumpcount(player.getJumpcount() + 10);
+      }
 
-        if (player.getJumpcount() >= 100){
-          player.setJumpcount(0);
-        }
+      if (player.getJumpcount() >= 100) {
+        player.setJumpcount(0);
+      }
     }
 
 //      ensure gravity movement
-        player.setPosition(player.getPosition().x, player.getPosition().y + 2, player.getPosition().z);
+    player.setPosition(player.getPosition().x, player.getPosition().y + 2, player.getPosition().z);
 
 
 //      minimum x movement
-      if (started){
-        player.setPosition(player.getPosition().x + 2, player.getPosition().y, player.getPosition().z);
-      }
-
+    if (started) {
+      player.setPosition(player.getPosition().x + 2, player.getPosition().y, player.getPosition().z);
+    }
 
 
     ArrayList<Sprite> toRemove = new ArrayList<Sprite>();
@@ -186,27 +171,19 @@ public class Window extends PApplet implements Drawable{
           exit();
         }
 
-        if (player.compareTo(enemy) == 1){
+        if (player.compareTo(enemy) == 1) {
           player.setSize((player.getSize() - 1));
-//          toRemove.add(enemy);
           this.remove(enemy);
           print("added enemy to remove");
           break;
         }
 
-          break;
+        break;
 
-//        print("here");
-//       if (player.compareTo(enemy) > 0) {
-////        player.setSize(player.getSize() > 50 ? player.getSize(): player.getSize() - 2); //enemy.getSize()); //player should later increase by 1, size capped at 50 for now
-//          player.setSize(player.getSize() -2);
-//          print("enemy hit!");
-//        }
-//       print("end hit data");
       }
-      if (Collided.collided(wall, player)){
+      if (Collided.collided(wall, player)) {
         player.direction.rotate(this.HALF_PI);
-        if (player.getPosition().y < wall.getPosition().y){
+        if (player.getPosition().y < wall.getPosition().y) {
           player.setPosition(player.getPosition().x, wall.getPosition().y - player.getSize() + 25, wall.getPosition().z);
         }
 
@@ -214,7 +191,7 @@ public class Window extends PApplet implements Drawable{
     }
 
     //regen enemies as they continue through the map
-    if (player.position.x % 1280 == 0){
+    if (player.position.x % 1280 == 0) {
       ArrayList<Enemy> newEnemies = new ArrayList<Enemy>();
       newEnemies.addAll(createEnemies(numbEnemies));
       enemies.addAll(newEnemies);
@@ -222,14 +199,12 @@ public class Window extends PApplet implements Drawable{
     }
 
 
-    if (player.position.y > this.height - 10){
-//      player.direction.rotate(this.HALF_PI);
-//      player.direction.y = -(player.direction.y);
-        player.position.y = this.height - 10;
+    if (player.position.y > this.height - 10) {
+      player.position.y = this.height - 10;
 
     }
 
-    if (player.position.y == this.height - 10){
+    if (player.position.y == this.height - 10) {
       player.setJumping(false);
     }
 
@@ -244,12 +219,12 @@ public class Window extends PApplet implements Drawable{
     ArrayList<Enemy> enems = new ArrayList<Enemy>();
     for (int i = 0; i < numEnemies; i++) {
       Enemy j = new Enemy(
-              new PVector(random(player.position.x + 320, player.position.x + 320  + this.width), random(0, this.height)),
-              new PVector(random(-1, 1), random(-1,1)),
+              new PVector(random(player.position.x + 320, player.position.x + 320 + this.width), random(0, this.height)),
+              new PVector(random(-1, 1), random(-1, 1)),
               10,
-              random(0,2),
+              random(0, 2),
               new Color(255, 0, 0),
-              (int)random(3, 5),
+              (int) random(3, 5),
               10,
               this
       );
@@ -262,6 +237,7 @@ public class Window extends PApplet implements Drawable{
 
   /**
    * remove method to remove the enemy from both arraylists.
+   *
    * @param s the enemy.
    */
   public void remove(Sprite s) {
