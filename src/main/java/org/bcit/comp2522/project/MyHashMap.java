@@ -22,11 +22,35 @@ public class MyHashMap<K, V> {
     }
 
     public void addAll(MyHashMap map){
+        for (CustomList<K, V> list : map.table) {
+            Node<K, V> current = list.getHead();
+            while (current != null) {
+                K key = current.getKey();
+                V val = current.getValue();
+                this.add(key, val);
+
+                current = current.next;
+            }
+        }
+
         //todo: implement add all method
         // see java arraylist addAll docs
     }
 
     public void allAll(ArrayList<V> list){
+        if (!(list.get(0) instanceof Sprite)) {
+            throw new ClassCastException();
+        }
+        for (V val : list) {
+            if (val == null) {
+                throw new NullPointerException();
+            }
+            else {
+                K key = (K) Integer.valueOf(val.hashCode());
+                this.add(key, val);
+            }
+
+        }
         //todo: implement add all method with arraylist param
         // later code could utilize either version of the overloaded method
     }
