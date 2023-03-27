@@ -74,4 +74,41 @@ public class Button implements Drawable {
 
     return isClicked;
   }
+
+  public String getLabel() {
+    return label;
+  }
+
+  public PVector getPosition() {
+    return position;
+  }
+
+  public int getWidth() {
+    return width;
+  }
+
+  public void setWidth(int width) {
+    this.width = width;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
+  public void setHeight(int height) {
+    this.height = height;
+  }
+
+  public Color getBackgroundColor() {
+    return backgroundColor;
+  }
+
+  public Color getForegroundColor() {
+    return foregroundColor;
+  }
+
+  public Color getHoverColor() {
+    return hoverColor;
+  }
+
 }
