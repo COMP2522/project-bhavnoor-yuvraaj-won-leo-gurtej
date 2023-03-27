@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class StartPage extends PApplet implements Drawable {
   private Button startButton;
+  private Window gameWindow;
 
   /**
    * Called once at the beginning of the program.
@@ -26,10 +27,6 @@ public class StartPage extends PApplet implements Drawable {
    * Initializes all objects.
    */
   public void setup() {
-    this.init();
-  }
-
-  public void init() {
     startButton = new Button(
             "Start",
             new PVector(this.width / 2, this.height / 2),
@@ -38,6 +35,7 @@ public class StartPage extends PApplet implements Drawable {
             new Color(255,0,0),
             this
     );
+    gameWindow = new Window();
   }
 
   /**
@@ -54,9 +52,7 @@ public class StartPage extends PApplet implements Drawable {
   public void mousePressed() {
     if (startButton.isClicked()) {
       // Start the game window
-      Window gameWindow = new Window();
       gameWindow.init();
-      PApplet.runSketch(new String[]{"eatBubbles"}, gameWindow);
     }
   }
 

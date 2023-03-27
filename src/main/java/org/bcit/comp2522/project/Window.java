@@ -41,12 +41,7 @@ public class Window extends PApplet implements Drawable{
    */
   public void settings() {
     size(640, 360);
-    if(System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-      userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
-    } else {
-      userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
-    }
-    backgroundImage = loadImage(userDir + "blue.jpg");
+
 
   }
 
@@ -60,6 +55,12 @@ public class Window extends PApplet implements Drawable{
   }
 
   public void init() {
+    if(System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+      userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
+    } else {
+      userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
+    }
+    backgroundImage = loadImage(userDir + "blue.jpg");
     print("started at beginning");
 
     wall = new Wall(
@@ -73,13 +74,13 @@ public class Window extends PApplet implements Drawable{
 
 
     enemies = new ArrayList<Sprite>();
-    sprites = new ArrayList<Sprite>();
+     sprites = new ArrayList<Sprite>();
 
     playerImage = loadImage(userDir + "topG.png"); //added this for player to be an image.
     player = Player.getInstance(
       new PVector(this.width/2,this.height/2),
       new PVector(1,0),
-      minSize + 70,
+      minSize + 0,
       0,
       new Color(0,255,0),
       playerImage,
@@ -182,8 +183,10 @@ public class Window extends PApplet implements Drawable{
       if (Collided.collided(player, enemy)) {
         print("COLLIDED");
         if (player.compareTo(enemy) <= 0) {
-          print("you lost!!!!!!!");
-          exit();
+          GameOver gameOver = new GameOver(player);
+          gameOver.init();
+          PApplet.runSketch(new String[]{"gameover"}, gameOver);
+          this.dispose();
         }
 
         if (player.compareTo(enemy) == 1){
