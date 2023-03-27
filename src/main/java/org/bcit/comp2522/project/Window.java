@@ -12,10 +12,7 @@ import java.util.ArrayList;
 
 /**
  *
- * Runs the applet for the Lab-02 bouncing
- * balls starter code.
- * Based on code from Keith Peters demonstrating
- * multiple-object collision.
+ *
  *
  *
  *
@@ -78,13 +75,14 @@ public class Window extends PApplet implements Drawable{
     enemies = new ArrayList<Sprite>();
     sprites = new ArrayList<Sprite>();
 
-    playerImage = loadImage(userDir + "player.png"); //added this for player to be an image.
+    playerImage = loadImage(userDir + "topG.png"); //added this for player to be an image.
     player = Player.getInstance(
       new PVector(this.width/2,this.height/2),
       new PVector(1,0),
-      minSize + 40,
+      minSize + 70,
       0,
       new Color(0,255,0),
+      playerImage,
       this);
 
     //refactored player to singleton
