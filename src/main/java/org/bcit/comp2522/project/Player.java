@@ -30,7 +30,17 @@ public class Player extends Sprite implements Comparable{
     }
     imge = img;
     return singleInstance;
-  } /**
+  }
+
+  public float getSpeed() {
+    return this.speed;
+  }
+
+  public Color getColor() {
+    return this.color;
+  }
+
+  /**
    * compareTo method.
    * @param o the object to be compared.
    * @return positive or negative integer based on which object is larger
@@ -111,5 +121,6 @@ public class Player extends Sprite implements Comparable{
 
     window.popStyle();
   }
+
 }
 
