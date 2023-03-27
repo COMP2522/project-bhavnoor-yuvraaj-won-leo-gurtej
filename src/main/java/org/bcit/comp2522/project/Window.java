@@ -51,17 +51,20 @@ public class Window extends PApplet implements Drawable{
    * Initializes all objects.
    */
   public void setup() {
-    this.init();
-  }
-
-  public void init() {
     if(System.getProperty("os.name").toLowerCase().startsWith("windows")) {
       userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
     } else {
       userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
     }
     backgroundImage = loadImage(userDir + "blue.jpg");
+    playerImage = loadImage(userDir + "topG.png"); //added this for player to be an image.
     print("started at beginning");
+    this.init();
+
+  }
+
+  public void init() {
+
 
     wall = new Wall(
 
@@ -76,7 +79,7 @@ public class Window extends PApplet implements Drawable{
     enemies = new ArrayList<Sprite>();
      sprites = new ArrayList<Sprite>();
 
-    playerImage = loadImage(userDir + "topG.png"); //added this for player to be an image.
+
     player = Player.getInstance(
       new PVector(this.width/2,this.height/2),
       new PVector(1,0),
@@ -186,6 +189,7 @@ public class Window extends PApplet implements Drawable{
           GameOver gameOver = new GameOver(player);
           gameOver.init();
           PApplet.runSketch(new String[]{"gameover"}, gameOver);
+          this.reset();
           this.dispose();
         }
 
@@ -271,6 +275,19 @@ public class Window extends PApplet implements Drawable{
     enemies.remove(s);
     sprites.remove(s);
   }
+  public void reset() {
+    sprites.clear();
+    enemies.clear();
+    player = null;
+    backgroundImage = null;
+    playerImage = null;
+    wall = null;
+    numbEnemies = 3;
+    minSize = 4;
+    maxSize = 10;
+    init();
+  }
+
 
   /**
    * Main function.

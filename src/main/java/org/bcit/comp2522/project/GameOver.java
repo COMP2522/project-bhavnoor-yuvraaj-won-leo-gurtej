@@ -46,11 +46,9 @@ public class GameOver extends PApplet implements Drawable {
     public void mousePressed() {
         if (retryButton.isClicked()) {
             // Restart the game
-            String[] appletArgs = new String[]{"eatBubbles"};
-            Window eatBubbles = new Window();
-            eatBubbles.init();
-            PApplet.runSketch(appletArgs, eatBubbles);
-            this.dispose();
+            String[] appletArgs = new String[]{"org.bcit.comp2522.project.Window"};
+            Window window = new Window();
+            window.main(args);
         }
     }
 

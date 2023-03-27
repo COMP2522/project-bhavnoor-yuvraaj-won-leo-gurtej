@@ -53,6 +53,8 @@ public class StartPage extends PApplet implements Drawable {
     if (startButton.isClicked()) {
       // Start the game window
       gameWindow.init();
+      String[] appletArgs = new String[]{"eatBubbles"};
+      PApplet.runSketch(appletArgs, gameWindow);
     }
   }
 
