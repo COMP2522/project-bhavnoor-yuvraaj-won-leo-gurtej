@@ -1,5 +1,7 @@
 package org.bcit.comp2522.project;
 
+import java.util.ArrayList;
+
 public class MyHashMap<K, V> {
 
     private static final int STARTING_SIZE = 16;
@@ -17,6 +19,16 @@ public class MyHashMap<K, V> {
     public MyHashMap(int length) {
         this.table = new CustomList[length];
         createLists();
+    }
+
+    public void addAll(MyHashMap map){
+        //todo: implement add all method
+        // see java arraylist addAll docs
+    }
+
+    public void allAll(ArrayList<V> list){
+        //todo: implement add all method with arraylist param
+        // later code could utilize either version of the overloaded method
     }
 
     void add(K key, V value) {
