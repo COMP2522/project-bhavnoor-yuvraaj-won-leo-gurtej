@@ -1,15 +1,19 @@
 package org.bcit.comp2522.project;
 
+import processing.core.PImage;
 import processing.core.PVector;
+import processing.core.*;
 
 import java.awt.*;
+
+
 
 
 public class Player extends Sprite implements Comparable{
 
   public static Player singleInstance;
 
-
+  static PImage imge;
 
   private boolean jumping = false;
 
@@ -20,10 +24,11 @@ public class Player extends Sprite implements Comparable{
     super(position, direction, size, speed, color, window);
   }
 
-  public static Player getInstance(PVector position, PVector direction, float size, float speed, Color color, Window window){
+  public static Player getInstance(PVector position, PVector direction, float size, float speed, Color color, PImage img, Window window){
     if (singleInstance == null) {
       singleInstance = new Player(position, direction, size, speed, color, window);
     }
+    imge = img;
     return singleInstance;
   } /**
    * compareTo method.
@@ -94,6 +99,17 @@ public class Player extends Sprite implements Comparable{
 
   public void setJumpcount(int jumpcount) {
     this.jumpcount = jumpcount;
+  }
+
+  @Override
+  public void draw() {
+    window.pushStyle();
+    window.fill(this.color.getRed(), this.color.getGreen(), this.color.getBlue());
+    window.ellipse(this.position.x, this.position.y, size, size);
+
+    window.image(imge, this.position.x - this.size/2, this.position.y - this.size/2, this.size, this.size);
+
+    window.popStyle();
   }
 }
 
