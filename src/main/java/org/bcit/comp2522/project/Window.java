@@ -25,6 +25,7 @@ public class Window extends PApplet implements Drawable{
   ArrayList<Sprite> enemies;
   Player player;
   PImage backgroundImage;
+  PImage playerImage; // image for player
 
   private boolean started = false;
   float backgroundX = 0;
@@ -36,15 +37,13 @@ public class Window extends PApplet implements Drawable{
   int minSize = 4;
   int maxSize = 10;
 
-
+  String userDir;
 
   /**
    * Called once at the beginning of the program.
    */
   public void settings() {
     size(640, 360);
-    String userDir;
-
     if(System.getProperty("os.name").toLowerCase().startsWith("windows")) {
       userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
     } else {
@@ -78,6 +77,8 @@ public class Window extends PApplet implements Drawable{
 
     enemies = new ArrayList<Sprite>();
     sprites = new ArrayList<Sprite>();
+
+    playerImage = loadImage(userDir + "player.png"); //added this for player to be an image.
     player = Player.getInstance(
       new PVector(this.width/2,this.height/2),
       new PVector(1,0),
