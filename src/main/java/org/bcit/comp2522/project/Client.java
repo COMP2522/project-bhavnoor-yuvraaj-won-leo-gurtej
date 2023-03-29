@@ -114,6 +114,7 @@ public class Client {
     }
     else if (reqType.equals(GET)) {
       System.out.println("Creating GET request JSONObject");
+      // to be completed yet
     }
     else {
       System.err.println("Invalid request type");
