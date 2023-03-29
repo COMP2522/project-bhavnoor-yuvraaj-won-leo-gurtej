@@ -19,6 +19,7 @@ public class Window extends PApplet implements Drawable {
   Player player;
   PImage backgroundImage;
   PImage playerImage; // image for player
+  SaveState saveState;
 
   private boolean started = false;
   float backgroundX = 0;
@@ -87,6 +88,8 @@ public class Window extends PApplet implements Drawable {
     sprites.addAll(enemies);
     sprites.add(player);
     sprites.add(wall);
+
+    saveState = new SaveState();
   }
 
   @Override
@@ -196,6 +199,9 @@ public class Window extends PApplet implements Drawable {
       newEnemies.addAll(createEnemies(numbEnemies));
       enemies.addAll(newEnemies);
       sprites.addAll(newEnemies);
+
+      // save stats
+      saveState.savePlayerData(player.getSize(), player.getPosition().x);
     }
 
 
