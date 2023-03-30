@@ -19,25 +19,26 @@ class PlayerTest {
     PVector direction = new PVector(1, 0);
     float size = 50;
     float speed = 5;
+    int xspeed = 1;
     Color color = Color.RED;
     PImage playerImage = new PImage(); // create a new image
     Window window = new Window();
-    player = Player.getInstance(position, direction, size, speed, color, playerImage, window); // Pass the image to the getInstance() method
+    player = Player.getInstance(position, direction, size, speed, xspeed, color, playerImage, window); // Pass the image to the getInstance() method
   }
-
-  @Test
-  void isJumping() {
-    assertFalse(player.isJumping());
-    player.setJumping(true);
-    assertTrue(player.isJumping());
-  }
-
-  @Test
-  void getJumpcount() {
-    assertEquals(0, player.getJumpcount());
-    player.setJumpcount(10);
-    assertEquals(10, player.getJumpcount());
-  }
+// is jumping method was removed
+//  @Test
+//  void isJumping() {
+//    assertFalse(player.isJumping());
+//    player.setJumping(true);
+//    assertTrue(player.isJumping());
+//  }
+//
+//  @Test
+//  void getJumpcount() {
+//    assertEquals(0, player.getJumpcount());
+//    player.setJumpcount(10);
+//    assertEquals(10, player.getJumpcount());
+//  }
 
   @Test
   void testCompareTo() {
@@ -47,15 +48,16 @@ class PlayerTest {
     float smallerSize = 40;
     float largerSize = 60;
     float speed = 10;
+    int xspeed = 1;
     Color color = Color.RED;
     PImage image = new PImage();
     Window window = new Window();
-    Player smallerPlayer = Player.getInstance(position, direction, smallerSize, speed, color, image, window);
-    Player largerPlayer = Player.getInstance(position, direction, largerSize, speed, color, image, window);
+    Player smallerPlayer = Player.getInstance(position, direction, smallerSize, speed, xspeed, color, image, window);
+    Player largerPlayer = Player.getInstance(position, direction, largerSize, speed, xspeed, color, image, window);
 
 
     float size = 50;
-    Player player = Player.getInstance(position, direction, size, speed, color, image, window);
+    Player player = Player.getInstance(position, direction, size, speed, xspeed, color, image, window);
 
     assertEquals(0, player.compareTo(smallerPlayer));
     assertEquals(0, player.compareTo(player));
@@ -71,10 +73,11 @@ class PlayerTest {
     PVector direction = new PVector(1, 1);
     float size = 50;
     float speed = 5;
+    int xspeed = 1;
     Color color = Color.RED;
     PImage image = new PImage();
     Window window = new Window();
-    Player otherPlayer = Player.getInstance(position, direction, size, speed, color, image, window);
+    Player otherPlayer = Player.getInstance(position, direction, size, speed, xspeed , color, image, window);
 
     assertTrue(player.equals(player));
     assertTrue(player.equals(otherPlayer));
