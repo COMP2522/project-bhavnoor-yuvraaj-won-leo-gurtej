@@ -57,7 +57,7 @@ public class Sprite implements Drawable, Collided{
   public void draw() {
     window.pushStyle();
     window.fill(this.color.getRed(), this.color.getGreen(), this.color.getBlue());
-    window.ellipse(this.position.x, this.position.y, size, size);
+    window.circle(this.position.x, this.position.y, size);
     window.popStyle();
   }
 
