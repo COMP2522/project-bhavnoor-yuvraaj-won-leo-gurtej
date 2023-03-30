@@ -37,7 +37,7 @@ public class Enemy extends Sprite implements Comparable {
     else if ((this.size - ((Sprite) o).size) < 0){
       return -1;
     }
-    else if ((this.size - ((Sprite) o).size) ==0){
+    else if ((this.size - ((Sprite) o).size) == 0){
       return 0;
     }
     else if (((this.size - ((Sprite) o).size) > 0)){
@@ -72,6 +72,14 @@ public class Enemy extends Sprite implements Comparable {
   }
 
   @Override
+  public void bounce(){
+    if (    this.position.y <= 0 ||
+            this.position.y >= window.height) {
+      this.direction.rotate(window.HALF_PI);
+  }
+  }
+
+  @Override
   public void draw() {
     window.fill(color.getRGB());
     window.stroke(0);
@@ -84,22 +92,24 @@ public class Enemy extends Sprite implements Comparable {
       float y2 = position.y - size;
       float x3 = position.x + size;
       float y3 = position.y + size;
-      window.vertex(x1, y1);
-      window.vertex(x2, y2);
-      window.vertex(x3, y3);
+//      window.vertex(x1, y1);
+//      window.vertex(x2, y2);
+//      window.vertex(x3, y3);
+      window.triangle(x1, y1, x2, y2, x3, y3);
     } else if (sides == 4) { // draw square
-      float x1 = position.x - size;
-      float y1 = position.y - size;
-      float x2 = position.x + size;
-      float y2 = position.y - size;
-      float x3 = position.x + size;
-      float y3 = position.y + size;
-      float x4 = position.x - size;
-      float y4 = position.y + size;
-      window.vertex(x1, y1);
-      window.vertex(x2, y2);
-      window.vertex(x3, y3);
-      window.vertex(x4, y4);
+//      float x1 = position.x - size;
+//      float y1 = position.y - size;
+//      float x2 = position.x + size;
+//      float y2 = position.y - size;
+//      float x3 = position.x + size;
+//      float y3 = position.y + size;
+//      float x4 = position.x - size;
+//      float y4 = position.y + size;
+//      window.vertex(x1, y1);
+//      window.vertex(x2, y2);
+//      window.vertex(x3, y3);
+//      window.vertex(x4, y4);
+        window.square(this.position.x, this.position.y, size);
     }
     window.endShape(CLOSE);
   }

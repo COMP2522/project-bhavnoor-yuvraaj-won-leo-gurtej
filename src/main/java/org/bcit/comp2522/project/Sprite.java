@@ -23,12 +23,13 @@ public class Sprite implements Drawable, Collided{
     this.color = color;
   }
 
+  //todo change 0 to player radius
   public void bounce() {
-    if (
-//        this.position.x >= window.width ||
-        this.position.y <= 0 ||
-        this.position.y >= window.height) {
-      this.direction.rotate(window.HALF_PI);
+    if (this.position.y <= 0) {
+      this.position.y = 0;
+    } else if ( this.position.y >= window.height) {
+      this.position.y = window.height;
+
     }
   }
 
@@ -61,6 +62,7 @@ public class Sprite implements Drawable, Collided{
   }
 
   public void setDirection(PVector direction) {
+    System.out.println(direction);
     this.direction = direction;
   }
 

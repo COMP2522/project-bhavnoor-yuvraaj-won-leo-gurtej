@@ -5,7 +5,6 @@ import processing.core.PImage;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -76,8 +75,9 @@ public class Window extends PApplet implements Drawable {
     player = Player.getInstance(
             new PVector(this.width / 2, this.height / 2),
             new PVector(1, 0),
-            minSize + 50,
-            0,
+            minSize + 50 ,
+            1,
+            1,
             new Color(0, 255, 0),
             playerImage,
             this);
@@ -92,7 +92,7 @@ public class Window extends PApplet implements Drawable {
     saveState = new SaveState();
   }
 
-  @Override
+  @Override //todo improve the code of this function
   public void keyPressed(KeyEvent event) {
     started = true;
     print("\nsize: " + player.getSize());
@@ -101,14 +101,11 @@ public class Window extends PApplet implements Drawable {
     switch (keyCode) {
 
       case ' ', UP, 'W', 'w': {
-        if (!player.isJumping()) {
-          player.setJumping(true);
-          player.setJumpcount(1);
-        }
+        if (player.getDirection().y > 0)
+            player.setDirection(new PVector(player.getXSpeed(), 0, 0));
+        player.fly();
         break;
       }
-
-
     }
 
   }
@@ -119,6 +116,7 @@ public class Window extends PApplet implements Drawable {
    * in order of function calls.
    */
   public void draw() {
+
     // Update the background position
     backgroundX -= backgroundSpeed;
 
@@ -143,26 +141,16 @@ public class Window extends PApplet implements Drawable {
       sprite.draw();
     }
 
-//      gravity
-    if (player.isJumping()) {
-      if (player.getJumpcount() > 0) {
-        player.setPosition(player.getPosition().x, player.getPosition().y - (player.getSize() / 2), player.getPosition().z);
-        player.setJumpcount(player.getJumpcount() + 10);
-      }
-
-      if (player.getJumpcount() >= 100) {
-        player.setJumpcount(0);
-      }
-    }
-
-//      ensure gravity movement
-    player.setPosition(player.getPosition().x, player.getPosition().y + 2, player.getPosition().z);
 
 
+
+
+
+//  proper x movement
 //      minimum x movement
-    if (started) {
-      player.setPosition(player.getPosition().x + 2, player.getPosition().y, player.getPosition().z);
-    }
+//    if (started) {
+//      player.setPosition(player.getPosition().x + 2, player.getPosition().y, player.getPosition().z);
+//    }
 
 
     ArrayList<Sprite> toRemove = new ArrayList<Sprite>();
@@ -171,6 +159,7 @@ public class Window extends PApplet implements Drawable {
         print("COLLIDED");
         if (player.compareTo(enemy) <= 0) {
           print("you lost!!!!!!!");
+          //todo add necessary save state and server calls here
           exit();
         }
 
@@ -184,15 +173,18 @@ public class Window extends PApplet implements Drawable {
         break;
 
       }
-      if (Collided.collided(wall, player)) {
-        player.direction.rotate(this.HALF_PI);
-        if (player.getPosition().y < wall.getPosition().y) {
-          player.setPosition(player.getPosition().x, wall.getPosition().y - player.getSize() + 25, wall.getPosition().z);
-        }
 
-      }
+      //todo remove this it is unused
+//      if (Collided.collided(wall, player)) {
+//        player.direction.rotate(this.HALF_PI);
+//        if (player.getPosition().y < wall.getPosition().y) {
+//          player.setPosition(player.getPosition().x, wall.getPosition().y - player.getSize() + 25, wall.getPosition().z);
+//        }
+//
+//      }
     }
 
+    //todo change enemy to better regen
     //regen enemies as they continue through the map
     if (player.position.x % 1280 == 0) {
       ArrayList<Enemy> newEnemies = new ArrayList<Enemy>();
@@ -205,14 +197,16 @@ public class Window extends PApplet implements Drawable {
     }
 
 
-    if (player.position.y > this.height - 40) {
-      player.position.y = this.height - 40;
-
+    //gravity and y min/max limits
+    if (player.position.y > this.height - player.size/2) {
+      player.position.y = this.height - player.size/2;
+      player.setDirection(new PVector(player.getXSpeed(), 0, 0));
+    }
+    else {
+      player.gravity();
     }
 
-    if (player.position.y == this.height - 40) {
-      player.setJumping(false);
-    }
+
 
 
     for (Sprite enemy : toRemove) {
