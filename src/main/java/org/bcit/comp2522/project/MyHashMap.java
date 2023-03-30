@@ -30,6 +30,9 @@ public class MyHashMap<K, V> {
                 this.add(key, val);
 
                 current = current.next;
+                if ((float) size / table.length > LOAD_FACTOR) {
+                    rehash();
+                }
             }
         }
 
@@ -48,9 +51,13 @@ public class MyHashMap<K, V> {
             else {
                 K key = (K) Integer.valueOf(val.hashCode());
                 this.add(key, val);
+                if ((float) size / table.length > LOAD_FACTOR) {
+                    rehash();
+                }
             }
 
         }
+
         //todo: implement add all method with arraylist param
         // later code could utilize either version of the overloaded method
     }
@@ -58,7 +65,22 @@ public class MyHashMap<K, V> {
     void add(K key, V value) {
         int index = hash(key);
         table[index].add(key, value);
+        if ((float) size / table.length > LOAD_FACTOR) {
+            rehash();
+        }
     }
+
+    public Node remove(K key) {
+        int index = hash(key);
+        Node removedNode = table[index].getHead();
+        if (removedNode != null) {
+            removedNode = table[index].remove(key);
+            size--;
+        }
+        return removedNode;
+    }
+
+
 
     V get(K key) {
         int index = hash(key);

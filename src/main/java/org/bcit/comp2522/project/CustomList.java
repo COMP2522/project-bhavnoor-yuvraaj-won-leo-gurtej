@@ -51,4 +51,32 @@ public class CustomList<K, V> {
     public Node<K,V> getHead() {
          return head;
     }
+
+  public void setHead(Node<K, V> next) {
+        head = next;
+  }
+
+  public Node remove(K key) {
+        Node<K, V> current = head;
+        Node<K, V> previous = null;
+        Node removedNode = null;
+
+        while (current != null) {
+            if (current.getKey().equals(key)) {
+                // Remove the node
+                removedNode = current;
+                if (previous == null) {
+                    // Remove head node
+                    head = current.getNext();
+                } else {
+                    // Remove node in middle or end
+                    previous.setNext(current.getNext());
+                }
+                break;
+            }
+            previous = current;
+            current = current.getNext();
+        }
+        return removedNode;
+    }
 }
