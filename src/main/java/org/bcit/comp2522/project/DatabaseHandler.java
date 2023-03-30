@@ -33,7 +33,7 @@ public class DatabaseHandler {
 
 
     public DatabaseHandler(String collection){
-        String password = "SuperSecretPassword";//hopefully nobody is able to find the supersecretpassoword
+        String password = "${MONGO_KEY}";//hopefully nobody is able to find the supersecretpassoword
         ConnectionString connectionString = new ConnectionString(
                 "mongodb+srv://Noooooooor:" + password + "@2522.yczfyxd.mongodb.net/?retryWrites=true&w=majority");
         MongoClientSettings settings = MongoClientSettings.builder()
