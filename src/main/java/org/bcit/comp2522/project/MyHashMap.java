@@ -29,6 +29,7 @@ public class MyHashMap<K, V> implements Iterable{
                 K key = current.getKey();
                 V val = current.getValue();
                 this.add(key, val);
+                //size++ is done by this.add()
 
                 current = current.next;
                 if ((float) size / table.length > LOAD_FACTOR) {
@@ -37,8 +38,8 @@ public class MyHashMap<K, V> implements Iterable{
             }
         }
 
-        //todo: implement add all method
-        // see java arraylist addAll docs
+        //done implement add all method
+        //see java arraylist addAll docs, code needs cleanup soon
     }
 
     public void addAll(ArrayList<V> list){
@@ -53,20 +54,22 @@ public class MyHashMap<K, V> implements Iterable{
                 K key = (K) Integer.valueOf(val.hashCode());
 //                K key = (K) Integer.valueOf(id);
                 this.add(key, val);
+//                size++;//this is done by the add method
                 if ((float) size / table.length > LOAD_FACTOR) {
                     rehash();
                 }
             }
-//            id = (id.toInteger)
+//            id = (id.toInteger)//not used
         }
 
-        //todo: implement add all method with arraylist param
-        // later code could utilize either version of the overloaded method
+        //done implement add all method with arraylist param
+        //look at this polymorphism
     }
 
     void add(K key, V value) {
         int index = hash(key);
         table[index].add(key, value);
+        size++;
         if ((float) size / table.length > LOAD_FACTOR) {
             rehash();
         }
@@ -76,6 +79,7 @@ public class MyHashMap<K, V> implements Iterable{
         K key = (K) Integer.valueOf(value.hashCode());
         int index = hash(key);
         table[index].add(key, value);
+        size++;
         if ((float) size / table.length > LOAD_FACTOR) {
             rehash();
         }
@@ -95,7 +99,6 @@ public class MyHashMap<K, V> implements Iterable{
 
     V get(K key) {
         int index = hash(key);
-
         return table[index].get(key);
     }
 
@@ -103,22 +106,21 @@ public class MyHashMap<K, V> implements Iterable{
 
     void rehash() {
         int newSize = table.length * 2;
-        CustomList<K, V>[] newTable = new CustomList[newSize];
-        createLists(newTable);
+        CustomList<K, V>[] doubledTable = new CustomList[newSize];
+        createLists(doubledTable);
 
         for (int i = 0; i < table.length; i++) {
             Node<K, V> current = table[i].getHead();
             while (current != null) {
-                int index = hash(current.getKey(), newTable.length);
-                newTable[index].add(current.getKey(), current.getValue());
+                int index = hash(current.getKey(), doubledTable.length);
+                doubledTable[index].add(current.getKey(), current.getValue());
                 current = current.getNext();
             }
         }
-
-        table = newTable;
+        table = doubledTable;
     }
 
-    //the method overloading is a form of polymorphism, should help aid further development
+    //the method overloading is a form of polymorphism, should help aid the rest of the team in their development
 
     private void createLists(){
         for (int i = 0; i < table.length; i++) {
@@ -183,6 +185,21 @@ public class MyHashMap<K, V> implements Iterable{
             }
         }
         return null;
+    }
+
+    public boolean containsKey(K key){
+        int index = hash(key);
+        if (index > table.length){
+            return false;
+        }
+        Node curr = table[index].getHead();
+        while (curr != null){
+            if (curr.getKey() == key){
+                return true;
+            }
+            curr = curr.next;
+        }
+        return false;
     }
 
 }
