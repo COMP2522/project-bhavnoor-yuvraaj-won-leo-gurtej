@@ -213,9 +213,12 @@ public class Window extends PApplet implements Drawable {
       if (Collided.collided(player, enemy)) {
         print("COLLIDED");
         if (player.compareTo(enemy) <= 0) {
-          print("you lost!!!!!!!");
+          this.dispose();
+          GameOverPage gameOverPage = new GameOverPage(player);
+          String[] gameover = new String[]{"gameover"};
+          PApplet.runSketch(gameover, gameOverPage);
+
           //todo add necessary save state and server calls here
-          exit();
         }
 
         if (player.compareTo(enemy) == 1) {
