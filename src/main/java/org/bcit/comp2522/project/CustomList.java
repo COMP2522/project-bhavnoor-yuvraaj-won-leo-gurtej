@@ -1,6 +1,8 @@
 package org.bcit.comp2522.project;
 
-public class CustomList<K, V> {
+import java.util.Iterator;
+
+public class CustomList<K, V>{
     public Node<K, V> head;
 
 
@@ -18,9 +20,9 @@ public class CustomList<K, V> {
     }
 
     void add(Node<K, V> node){
-        //todo: complete over loaded methods
-        // this does same thing as above, but user is able to pass in a node obj
-        // need to MAKE SURE that node obj isn't already in hashmap, so utilize get method to see if same obj in here
+        K key = node.getKey();
+        V value = node.getValue();
+        add(key, value);
     }
 
     V get(K key) {
@@ -79,4 +81,6 @@ public class CustomList<K, V> {
         }
         return removedNode;
     }
+
+
 }

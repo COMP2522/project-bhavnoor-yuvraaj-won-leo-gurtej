@@ -1,8 +1,9 @@
 package org.bcit.comp2522.project;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class MyHashMap<K, V> {
+public class MyHashMap<K, V> implements Iterable{
 
     private static final int STARTING_SIZE = 16;
     private static final float LOAD_FACTOR = 0.75f;
@@ -40,7 +41,7 @@ public class MyHashMap<K, V> {
         // see java arraylist addAll docs
     }
 
-    public void allAll(ArrayList<V> list){
+    public void addAll(ArrayList<V> list){
         if (!(list.get(0) instanceof Sprite)) {
             throw new ClassCastException();
         }
@@ -50,12 +51,13 @@ public class MyHashMap<K, V> {
             }
             else {
                 K key = (K) Integer.valueOf(val.hashCode());
+//                K key = (K) Integer.valueOf(id);
                 this.add(key, val);
                 if ((float) size / table.length > LOAD_FACTOR) {
                     rehash();
                 }
             }
-
+//            id = (id.toInteger)
         }
 
         //todo: implement add all method with arraylist param
@@ -63,6 +65,15 @@ public class MyHashMap<K, V> {
     }
 
     void add(K key, V value) {
+        int index = hash(key);
+        table[index].add(key, value);
+        if ((float) size / table.length > LOAD_FACTOR) {
+            rehash();
+        }
+    }
+
+    void add(V value) {
+        K key = (K) Integer.valueOf(value.hashCode());
         int index = hash(key);
         table[index].add(key, value);
         if ((float) size / table.length > LOAD_FACTOR) {
@@ -127,4 +138,51 @@ public class MyHashMap<K, V> {
     private int hash(K key, int tableLength) {
         return key.hashCode() % tableLength;
     }
+
+    public int getLength(){
+        return table.length;
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new CustomIterator(this);
+    }
+
+    /**
+     * getNextNode method.
+     * @param n a hashmap node that we wish to get the next node from
+     * @return next node in the map, null if none remaining
+     */
+    public boolean hasNextNode(Node<K, V> n) {
+        if (n.next != null){
+            return true;
+        }
+        int index = hash(n.getKey());
+        index++;
+        if (index>table.length){
+            return false;
+        }
+        return true;
+    }
+
+    public Node<K, V> getNextNode(Node<K, V> n) {
+        if (n == null){
+            for(int i = 0; i < table.length; i++){
+                if (table[i].getHead() != null){
+                    return table[i].head;
+                }
+            }
+        }
+        if (n.next != null){
+            return n.next;
+        }
+        int index = hash(n.getKey());
+        for(int i = index + 1; i< table.length; i++){
+            if (table[i].getHead() != null){
+                return table[i].head;
+            }
+        }
+        return null;
+    }
+
 }
