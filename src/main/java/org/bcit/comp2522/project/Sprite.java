@@ -44,6 +44,7 @@ public class Sprite implements Drawable, Collided{
   public void update() {
     this.bounce();
     this.position = this.getPosition().add(this.direction.copy().mult(speed));
+    System.out.println("update called!");
   }
 
   public float getSize() {
@@ -59,6 +60,7 @@ public class Sprite implements Drawable, Collided{
     window.fill(this.color.getRed(), this.color.getGreen(), this.color.getBlue());
     window.ellipse(this.position.x, this.position.y, size, size);
     window.popStyle();
+    System.out.println("draw called and ran!");
   }
 
   public void setDirection(PVector direction) {
