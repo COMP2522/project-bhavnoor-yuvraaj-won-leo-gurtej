@@ -38,12 +38,6 @@ public class Window extends PApplet implements Drawable {
    */
   public void settings() {
     size(640, 360);
-    if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-      userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
-    } else {
-      userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
-    }
-    backgroundImage = loadImage(userDir + "background.jpeg");
 
   }
 
@@ -53,6 +47,13 @@ public class Window extends PApplet implements Drawable {
    * Initializes all objects.
    */
   public void setup() {
+    if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+      userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
+    } else {
+      userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
+    }
+    backgroundImage = loadImage(userDir + "background.jpeg");
+    playerImage = loadImage(userDir + "topG.png"); //added this for player to be an image.
     this.init();
   }
 
@@ -72,7 +73,7 @@ public class Window extends PApplet implements Drawable {
     enemies = new MyHashMap<Integer, Sprite>();
     sprites = new MyHashMap<Integer, Sprite>();
 
-    playerImage = loadImage(userDir + "topG.png"); //added this for player to be an image.
+    
     player = Player.getInstance(
             new PVector(this.width / 2, this.height / 2),
             new PVector(1, 0),
