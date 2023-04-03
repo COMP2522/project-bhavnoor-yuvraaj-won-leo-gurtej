@@ -9,33 +9,80 @@ import java.awt.*;
 import java.util.ArrayList;
 
 
-
 /**
+ * Window class, this is a general manager class to manage everything visible.
+ * @author Bhavnoor Saroya
+ * @author Yuvraaj Chouhan
  *
  */
 public class Window extends PApplet implements Drawable {
+  /**
+   * The Sprites.
+   */
   MyHashMap<Integer, Sprite> sprites;
+  /**
+   * The Enemies.
+   */
   MyHashMap<Integer, Sprite> enemies;
 
-  MyHashMap<Integer, Sprite> newCoins = new MyHashMap<Integer, Sprite>();
+  /**
+   * The New coins.
+   */
+  MyHashMap<Integer, Sprite> newCoins = new MyHashMap<>();
+  /**
+   * The Player.
+   */
   Player player;
+  /**
+   * The Background image.
+   */
   PImage backgroundImage;
-  PImage playerImage; // image for player
+  /**
+   * The Player image.
+   */
+  PImage playerImage;
+  /**
+   * The Save state.
+   */
   SaveState saveState;
 
   private boolean started = false;
+  /**
+   * The Background x.
+   */
   float backgroundX = 0;
+  /**
+   * The Background speed.
+   */
   float backgroundSpeed = 1;
 
 
+  /**
+   * The Wall.
+   */
   Wall wall;
+  /**
+   * The Numb enemies.
+   */
   int numbEnemies = 3;
+  /**
+   * The Min size.
+   */
   int minSize = 4;
+  /**
+   * The Max size.
+   */
   int maxSize = 10;
 
-  int coinCount;//used for player coins collected
+  /**
+   * The Coin count.
+   */
+  int coinCount;
 
-//  int height = 640;
+
+  /**
+   * The User dir.
+   */
   String userDir;
 
   /**
@@ -61,6 +108,9 @@ public class Window extends PApplet implements Drawable {
     this.init();
   }
 
+  /**
+   * Init.
+   */
   public void init() {
     print("started at beginning");
 
@@ -100,6 +150,7 @@ public class Window extends PApplet implements Drawable {
   }
 
   @Override //todo improve the code of this function
+
   public void keyPressed(KeyEvent event) {
     started = true;
     print("\nsize: " + player.getSize());
@@ -117,11 +168,13 @@ public class Window extends PApplet implements Drawable {
 
   }
 
+
   /**
    * Called on every frame. Updates scene object
    * state and redraws the scene. Drawings appear
    * in order of function calls.
    */
+  @SuppressWarnings("unchecked")
   public void draw() {
 
     // Update the background position
@@ -147,72 +200,16 @@ public class Window extends PApplet implements Drawable {
 //    New implementation using custom hashmap class, because I am a badass
     for (Object sprite : sprites) {
       if (sprite != null){
-//        print("\nsprite NOT null\n");
       }
       print(sprite);
       try{
         ((Sprite)((Node)sprite).getValue()).update();
         ((Sprite)((Node)sprite).getValue()).draw();
       }catch (Exception e){
-//        print("\nsprite null\n");
       }
 
     }
 
-////    try {
-//      sprites.forEach((n) -> {
-//        //cast each object to sprite and then call update and draw methods
-////      n.hashCode();
-//        print(n);
-//        ((Sprite)(((Node)n).getValue())).update();
-//        ((Sprite)(((Node)n).getValue())).draw();
-//        System.out.println("executed once");
-//      });
-////    } catch (Exception e){
-////      System.out.println("caught exception");
-////    }
-
-
-
-// todo check if this is still being used, if not remove it
-
-//  proper x movement
-//      minimum x movement
-//    if (started) {
-//      player.setPosition(player.getPosition().x + 2, player.getPosition().y, player.getPosition().z);
-//    }
-
-
-    ArrayList<Sprite> toRemove = new ArrayList<Sprite>();
-    //old implementation
-    /*
-    for (Object n : enemies) {
-      if (Collided.collided(player, (Sprite) n)) {
-        print("COLLIDED");
-        if (player.compareTo((Sprite)n) <= 0) {
-          print("you lost!!!!!!!");
-          //todo add necessary save state and server calls here
-          exit();
-        }
-
-        if (player.compareTo((Sprite)n) == 1) {
-          player.setSize((player.getSize() - 1));
-          this.remove((Sprite) n);
-          print("added enemy to remove");
-          break;
-        }
-        break;
-      }
-
-//      if (Collided.collided(wall, player)) {
-//        player.direction.rotate(this.HALF_PI);
-//        if (player.getPosition().y < wall.getPosition().y) {
-//          player.setPosition(player.getPosition().x, wall.getPosition().y - player.getSize() + 25, wall.getPosition().z);
-//        }
-//      }
-    } */ //end of old implementation
-
-//
 //    new implementation starts:
     try { enemies.forEach((n) -> {
       Enemy enemy = (Enemy)(((Node)n).getValue());
@@ -240,13 +237,6 @@ public class Window extends PApplet implements Drawable {
         }
         throw new RuntimeException("This is how to break a homemade forEach loop");
       }
-
-//      if (Collided.collided(wall, player)) {
-//        player.direction.rotate(this.HALF_PI);
-//        if (player.getPosition().y < wall.getPosition().y) {
-//          player.setPosition(player.getPosition().x, wall.getPosition().y - player.getSize() + 25, wall.getPosition().z);
-//        }
-//      }
     });
   } catch (Exception e){
       System.out.println("this is how we break a loop with our custom for each B)");
@@ -285,17 +275,15 @@ public class Window extends PApplet implements Drawable {
       sprites.addAll(newEnemies);
 
 
-      //regen new coins as game continues
-//      MyHashMap<Integer, Sprite> newCoins = new MyHashMap<>();
+      newCoins.addAll((ArrayList)new CoinGroup(
+              (int)random(1, 10),
+              new PVector(player.position.x + this.width,
+              random(0, this.height)), this).getCoins());
 
-      newCoins.addAll(new CoinGroup((int)random(1, 10), new PVector(player.position.x + this.width, random(0, this.height)), this).getCoins());//todo make the coins spawn right
-      //todo fix coin position
-
-      newCoins.forEach((n)-> print("coin", ((Coin)((Node)(n)).getValue())));
+//      newCoins.forEach((n)-> print("coin", ((Coin)((Node)(n)).getValue())));
 
       sprites.addAll(newCoins);
 
-//      exit(); just for debugging lol
       // save stats
       saveState.savePlayerData(player.getSize(), player.getPosition().x);
     }
@@ -308,13 +296,6 @@ public class Window extends PApplet implements Drawable {
     }
     else {
       player.gravity();
-    }
-
-
-
-
-    for (Sprite enemy : toRemove) {
-      this.remove(enemy);
     }
 
   }
@@ -342,7 +323,7 @@ public class Window extends PApplet implements Drawable {
   /**
    * remove method to remove the enemy from both arraylists.
    *
-   * @param s the enemy.
+   * @param s the sprite to remove.
    */
   public void remove(Sprite s) {
     int key = Integer.valueOf(s.hashCode());

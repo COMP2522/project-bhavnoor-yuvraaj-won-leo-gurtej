@@ -3,6 +3,14 @@ package org.bcit.comp2522.project;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Myhashmap class, certified awesome hashmap, featuring iterable and o(1) lookup times
+ *
+ * @author Bhavnoor Saroya
+ *
+ * @param <K>  key
+ * @param <V> value
+ */
 public class MyHashMap<K, V> implements Iterable{
 
     private static final int STARTING_SIZE = 16;
@@ -12,16 +20,29 @@ public class MyHashMap<K, V> implements Iterable{
     private int size;
 
 
+    /**
+     * Instantiates a new My hash map.
+     */
     public MyHashMap() {
         this.table = new CustomList[STARTING_SIZE];
         createLists();
     }
 
+    /**
+     * Instantiates a new My hash map.
+     *
+     * @param length the length
+     */
     public MyHashMap(int length) {
         this.table = new CustomList[length];
         createLists();
     }
 
+    /**
+     * Add all.
+     *
+     * @param map the map
+     */
     public void addAll(MyHashMap map){
         for (CustomList<K, V> list : map.table) {
             Node<K, V> current = list.getHead();
@@ -42,6 +63,11 @@ public class MyHashMap<K, V> implements Iterable{
         //see java arraylist addAll docs, code needs cleanup soon
     }
 
+    /**
+     * Add all.
+     *
+     * @param list the list
+     */
     public void addAll(ArrayList<V> list){
         if (!(list.get(0) instanceof Sprite)) {
             throw new ClassCastException();
@@ -66,6 +92,12 @@ public class MyHashMap<K, V> implements Iterable{
         //look at this polymorphism
     }
 
+    /**
+     * Add.
+     *
+     * @param key   the key
+     * @param value the value
+     */
     void add(K key, V value) {
         int index = hash(key);
         table[index].add(key, value);
@@ -75,6 +107,11 @@ public class MyHashMap<K, V> implements Iterable{
         }
     }
 
+    /**
+     * Add.
+     *
+     * @param value the value
+     */
     void add(V value) {
         K key = (K) Integer.valueOf(value.hashCode());
         int index = hash(key);
@@ -85,6 +122,12 @@ public class MyHashMap<K, V> implements Iterable{
         }
     }
 
+    /**
+     * Remove node.
+     *
+     * @param key the key
+     * @return the node
+     */
     public Node remove(K key) {
         int index = hash(key);
         Node removedNode = table[index].getHead();
@@ -96,14 +139,21 @@ public class MyHashMap<K, V> implements Iterable{
     }
 
 
-
+    /**
+     * Get v.
+     *
+     * @param key the key
+     * @return the v
+     */
     V get(K key) {
         int index = hash(key);
         return table[index].get(key);
     }
 
 
-
+    /**
+     * Rehash.
+     */
     void rehash() {
         int newSize = table.length * 2;
         CustomList<K, V>[] doubledTable = new CustomList[newSize];
@@ -134,6 +184,12 @@ public class MyHashMap<K, V> implements Iterable{
         }
     }
 
+    /**
+     * Hash int.
+     *
+     * @param key the key
+     * @return the int
+     */
     int hash(K key) {
         return key.hashCode() % table.length;
     }
@@ -141,6 +197,11 @@ public class MyHashMap<K, V> implements Iterable{
         return key.hashCode() % tableLength;
     }
 
+    /**
+     * Get length int.
+     *
+     * @return the int
+     */
     public int getLength(){
         return table.length;
     }
@@ -152,6 +213,7 @@ public class MyHashMap<K, V> implements Iterable{
 
     /**
      * getNextNode method.
+     *
      * @param n a hashmap node that we wish to get the next node from
      * @return next node in the map, null if none remaining
      */
@@ -167,6 +229,12 @@ public class MyHashMap<K, V> implements Iterable{
         return true;
     }
 
+    /**
+     * Gets next node.
+     *
+     * @param n the n
+     * @return the next node
+     */
     public Node<K, V> getNextNode(Node<K, V> n) {
         if (n == null){
             for(int i = 0; i < table.length; i++){
@@ -187,6 +255,12 @@ public class MyHashMap<K, V> implements Iterable{
         return null;
     }
 
+    /**
+     * Contains key boolean.
+     *
+     * @param key the key
+     * @return the boolean
+     */
     public boolean containsKey(K key){
         int index = hash(key);
         if (index > table.length){
