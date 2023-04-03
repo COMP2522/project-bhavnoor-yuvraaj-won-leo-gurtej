@@ -4,18 +4,18 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
-import java.awt.*;
-
-
+/**
+ * The DatabaseHandler class handles the connection to the
+ * MongoDB Atlas database and provides methods for inserting
+ * and retrieving data from the database.
+ */
 public class DatabaseHandler {
     MongoDatabase database;
-
     String collection;
 
 //  run below stuff only once: this is just for set up
@@ -32,7 +32,11 @@ public class DatabaseHandler {
 
 //  System.out.println(find);
 
-
+    /**
+     * Constructs a new DatabaseHandler object with a specified collection name.
+     *
+     * @param collection the name of the collection in the database.
+     */
     public DatabaseHandler(String collection){
         String password = "${MONGO_KEY}";//hopefully nobody is able to find the supersecretpassoword
         ConnectionString connectionString = new ConnectionString(
@@ -48,6 +52,9 @@ public class DatabaseHandler {
         this.collection = collection;
     }
 
+    /**
+     * Constructs a new DatabaseHandler object with a default collection name.
+     */
     public DatabaseHandler(){
         String password = "SuperSecretPassword";//hopefully nobody is able to find the supersecretpassoword
         ConnectionString connectionString = new ConnectionString(
@@ -71,6 +78,11 @@ public class DatabaseHandler {
 ////        new Thread(()-> database.getCollection(collection).insertOne(doc)).start();
 //    }
 
+    /**
+     * Inserts a SaveState object into the database.
+     *
+     * @param saveState the SaveState object to insert.
+     */
     public void put(SaveState saveState){
         Document player = new Document();
         // also gonna append name but later
