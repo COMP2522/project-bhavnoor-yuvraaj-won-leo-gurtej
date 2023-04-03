@@ -33,4 +33,17 @@ public class SaveStateTest {
     float actualScore = saveState.loadPlayerScore();
     assertEquals(expectedScore, actualScore);
   }
+
+  @Test
+  public void testSaveAndLoadPlayerData() {
+    // Create a new SaveState object
+    SaveState saveState = new SaveState();
+
+    // Set the player data using the savePlayerData method
+    saveState.savePlayerData(100.0f, 500.0f);
+
+    // Test that the loaded player health and score are equal to the saved values
+    assertEquals(100.0f, saveState.loadPlayerHealth());
+    assertEquals(500.0f, saveState.loadPlayerScore());
+  }
 }
