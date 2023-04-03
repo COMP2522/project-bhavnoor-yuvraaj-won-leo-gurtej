@@ -100,11 +100,11 @@ public class Player extends Sprite implements Comparable{
 
   //overloaded method to support future programmers and my own team
   public void fly() {
-    fly(3);
+    fly(1);
   }
 
   public void fly(int up) { //dev should pass in how much they want player to fly upward
-    if (getDirection().y > - 8)
+    if (getDirection().y > - 5)
     setDirection(getDirection().add(new PVector(0, -up, 0)));
   }
 
@@ -118,8 +118,8 @@ public class Player extends Sprite implements Comparable{
   }
 
   public void gravity() {
-    if (this.getDirection().y < 40)
-    setDirection(getDirection().add(new PVector(0, (float) 0.25, 0)));
+    if (this.getDirection().y < 35)
+    setDirection(getDirection().add(new PVector(0, (float) 0.1, 0)));
   }
 
   public int getXSpeed() {

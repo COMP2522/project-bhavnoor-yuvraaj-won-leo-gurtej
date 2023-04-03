@@ -7,7 +7,7 @@ import processing.event.KeyEvent;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Objects;
+
 
 
 /**
@@ -16,6 +16,8 @@ import java.util.Objects;
 public class Window extends PApplet implements Drawable {
   MyHashMap<Integer, Sprite> sprites;
   MyHashMap<Integer, Sprite> enemies;
+
+  MyHashMap<Integer, Sprite> newCoins;
   Player player;
   PImage backgroundImage;
   PImage playerImage; // image for player
@@ -31,6 +33,9 @@ public class Window extends PApplet implements Drawable {
   int minSize = 4;
   int maxSize = 10;
 
+  int coinCount;//used for player coins collected
+
+//  int height = 640;
   String userDir;
 
   /**
@@ -38,7 +43,6 @@ public class Window extends PApplet implements Drawable {
    */
   public void settings() {
     size(640, 360);
-
   }
 
 
@@ -70,15 +74,15 @@ public class Window extends PApplet implements Drawable {
             this);
 
 
-    enemies = new MyHashMap<Integer, Sprite>();
-    sprites = new MyHashMap<Integer, Sprite>();
+    enemies = new MyHashMap<>();
+    sprites = new MyHashMap<>();
 
     
     player = Player.getInstance(
             new PVector(this.width / 2, this.height / 2),
             new PVector(1, 0),
             minSize + 50 ,
-            1,
+            5,
             1,
             new Color(0, 255, 0),
             playerImage,
@@ -134,6 +138,7 @@ public class Window extends PApplet implements Drawable {
     fill(255);
     text("Health: " + player.getSize(), 10, 10);
     text("Score: " + player.getPosition().x, 10, 30);
+    text("Coins: " + coinCount, 10, 50);
 
     // Move the camera to follow the player
     float cameraX = -player.position.x + width / 2;
@@ -239,16 +244,43 @@ public class Window extends PApplet implements Drawable {
       System.out.println("this is how we break a loop with our custom for each B)");
     }
 
+    try {  newCoins.forEach((n) -> {
+      Coin coin = (Coin)(((Node)n).getValue());
+      if (Collided.collided(coin, player)){
+        coinCount++;
+        int key =  Integer.valueOf(coin.hashCode());
+        newCoins.remove(key);
+        print("called remove on a coin");
+      }
+    });
+    } catch (Exception e){
+      print("caught exeption e");
+    }
+
+
+
+
     //new implementation ends
 
     //todo change enemy to better regen
     //regen enemies as they continue through the map
     if (player.position.x % 1280 == 0) {
-      MyHashMap<Integer, Enemy> newEnemies = new MyHashMap<Integer, Enemy>();
+      MyHashMap<Integer, Enemy> newEnemies = new MyHashMap<>();
       newEnemies.addAll(createEnemies(numbEnemies));
       enemies.addAll(newEnemies);
       sprites.addAll(newEnemies);
 
+
+      //regen new coins as game continues
+      MyHashMap<Integer, Sprite> newCoins = new MyHashMap<>();
+      newCoins.addAll(new CoinGroup(10, player.position.copy().add(500, 0), this).getCoins());//todo make the coins spawn right
+      //todo fix coin position
+
+      newCoins.forEach((n)-> print("coin", ((Coin)((Node)(n)).getValue())));
+
+      sprites.addAll(newCoins);
+
+//      exit(); just for debugging lol
       // save stats
       saveState.savePlayerData(player.getSize(), player.getPosition().x);
     }
