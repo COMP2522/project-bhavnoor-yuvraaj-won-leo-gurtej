@@ -1,5 +1,5 @@
-import org.bcit.comp2522.project.Sprite;
-import org.bcit.comp2522.project.Window;
+package org.bcit.comp2522.project;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import processing.core.PVector;
