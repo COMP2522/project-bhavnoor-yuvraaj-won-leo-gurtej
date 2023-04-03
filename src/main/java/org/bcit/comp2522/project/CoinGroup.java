@@ -28,7 +28,7 @@ public class CoinGroup {
     }
   }
 
-  public ArrayList getCoins(){
+  public ArrayList<Coin> getCoins(){
     for (int i =0 ; i < coins.length; i++){
       System.out.println("Coin arr:"+ coins[i].position.x);
     }
