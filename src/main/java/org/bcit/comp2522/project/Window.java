@@ -7,14 +7,15 @@ import processing.event.KeyEvent;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
  *
  */
 public class Window extends PApplet implements Drawable {
-  ArrayList<Sprite> sprites;
-  ArrayList<Sprite> enemies;
+  MyHashMap<Integer, Sprite> sprites;
+  MyHashMap<Integer, Sprite> enemies;
   Player player;
   PImage backgroundImage;
   PImage playerImage; // image for player
@@ -37,12 +38,6 @@ public class Window extends PApplet implements Drawable {
    */
   public void settings() {
     size(640, 360);
-    if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-      userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
-    } else {
-      userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
-    }
-    backgroundImage = loadImage(userDir + "background.jpeg");
 
   }
 
@@ -52,6 +47,13 @@ public class Window extends PApplet implements Drawable {
    * Initializes all objects.
    */
   public void setup() {
+    if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+      userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
+    } else {
+      userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
+    }
+    backgroundImage = loadImage(userDir + "background.jpeg");
+    playerImage = loadImage(userDir + "topG.png"); //added this for player to be an image.
     this.init();
   }
 
@@ -68,10 +70,10 @@ public class Window extends PApplet implements Drawable {
             this);
 
 
-    enemies = new ArrayList<Sprite>();
-    sprites = new ArrayList<Sprite>();
+    enemies = new MyHashMap<Integer, Sprite>();
+    sprites = new MyHashMap<Integer, Sprite>();
 
-    playerImage = loadImage(userDir + "topG.png"); //added this for player to be an image.
+    
     player = Player.getInstance(
             new PVector(this.width / 2, this.height / 2),
             new PVector(1, 0),
@@ -84,7 +86,8 @@ public class Window extends PApplet implements Drawable {
 
 
 
-    enemies.addAll(createEnemies(numbEnemies));//add enemies that were created into enemies arraylist
+    ArrayList<Sprite> en = createEnemies(numbEnemies);
+    enemies.addAll(en);//add enemies that were created into enemies arraylist
     sprites.addAll(enemies);
     sprites.add(player);
     sprites.add(wall);
@@ -136,15 +139,37 @@ public class Window extends PApplet implements Drawable {
     float cameraX = -player.position.x + width / 2;
     translate(cameraX, 0);
 
-    for (Sprite sprite : sprites) {
-      sprite.update();
-      sprite.draw();
+//    New implementation using custom hashmap class, because I am a badass
+    for (Object sprite : sprites) {
+      if (sprite != null){
+        print("\nsprite NOT null\n");
+      }
+      print(sprite);
+      try{
+        ((Sprite)((Node)sprite).getValue()).update();
+        ((Sprite)((Node)sprite).getValue()).draw();
+      }catch (Exception e){
+        print("\nsprite null\n");
+      }
+
     }
 
+////    try {
+//      sprites.forEach((n) -> {
+//        //cast each object to sprite and then call update and draw methods
+////      n.hashCode();
+//        print(n);
+//        ((Sprite)(((Node)n).getValue())).update();
+//        ((Sprite)(((Node)n).getValue())).draw();
+//        System.out.println("executed once");
+//      });
+////    } catch (Exception e){
+////      System.out.println("caught exception");
+////    }
 
 
 
-
+// todo check if this is still being used, if not remove it
 
 //  proper x movement
 //      minimum x movement
@@ -154,7 +179,38 @@ public class Window extends PApplet implements Drawable {
 
 
     ArrayList<Sprite> toRemove = new ArrayList<Sprite>();
-    for (Sprite enemy : enemies) {
+    //old implementation
+    /*
+    for (Object n : enemies) {
+      if (Collided.collided(player, (Sprite) n)) {
+        print("COLLIDED");
+        if (player.compareTo((Sprite)n) <= 0) {
+          print("you lost!!!!!!!");
+          //todo add necessary save state and server calls here
+          exit();
+        }
+
+        if (player.compareTo((Sprite)n) == 1) {
+          player.setSize((player.getSize() - 1));
+          this.remove((Sprite) n);
+          print("added enemy to remove");
+          break;
+        }
+        break;
+      }
+
+//      if (Collided.collided(wall, player)) {
+//        player.direction.rotate(this.HALF_PI);
+//        if (player.getPosition().y < wall.getPosition().y) {
+//          player.setPosition(player.getPosition().x, wall.getPosition().y - player.getSize() + 25, wall.getPosition().z);
+//        }
+//      }
+    } */ //end of old implementation
+
+//
+//    new implementation starts:
+    try { enemies.forEach((n) -> {
+      Enemy enemy = (Enemy)(((Node)n).getValue());
       if (Collided.collided(player, enemy)) {
         print("COLLIDED");
         if (player.compareTo(enemy) <= 0) {
@@ -167,27 +223,28 @@ public class Window extends PApplet implements Drawable {
           player.setSize((player.getSize() - 1));
           this.remove(enemy);
           print("added enemy to remove");
-          break;
+          throw new RuntimeException("This is how we break a homemade forEach loop");
         }
-
-        break;
-
+        throw new RuntimeException("This is how to break a homemade forEach loop");
       }
 
-      //todo remove this it is unused
 //      if (Collided.collided(wall, player)) {
 //        player.direction.rotate(this.HALF_PI);
 //        if (player.getPosition().y < wall.getPosition().y) {
 //          player.setPosition(player.getPosition().x, wall.getPosition().y - player.getSize() + 25, wall.getPosition().z);
 //        }
-//
 //      }
+    });
+  } catch (Exception e){
+      System.out.println("this is how we break a loop with our custom for each B)");
     }
+
+    //new implementation ends
 
     //todo change enemy to better regen
     //regen enemies as they continue through the map
     if (player.position.x % 1280 == 0) {
-      ArrayList<Enemy> newEnemies = new ArrayList<Enemy>();
+      MyHashMap<Integer, Enemy> newEnemies = new MyHashMap<Integer, Enemy>();
       newEnemies.addAll(createEnemies(numbEnemies));
       enemies.addAll(newEnemies);
       sprites.addAll(newEnemies);
@@ -216,7 +273,7 @@ public class Window extends PApplet implements Drawable {
   }
 
   private ArrayList createEnemies(int numEnemies) {
-    ArrayList<Enemy> enems = new ArrayList<Enemy>();
+    ArrayList<Enemy> enems = new ArrayList<>();
     for (int i = 0; i < numEnemies; i++) {
       Enemy j = new Enemy(
               new PVector(random(player.position.x + 320, player.position.x + 320 + this.width), random(0, this.height)),
@@ -241,8 +298,9 @@ public class Window extends PApplet implements Drawable {
    * @param s the enemy.
    */
   public void remove(Sprite s) {
-    enemies.remove(s);
-    sprites.remove(s);
+    int key = Integer.valueOf(s.hashCode());
+    enemies.remove(key);
+    sprites.remove(key);
   }
 
   /**

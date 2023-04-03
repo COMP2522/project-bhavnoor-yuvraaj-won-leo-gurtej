@@ -21,4 +21,8 @@ public class Node<K, V> {
     public Node<K,V> getNext() {
         return next;
     }
+
+  public void setNext(Node<K, V> next) {
+        this.next = next;
+  }
 }

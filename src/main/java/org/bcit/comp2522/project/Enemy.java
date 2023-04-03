@@ -112,5 +112,6 @@ public class Enemy extends Sprite implements Comparable {
         window.square(this.position.x, this.position.y, size);
     }
     window.endShape(CLOSE);
+    System.out.println("draw called on enemy!");
   }
 }
