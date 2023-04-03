@@ -202,4 +202,9 @@ public class MyHashMap<K, V> implements Iterable{
         return false;
     }
 
+    public int size() {
+        return size;
+    }
+
+
 }

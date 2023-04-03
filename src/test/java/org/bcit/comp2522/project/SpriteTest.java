@@ -75,4 +75,45 @@ public class SpriteTest {
 
   }
 
+  @Test
+  public void testUpdate() {
+    PVector originalPosition = sprite.getPosition().copy();
+    sprite.update();
+    PVector newPosition = sprite.getPosition();
+    assertTrue(newPosition.x > originalPosition.x);
+    assertTrue(newPosition.y > originalPosition.y);
+  }
+
+
+  @Test
+  public void testConstructor() {
+    PVector position = new PVector(10, 20);
+    PVector direction = new PVector(1, -1);
+    float size = 15;
+    float speed = 3;
+    Color color = Color.BLUE;
+    Sprite sprite = new Sprite(position, direction, size, speed, color, window);
+    assertEquals(position, sprite.getPosition());
+    assertEquals(direction, sprite.getDirection());
+    assertEquals(size, sprite.getSize());
+    assertEquals(speed, sprite.getSpeed());
+    assertEquals(color, sprite.getColor());
+  }
+
+  @Test
+  public void testSetColor() {
+    Color newColor = Color.RED;
+    sprite.setColor(newColor);
+    assertEquals(newColor, sprite.getColor());
+  }
+
+  @Test
+  public void testSetSpeed() {
+    float newSpeed = 5;
+    sprite.setSpeed(newSpeed);
+    assertEquals(newSpeed, sprite.getSpeed());
+  }
+
+
+
 }

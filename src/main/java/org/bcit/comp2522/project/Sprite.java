@@ -75,5 +75,22 @@ public class Sprite implements Drawable, Collided{
     this.size = size;
   }
 
+  public float getSpeed() {
+    return speed;
+  }
+
+  public void setSpeed(float speed) {
+    this.speed = speed;
+  }
+
+  public Color getColor() {
+    return color;
+  }
+
+  public void setColor(Color color) {
+    this.color = color;
+  }
+
+
 
 }
