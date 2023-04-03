@@ -56,8 +56,8 @@ public class Window extends PApplet implements Drawable {
     } else {
       userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
     }
-    backgroundImage = loadImage(userDir + "background.jpeg");
-    playerImage = loadImage(userDir + "topG.png"); //added this for player to be an image.
+    backgroundImage = loadImage("images/background.jpeg");
+    playerImage = loadImage("images/topG.png"); //added this for player to be an image.
     this.init();
   }
 
