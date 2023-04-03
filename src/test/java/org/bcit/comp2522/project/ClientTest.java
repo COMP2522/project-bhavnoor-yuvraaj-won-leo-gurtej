@@ -30,4 +30,21 @@ class ClientTest {
         String actual = client.createJSON("GET", saveState);
         assertEquals(expected, actual);
     }
+
+
+    @Test
+    void testSendRequestConnectionError() {
+        String request = client.createJSON("GET", saveState);
+        assertThrows(AssertionError.class, () -> client.sendRequest(request));
+    }
+
+
+
+    @Test
+    void testCreateJSONInvalidRequestType() {
+        String expected = "{\"reqType\":\"INVALID\"}";
+        String actual = client.createJSON("INVALID", saveState);
+        assertEquals(expected, actual);
+    }
+
 }

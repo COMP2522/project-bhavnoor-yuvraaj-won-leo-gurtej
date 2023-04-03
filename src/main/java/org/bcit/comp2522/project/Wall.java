@@ -17,5 +17,12 @@ public class Wall extends Sprite{
     window.square(this.position.x, this.position.y, size);
     window.popStyle();
   }
+  public float getSpeed() {
+    return this.speed;
+  }
+
+  public Color getColor() {
+    return this.color;
+  }
 
 }
