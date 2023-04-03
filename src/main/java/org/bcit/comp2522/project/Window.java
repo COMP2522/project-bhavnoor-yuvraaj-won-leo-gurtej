@@ -216,7 +216,7 @@ public class Window extends PApplet implements Drawable {
 //    new implementation starts:
     try { enemies.forEach((n) -> {
       Enemy enemy = (Enemy)(((Node)n).getValue());
-      if (Collided.collided(player, enemy)) {
+      if (Collidable.collided(player, enemy)) {
         print("COLLIDED");
         if (player.compareTo(enemy) <= 0) {
           print("you lost!!!!!!!");
