@@ -17,7 +17,7 @@ public class Window extends PApplet implements Drawable {
   MyHashMap<Integer, Sprite> sprites;
   MyHashMap<Integer, Sprite> enemies;
 
-  MyHashMap<Integer, Sprite> newCoins;
+  MyHashMap<Integer, Sprite> newCoins = new MyHashMap<Integer, Sprite>();
   Player player;
   PImage backgroundImage;
   PImage playerImage; // image for player
@@ -147,14 +147,14 @@ public class Window extends PApplet implements Drawable {
 //    New implementation using custom hashmap class, because I am a badass
     for (Object sprite : sprites) {
       if (sprite != null){
-        print("\nsprite NOT null\n");
+//        print("\nsprite NOT null\n");
       }
       print(sprite);
       try{
         ((Sprite)((Node)sprite).getValue()).update();
         ((Sprite)((Node)sprite).getValue()).draw();
       }catch (Exception e){
-        print("\nsprite null\n");
+//        print("\nsprite null\n");
       }
 
     }
@@ -246,11 +246,17 @@ public class Window extends PApplet implements Drawable {
 
     try {  newCoins.forEach((n) -> {
       Coin coin = (Coin)(((Node)n).getValue());
-      if (Collided.collided(coin, player)){
+      print("looping through coins\n");
+//      float dist = PVector.dist(coin.getPosition(), player.getPosition());
+//      float dist = PVector.dist(coin.getPosition(), player.getPosition());
+      print("\nplayer:", player.position, "coin:", coin.position);
+      if (coin.collided(player)){
+        System.out.println("collidedcoin");
         coinCount++;
         int key =  Integer.valueOf(coin.hashCode());
-        newCoins.remove(key);
-        print("called remove on a coin");
+        System.out.println("\nremoved obj" + newCoins.remove(key).getValue());
+        sprites.remove(key);
+        System.out.println("\ncalled remove on coin");
       }
     });
     } catch (Exception e){
@@ -272,8 +278,9 @@ public class Window extends PApplet implements Drawable {
 
 
       //regen new coins as game continues
-      MyHashMap<Integer, Sprite> newCoins = new MyHashMap<>();
-      newCoins.addAll(new CoinGroup(10, player.position.copy().add(500, 0), this).getCoins());//todo make the coins spawn right
+//      MyHashMap<Integer, Sprite> newCoins = new MyHashMap<>();
+
+      newCoins.addAll(new CoinGroup((int)random(1, 10), new PVector(player.position.x + this.width, random(0, this.height)), this).getCoins());//todo make the coins spawn right
       //todo fix coin position
 
       newCoins.forEach((n)-> print("coin", ((Coin)((Node)(n)).getValue())));
