@@ -2,7 +2,10 @@ package org.bcit.comp2522.project;
 
 import processing.core.PVector;
 
+import java.awt.*;
+
 public class SaveState {
+
   private float health;
   private float score;
 
@@ -21,4 +24,6 @@ public class SaveState {
   public float loadPlayerScore() {
     return score;
   }
+
+
 }

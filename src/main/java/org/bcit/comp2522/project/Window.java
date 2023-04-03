@@ -221,6 +221,14 @@ public class Window extends PApplet implements Drawable {
         if (player.compareTo(enemy) <= 0) {
           print("you lost!!!!!!!");
           //todo add necessary save state and server calls here
+          SaveStateManager stateManager = new SaveStateManager();
+          stateManager.push();
+          // debugging bro
+          // setting player health to 0 once it dies
+          // it's not actually 0 since it dies if smaller than enemy size
+          saveState.savePlayerData(0, saveState.loadPlayerScore());
+          System.out.println("health: " + saveState.loadPlayerHealth());
+          System.out.println("score: "  + saveState.loadPlayerScore());
           exit();
         }
 
