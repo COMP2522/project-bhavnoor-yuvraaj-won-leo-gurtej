@@ -47,6 +47,11 @@ public class GameOverPage extends PApplet implements Drawable {
     }
   }
 
+  public Button getRetryButton() {
+    return retryButton;
+  }
+
+
   public void keyPressed(KeyEvent event) {
     // Do nothing
   }
