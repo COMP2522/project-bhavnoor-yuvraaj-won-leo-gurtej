@@ -14,17 +14,17 @@ public class CoinGroup {
 
   private Coin[] coins;
 
-  private static final int COIN_SIZE = 20;
+  private static final int COIN_SIZE = 40;
 
   Random ran = new Random();
 
-  public CoinGroup(int number, PVector position, Window window){
+  public CoinGroup(int number, PVector pos, Window window){
     coins = new Coin[number];
-    PVector pos = position.copy().add(900, ran.nextInt(640)+COIN_SIZE).copy();
+
     for (int i = 0; i < coins.length; i++){
-      coins[i] = new Coin(pos.copy(), COIN_SIZE, window);
+      coins[i] = new Coin(new PVector(pos.x, pos.y), COIN_SIZE, window);
       pos = pos.add(new PVector(COIN_SIZE, 0));
-      System.out.println(position + "vs" + coins[i].position.x);
+//      System.out.println(position + "vs" + coins[i].position.x);
     }
   }
 
