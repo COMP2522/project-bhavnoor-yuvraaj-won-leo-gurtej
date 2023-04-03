@@ -4,7 +4,7 @@ import processing.core.PVector;
 
 import java.awt.*;
 
-public class Sprite implements Drawable, Collided{
+public class Sprite implements Drawable, Collidable {
   protected PVector position;
   protected PVector direction;
 

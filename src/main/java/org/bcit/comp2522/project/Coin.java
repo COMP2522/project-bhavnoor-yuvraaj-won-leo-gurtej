@@ -4,7 +4,7 @@ import processing.core.PVector;
 
 import java.awt.*;
 
-public class Coin extends Sprite implements Collided {
+public class Coin extends Sprite implements Collidable {
 
 
   public Coin(PVector position, float size, Window window) {
