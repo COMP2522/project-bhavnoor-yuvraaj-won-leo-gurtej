@@ -63,5 +63,16 @@ public class SpriteTest {
     sprite.setSize(20);
     float size = sprite.getSize();
     assertEquals(20, size);
+    sprite.setSize(5);
+    size = sprite.getSize();
+    assertEquals(5, size);
+    sprite.setSize(10);
+    size = sprite.getSize();
+    assertEquals(10, size);
+    sprite.setSize(17);
+    size = sprite.getSize();
+    assertEquals(17, size);
+
   }
+
 }

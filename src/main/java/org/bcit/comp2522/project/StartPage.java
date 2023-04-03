@@ -12,7 +12,8 @@ import java.util.ArrayList;
  * Displays a "Start" button that launches the game window.
  */
 public class StartPage extends PApplet implements Drawable {
-  private Button startButton;
+  public Button startButton;
+  public Window gameWindow;
 
   /**
    * Called once at the beginning of the program.
@@ -54,7 +55,7 @@ public class StartPage extends PApplet implements Drawable {
   public void mousePressed() {
     if (startButton.isClicked()) {
       // Start the game window
-      Window gameWindow = new Window();
+      gameWindow = new Window();
       gameWindow.init();
       PApplet.runSketch(new String[]{"eatBubbles"}, gameWindow);
     }
