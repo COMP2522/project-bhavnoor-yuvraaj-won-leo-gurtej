@@ -13,5 +13,6 @@ public class Coin extends Sprite implements Collided, Edible{
 
 
 
+
 }
 
