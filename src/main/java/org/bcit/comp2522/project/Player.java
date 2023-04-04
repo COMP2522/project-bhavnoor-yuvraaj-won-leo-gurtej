@@ -21,10 +21,6 @@ public class Player extends Sprite implements Comparable {
    */
   static PImage imge;
 
-  /**
-   * The maximum speed of the player.
-   */
-  private static int maspeedX;
 
   /**
    * The x speed of the player.
