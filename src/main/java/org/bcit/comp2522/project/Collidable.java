@@ -3,7 +3,8 @@ package org.bcit.comp2522.project;
 import processing.core.PVector;
 
 /**
- * The Collided interface provides a method for checking if two Sprite objects have collided with each other.
+ * The Collided interface provides a method for checking
+ * if two Sprite objects have collided with each other.
  */
 public interface Collidable {
 

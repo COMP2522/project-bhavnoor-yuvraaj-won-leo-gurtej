@@ -1,13 +1,14 @@
 package org.bcit.comp2522.project;
 
-import processing.core.PVector;
-
-import java.awt.*;
-
 import static processing.core.PConstants.CLOSE;
 
+import java.awt.Color;
+import processing.core.PVector;
+
+
 /**
- * The Enemy class represents an enemy sprite in the game. It extends the Sprite class and implements the Comparable interface.
+ * The Enemy class represents an enemy sprite in the game.
+ * It extends the Sprite class and implements the Comparable interface.
  */
 public class Enemy extends Sprite implements Comparable {
 
@@ -22,7 +23,8 @@ public class Enemy extends Sprite implements Comparable {
   public float radius;
 
   /**
-   * Constructs an enemy object with the specified position, direction, size, speed, color, number of sides, radius and window.
+   * Constructs an enemy object with the specified position,
+   * direction, size, speed, color, number of sides, radius and window.
    *
    * @param position  the position of the enemy as a PVector object
    * @param direction the direction of the enemy as a PVector object
@@ -31,26 +33,32 @@ public class Enemy extends Sprite implements Comparable {
    * @param color     the color of the enemy as a Color object
    * @param sides     the number of sides of the enemy polygon
    * @param radius    the radius of the enemy
-   * @param window    the window in which the enemy is drawn as a Window object
+   * @param window    the window in which
+   *                  the enemy is drawn as a Window object
    */
-  public Enemy(PVector position, PVector direction, float size, float speed, Color color, int sides, float radius, Window window) {
+  public Enemy(PVector position, PVector direction, float size,
+               float speed, Color color, int sides, float radius, Window window) {
     super(position, direction, size, speed, color, window);
     this.sides = sides;
     this.radius = radius;
   }
 
   /**
-   * Compares this enemy with the specified object for order. Returns a negative integer, zero, or a positive integer as this enemy is less than, equal to, or greater than the specified object.
+   * Compares this enemy with the specified object for order.
+   * Returns a negative integer, zero, or a positive integer as this enemy is less than,
+   * equal to, or greater than the specified object.
    *
    * @param o the object to be compared
-   * @return a negative integer, zero, or a positive integer as this enemy is less than, equal to, or greater than the specified object
+   * @return a negative integer, zero, or a positive integer
+   *        as this enemy is less than, equal to, or greater than the specified object
    * @throws NullPointerException if the specified object is null
    * @throws ClassCastException   if the specified object is not an instance of Sprite
    */
   public int compareTo(Object o) {
     if (o == null) {
       throw new NullPointerException(); //null pointer exception if object is null
-    } else if (!(this instanceof Sprite && o instanceof Sprite)) {//if either of the objects in not an instance of sprite
+      //if either of the objects in not an instance of sprite
+    } else if (!(this instanceof Sprite && o instanceof Sprite)) {
       // we throw class cast exception
       throw new ClassCastException();
     } else if ((this.size - ((Sprite) o).size) < 0) {
@@ -76,7 +84,8 @@ public class Enemy extends Sprite implements Comparable {
 
     if (o == null) {
       throw new NullPointerException(); //null pointer exception if object is null
-    } else if (!(this instanceof Sprite && o instanceof Sprite)) {//if either of the objects in not an instance of sprite
+      //if either of the objects in not an instance of sprite
+    } else if (!(this instanceof Sprite && o instanceof Sprite)) {
       // we throw class cast exception
       throw new ClassCastException();
     } else if (!(this.size == ((Sprite) o).size)) {
@@ -91,7 +100,8 @@ public class Enemy extends Sprite implements Comparable {
    */
   @Override
   public void bounce() {
-    if (this.position.y <= 0 ||
+    if (this.position.y <= 0
+            ||
             this.position.y >= window.height) {
       this.direction.rotate(window.HALF_PI);
     }
