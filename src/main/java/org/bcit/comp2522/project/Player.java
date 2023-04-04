@@ -24,35 +24,35 @@ public class Player extends Sprite implements Comparable {
   /**
    * The maximum speed of the player.
    */
-  private static int maxSpeed;
+  private static int maspeedX;
 
   /**
    * The x speed of the player.
    */
-  private static int xSpeed;
+  private static int speedX;
 
   /**
    * Constructs a new Player object with the specified position,
-   * direction, size, speed, xSpeed, color, and window.
+   * direction, size, speed, speedX, color, and window.
    *
    * @param position the position of the player.
    * @param direction the direction of the player.
    * @param size the size of the player.
    * @param speed the speed of the player.
-   * @param xSpeed the x speed of the player.
+   * @param speedX the x speed of the player.
    * @param color the color of the player.
    * @param window the window in which the player is displayed.
    */
   private Player(PVector position, PVector direction, float size,
-                 float speed, int xSpeed, Color color, Window window) {
+                 float speed, int speedX, Color color, Window window) {
     super(position, direction, size, speed, color, window);
-    this.xSpeed = xSpeed;
+    this.speedX = speedX;
   }
 
 
   /**
    * Returns the single instance of the Player class with the specified
-   * position, direction, size, speed, xSpeed,
+   * position, direction, size, speed, speedX,
    * color, image, and window. If the single instance is null,
    * creates a new Player object with the specified parameters.
    *
@@ -60,16 +60,16 @@ public class Player extends Sprite implements Comparable {
    * @param direction the direction of the player.
    * @param size the size of the player.
    * @param speed the speed of the player.
-   * @param xSpeed the x speed of the player.
+   * @param speedX the x speed of the player.
    * @param color the color of the player.
    * @param img the image of the player.
    * @param window the window in which the player is displayed.
    * @return the single instance of the Player class.
    */
   public static Player getInstance(PVector position, PVector direction, float size, float speed,
-                                   int xSpeed, Color color, PImage img, Window window) {
+                                   int speedX, Color color, PImage img, Window window) {
     if (singleInstance == null) {
-      singleInstance = new Player(position, direction, size, speed, xSpeed, color, window);
+      singleInstance = new Player(position, direction, size, speed, speedX, color, window);
     }
     imge = img;
     return singleInstance;
@@ -181,8 +181,8 @@ public class Player extends Sprite implements Comparable {
    *
    * @return the X speed
    */
-  public int getXSpeed() {
-    return xSpeed;
+  public int getspeedX() {
+    return speedX;
   }
 
 }

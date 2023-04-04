@@ -160,7 +160,7 @@ public class Window extends PApplet implements Drawable {
 
       case ' ', UP, 'W', 'w': {
         if (player.getDirection().y > 0)
-            player.setDirection(new PVector(player.getXSpeed(), 0, 0));
+            player.setDirection(new PVector(player.getspeedX(), 0, 0));
         player.fly();
         break;
       }
@@ -292,7 +292,7 @@ public class Window extends PApplet implements Drawable {
     //gravity and y min/max limits
     if (player.position.y > this.height - player.size/2) {
       player.position.y = this.height - player.size/2;
-      player.setDirection(new PVector(player.getXSpeed(), 0, 0));
+      player.setDirection(new PVector(player.getspeedX(), 0, 0));
     }
     else {
       player.gravity();
