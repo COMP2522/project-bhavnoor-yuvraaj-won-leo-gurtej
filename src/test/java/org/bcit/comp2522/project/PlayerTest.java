@@ -9,6 +9,9 @@ import java.awt.Color;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ The PlayerTest class is a JUnit test for the Player class.
+ */
 class PlayerTest {
 
   private Player player;
@@ -25,20 +28,7 @@ class PlayerTest {
     Window window = new Window();
     player = Player.getInstance(position, direction, size, speed, xspeed, color, playerImage, window); // Pass the image to the getInstance() method
   }
-// is jumping method was removed
-//  @Test
-//  void isJumping() {
-//    assertFalse(player.isJumping());
-//    player.setJumping(true);
-//    assertTrue(player.isJumping());
-//  }
-//
-//  @Test
-//  void getJumpcount() {
-//    assertEquals(0, player.getJumpcount());
-//    player.setJumpcount(10);
-//    assertEquals(10, player.getJumpcount());
-//  }
+
 
   @Test
   void testCompareTo() {

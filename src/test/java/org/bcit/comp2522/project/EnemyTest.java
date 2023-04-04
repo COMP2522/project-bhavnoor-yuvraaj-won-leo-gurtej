@@ -7,7 +7,9 @@ import processing.core.PApplet;
 import java.awt.Color;
 
 
-
+/**
+ The EnemyTest class is a JUnit test for the Enemy class.
+ */
 class EnemyTest {
 
   @Test

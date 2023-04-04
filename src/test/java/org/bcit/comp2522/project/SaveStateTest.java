@@ -3,6 +3,9 @@ package org.bcit.comp2522.project;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ The SaveStateTest class is a JUnit test for the SaveState class.
+ */
 public class SaveStateTest {
 
   @Test
@@ -36,13 +39,13 @@ public class SaveStateTest {
 
   @Test
   public void testSaveAndLoadPlayerData() {
-    // Create a new SaveState object
+    // new SaveState object
     SaveState saveState = new SaveState();
 
-    // Set the player data using the savePlayerData method
+    // Setting the player data using the savePlayerData method
     saveState.savePlayerData(100.0f, 500.0f);
 
-    // Test that the loaded player health and score are equal to the saved values
+    // Testing that the loaded player health and score are equal to the saved values
     assertEquals(100.0f, saveState.loadPlayerHealth());
     assertEquals(500.0f, saveState.loadPlayerScore());
   }
