@@ -1,46 +1,71 @@
 package org.bcit.comp2522.project;
 
-import processing.core.PVector;
-import java.awt.*;
 import static processing.core.PConstants.CLOSE;
 
+import java.awt.Color;
+import processing.core.PVector;
+
+
 /**
- * Public class Enemy.
- * This is enemy class.
+ * The Enemy class represents an enemy sprite in the game.
+ * It extends the Sprite class and implements the Comparable interface.
  */
 public class Enemy extends Sprite implements Comparable {
 
+  /**
+   * The number of sides of the enemy polygon.
+   */
   public int sides;
+
+  /**
+   * The radius of the enemy.
+   */
   public float radius;
 
-  public Enemy(PVector position, PVector direction, float size, float speed, Color color, int sides, float radius, Window window) {
+  /**
+   * Constructs an enemy object with the specified position,
+   * direction, size, speed, color, number of sides, radius and window.
+   *
+   * @param position  the position of the enemy as a PVector object
+   * @param direction the direction of the enemy as a PVector object
+   * @param size      the size of the enemy
+   * @param speed     the speed of the enemy
+   * @param color     the color of the enemy as a Color object
+   * @param sides     the number of sides of the enemy polygon
+   * @param radius    the radius of the enemy
+   * @param window    the window in which
+   *                  the enemy is drawn as a Window object
+   */
+  public Enemy(PVector position, PVector direction, float size,
+               float speed, Color color, int sides, float radius, Window window) {
     super(position, direction, size, speed, color, window);
     this.sides = sides;
     this.radius = radius;
   }
 
   /**
-   * compareTo method.
-   * @param o the object to be compared.
-   * @return positive or negative integer based on which object is larger
+   * Compares this enemy with the specified object for order.
+   * Returns a negative integer, zero, or a positive integer as this enemy is less than,
+   * equal to, or greater than the specified object.
+   *
+   * @param o the object to be compared
+   * @return a negative integer, zero, or a positive integer
+   *        as this enemy is less than, equal to, or greater than the specified object
+   * @throws NullPointerException if the specified object is null
+   * @throws ClassCastException   if the specified object is not an instance of Sprite
    */
-  //@Override
   public int compareTo(Object o) {
-    if (o == null){
+    if (o == null) {
       throw new NullPointerException(); //null pointer exception if object is null
-    }
-
-    else if (!(this instanceof Sprite && o instanceof Sprite)){//if either of the objects in not an instance of sprite
+      //if either of the objects in not an instance of sprite
+    } else if (!(this instanceof Sprite && o instanceof Sprite)) {
       // we throw class cast exception
       throw new ClassCastException();
-    }
-    else if ((this.size - ((Sprite) o).size) < 0){
+    } else if ((this.size - ((Sprite) o).size) < 0) {
       return -1;
-    }
-    else if ((this.size - ((Sprite) o).size) == 0){
+    } else if ((this.size - ((Sprite) o).size) == 0) {
       return 0;
-    }
-    else if (((this.size - ((Sprite) o).size) > 0)){
+    } else if (((this.size - ((Sprite) o).size) > 0)) {
       return 1;
     }
 
@@ -48,37 +73,43 @@ public class Enemy extends Sprite implements Comparable {
   }
 
   /**
-   * equals method.
-   * @param o the object to be compared
-   * @return boolean t or f depending on if objects are equal
+   * Compares this enemy with the specified object for equality.
+   *
+   * @param o the object to be compared for equality with this enemy
+   * @return true if the specified object is equal to this enemy, false otherwise
+   * @throws NullPointerException if the specified object is null
+   * @throws ClassCastException   if the specified object is not an instance of Sprite
    */
-  //@Override
-  public boolean equals(Object o){
+  public boolean equals(Object o) {
 
-    if (o == null){
+    if (o == null) {
       throw new NullPointerException(); //null pointer exception if object is null
-    }
-
-    else if (!(this instanceof Sprite && o instanceof Sprite)){//if either of the objects in not an instance of sprite
+      //if either of the objects in not an instance of sprite
+    } else if (!(this instanceof Sprite && o instanceof Sprite)) {
       // we throw class cast exception
       throw new ClassCastException();
-    }
-
-    else if (!(this.size == ((Sprite)o).size)){
+    } else if (!(this.size == ((Sprite) o).size)) {
       return false;
     }
 
     return true;
   }
 
+  /**
+   * Bounces the enemy off the top and bottom walls of the window.
+   */
   @Override
-  public void bounce(){
-    if (    this.position.y <= 0 ||
+  public void bounce() {
+    if (this.position.y <= 0
+            ||
             this.position.y >= window.height) {
       this.direction.rotate(window.HALF_PI);
-  }
+    }
   }
 
+  /**
+   * Draws the enemy in the window.
+   */
   @Override
   public void draw() {
     window.fill(color.getRGB());
@@ -92,24 +123,9 @@ public class Enemy extends Sprite implements Comparable {
       float y2 = position.y - size;
       float x3 = position.x + size;
       float y3 = position.y + size;
-//      window.vertex(x1, y1);
-//      window.vertex(x2, y2);
-//      window.vertex(x3, y3);
       window.triangle(x1, y1, x2, y2, x3, y3);
     } else if (sides == 4) { // draw square
-//      float x1 = position.x - size;
-//      float y1 = position.y - size;
-//      float x2 = position.x + size;
-//      float y2 = position.y - size;
-//      float x3 = position.x + size;
-//      float y3 = position.y + size;
-//      float x4 = position.x - size;
-//      float y4 = position.y + size;
-//      window.vertex(x1, y1);
-//      window.vertex(x2, y2);
-//      window.vertex(x3, y3);
-//      window.vertex(x4, y4);
-        window.square(this.position.x, this.position.y, size);
+      window.square(this.position.x, this.position.y, size);
     }
     window.endShape(CLOSE);
     System.out.println("draw called on enemy!");
