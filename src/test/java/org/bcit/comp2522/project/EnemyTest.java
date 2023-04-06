@@ -8,7 +8,8 @@ import java.awt.Color;
 
 
 /**
- The EnemyTest class is a JUnit test for the Enemy class.
+ * The EnemyTest class is a JUnit test for the Enemy class.
+ * @author Yuvraaj Chouhan
  */
 class EnemyTest {
 
