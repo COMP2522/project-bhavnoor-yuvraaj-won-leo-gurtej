@@ -9,6 +9,7 @@ import processing.core.PVector;
 /**
  * The Enemy class represents an enemy sprite in the game.
  * It extends the Sprite class and implements the Comparable interface.
+ * @author Yuvraaj Chouhan
  */
 public class Enemy extends Sprite implements Comparable {
 

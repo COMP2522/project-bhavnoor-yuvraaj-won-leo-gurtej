@@ -10,7 +10,8 @@ import java.awt.Color;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- The PlayerTest class is a JUnit test for the Player class.
+ * The PlayerTest class is a JUnit test for the Player class.
+ * @author Yuvraaj Chouhan
  */
 class PlayerTest {
 
