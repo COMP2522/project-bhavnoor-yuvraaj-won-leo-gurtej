@@ -10,10 +10,12 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import processing.data.JSONArray;
+import processing.data.JSONObject;
 
 import java.io.File;
 
 import static processing.core.PApplet.loadJSONArray;
+import static processing.core.PApplet.loadJSONObject;
 
 /**
  * The DatabaseHandler class handles the connection to the
@@ -128,12 +130,12 @@ public class DatabaseHandler {
     public void saveToDB(MongoDatabase db) {
         new Thread(() -> {
             Document document = new Document();
-            JSONArray json = new JSONArray();
+            JSONObject playerStats = new JSONObject();
 
             File file = new File("player-stats.json");
-            json = loadJSONArray(file);
+            playerStats = loadJSONObject(file);
 
-            String jsonString = json.toString();
+            String jsonString = playerStats.toString();
 
             document.append("PlayerStats", jsonString);
             database.getCollection("Players").insertOne(document);
