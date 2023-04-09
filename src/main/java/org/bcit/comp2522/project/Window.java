@@ -46,6 +46,8 @@ public class Window extends PApplet implements Drawable {
    */
   SaveState saveState;
 
+  SoundHandler musicPlayer;
+
   private boolean started = false;
   /**
    * The Background x.
@@ -83,7 +85,7 @@ public class Window extends PApplet implements Drawable {
   /**
    * The User dir.
    */
-  String userDir;
+  public static String userDir;
 
   /**
    * Called once at the beginning of the program.
@@ -113,7 +115,8 @@ public class Window extends PApplet implements Drawable {
    */
   public void init() {
     print("started at beginning");
-
+    new Thread(()->musicPlayer = SoundHandler.getInstance()).start();
+//    musicPlayer = SoundHandler.getInstance();
     wall = new Wall(
 
             new PVector(50, 200),
