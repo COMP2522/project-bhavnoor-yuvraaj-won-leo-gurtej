@@ -127,13 +127,14 @@ public class DatabaseHandler {
     }
 
 
-    public void saveToDB(MongoDatabase db) {
+    public void saveToDB() {
         new Thread(() -> {
             Document document = new Document();
             JSONObject playerStats = new JSONObject();
 
             File file = new File("player-stats.json");
             playerStats = loadJSONObject(file);
+            System.out.println(playerStats);
 
             String jsonString = playerStats.toString();
 
@@ -171,5 +172,6 @@ public class DatabaseHandler {
         DatabaseHandler q = new DatabaseHandler();
 
         q.database.createCollection("Players");
+        q.saveToDB();
     }
 }

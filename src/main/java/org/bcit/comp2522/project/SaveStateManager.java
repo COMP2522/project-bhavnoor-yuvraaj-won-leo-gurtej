@@ -15,16 +15,12 @@ public class SaveStateManager {
    */
   DatabaseHandler databaseHandler;
 
-  MongoDatabase mongoDatabase;
-
   /**
    * The current SaveState object for the player.
    */
   SaveState saveState;
 
   public SaveStateManager() {
-    databaseHandler = new DatabaseHandler();
-    mongoDatabase = databaseHandler.database;
   }
 
   /**
@@ -34,7 +30,7 @@ public class SaveStateManager {
   public void push() {
     new Thread(() -> {
       //mongo.put(saveState);
-      databaseHandler.saveToDB(mongoDatabase);
+      databaseHandler.saveToDB();
     }).start();
   }
 
