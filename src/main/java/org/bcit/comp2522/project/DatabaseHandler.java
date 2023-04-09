@@ -6,6 +6,7 @@ import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
@@ -16,7 +17,7 @@ import org.bson.Document;
  */
 public class DatabaseHandler {
     MongoDatabase database;
-    String collection;
+    MongoCollection<Document> collection;
 
 //  run below stuff only once: this is just for set up
     //create document
@@ -37,10 +38,11 @@ public class DatabaseHandler {
      *
      * @param collection the name of the collection in the database.
      */
-    public DatabaseHandler(String collection){
+    public DatabaseHandler(MongoCollection collection){
+        //
         String password = "${MONGO_KEY}";//hopefully nobody is able to find the supersecretpassoword
         ConnectionString connectionString = new ConnectionString(
-                "mongodb+srv://Noooooooor:" + password + "@2522.yczfyxd.mongodb.net/?retryWrites=true&w=majority");
+        "mongodb+srv://Client:" + password + "@javaproj.i875zgv.mongodb.net/?retryWrites=true&w=majority");
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .serverApi(ServerApi.builder()
@@ -56,9 +58,10 @@ public class DatabaseHandler {
      * Constructs a new DatabaseHandler object with a default collection name.
      */
     public DatabaseHandler(){
-        String password = "SuperSecretPassword";//hopefully nobody is able to find the supersecretpassoword
+        String password = System.getenv("MONGO_KEY");//hopefully nobody is able to find the supersecretpassoword
+        System.out.println(password);
         ConnectionString connectionString = new ConnectionString(
-                "mongodb+srv://Noooooooor:" + password + "@2522.yczfyxd.mongodb.net/?retryWrites=true&w=majority");
+                "mongodb+srv://client:" + password + "@javaproj.i875zgv.mongodb.net/?retryWrites=true&w=majority");
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .serverApi(ServerApi.builder()
@@ -66,7 +69,27 @@ public class DatabaseHandler {
                         .build())
                 .build();
         MongoClient mongoClient = MongoClients.create(settings);
-        database = mongoClient.getDatabase("javaProj");
+        database = mongoClient.getDatabase("JavaProj");
+        //collection = database.getCollection("Players");
+        System.out.println(database);
+
+//        check if user exists
+
+//    create document
+//    database.createCollection(System.getProperty("user.dir"));
+
+//    add stuff to document
+    Document document = new Document();
+//    document.append("name", "Ram");
+//    document.append("age", 26);
+//    document.append("city", "Hyderabad");
+
+//    insert document to database
+//    database.getCollection("students").insertOne(document);
+
+
+//    Document find = database.getCollection("students").find(eq("name", "Ram")).first();
+
     }
 
 //    public void put(String key, String val){
@@ -86,10 +109,12 @@ public class DatabaseHandler {
     public void put(SaveState saveState){
         Document player = new Document();
         // also gonna append name but later
+        player.append("name", System.getProperty("user.name"));
         player.append("health", saveState.loadPlayerHealth());
         player.append("score", saveState.loadPlayerScore());
 
-        database.getCollection(collection).insertOne(player);
+
+        database.getCollection("Players").insertOne(player);
         //did with Thread as well, however may just call the method in a thread
 //        new Thread(()-> database.getCollection(collection).insertOne(doc)).start();
     }
@@ -114,4 +139,13 @@ public class DatabaseHandler {
 //        });
 //        return newGs;
 //    }
+
+
+//    System.getProperty("user.name"); how to get user name;
+    public static void main(String[] args){
+
+        DatabaseHandler q = new DatabaseHandler();
+
+        q.database.createCollection("Players");
+    }
 }

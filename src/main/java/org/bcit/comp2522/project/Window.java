@@ -239,7 +239,7 @@ public class Window extends PApplet implements Drawable {
       }
     });
   } catch (Exception e){
-      System.out.println("this is how we break a loop with our custom for each B)");
+      System.out.println("loop broken");
     }
 
     try {  newCoins.forEach((n) -> {
