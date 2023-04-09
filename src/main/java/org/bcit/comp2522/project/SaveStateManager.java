@@ -1,5 +1,7 @@
 package org.bcit.comp2522.project;
 
+import com.mongodb.client.MongoDatabase;
+
 /**
  * The SaveStateManager class manages the
  * saving and loading of player data to/from a database.
@@ -11,12 +13,19 @@ public class SaveStateManager {
   /**
    * The handler for the database where the player data is saved.
    */
-  DatabaseHandler mongo;
+  DatabaseHandler databaseHandler;
+
+  MongoDatabase mongoDatabase;
 
   /**
    * The current SaveState object for the player.
    */
   SaveState saveState;
+
+  public SaveStateManager() {
+    databaseHandler = new DatabaseHandler();
+    mongoDatabase = databaseHandler.database;
+  }
 
   /**
    * Pushes the player's current SaveState data to the database.
@@ -24,8 +33,9 @@ public class SaveStateManager {
    */
   public void push() {
     new Thread(() -> {
-      mongo.put(saveState);
-    });
+      //mongo.put(saveState);
+      databaseHandler.saveToDB(mongoDatabase);
+    }).start();
   }
 
   /**

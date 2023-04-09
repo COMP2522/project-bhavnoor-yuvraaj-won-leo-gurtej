@@ -9,6 +9,11 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import processing.data.JSONArray;
+
+import java.io.File;
+
+import static processing.core.PApplet.loadJSONArray;
 
 /**
  * The DatabaseHandler class handles the connection to the
@@ -16,7 +21,7 @@ import org.bson.Document;
  * and retrieving data from the database.
  */
 public class DatabaseHandler {
-    MongoDatabase database;
+    static MongoDatabase database;
     MongoCollection<Document> collection;
 
 //  run below stuff only once: this is just for set up
@@ -70,7 +75,7 @@ public class DatabaseHandler {
                 .build();
         MongoClient mongoClient = MongoClients.create(settings);
         database = mongoClient.getDatabase("JavaProj");
-        //collection = database.getCollection("Players");
+        collection = database.getCollection("Players");
         System.out.println(database);
 
 //        check if user exists
@@ -117,6 +122,23 @@ public class DatabaseHandler {
         database.getCollection("Players").insertOne(player);
         //did with Thread as well, however may just call the method in a thread
 //        new Thread(()-> database.getCollection(collection).insertOne(doc)).start();
+    }
+
+
+    public void saveToDB(MongoDatabase db) {
+        new Thread(() -> {
+            Document document = new Document();
+            JSONArray json = new JSONArray();
+
+            File file = new File("player-stats.json");
+            json = loadJSONArray(file);
+
+            String jsonString = json.toString();
+
+            document.append("PlayerStats", jsonString);
+            database.getCollection("Players").insertOne(document);
+            System.out.println("Uploaded Player data to database!");
+        }).start();
     }
 
     /** we'll prolly use this method to retrieve all player stats stored in DB

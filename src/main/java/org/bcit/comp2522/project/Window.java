@@ -6,6 +6,7 @@ import processing.core.PVector;
 import processing.event.KeyEvent;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -218,19 +219,27 @@ public class Window extends PApplet implements Drawable {
         if (player.compareTo(enemy) <= 0) {
           print("you lost!!!!!!!");
           //todo add necessary save state and server calls here
-          SaveStateManager stateManager = new SaveStateManager();
-          stateManager.push();
+
           // debugging bro
           // setting player health to 0 once it dies
           // it's not actually 0 since it dies if smaller than enemy size
           saveState.savePlayerData(0, saveState.loadPlayerScore());
+          try {
+            saveState.createJSON(System.getProperty("user.name"), saveState.loadPlayerHealth(), saveState.loadPlayerScore());
+          } catch (IOException e) {
+            System.out.println(e);
+          }
+
+          SaveStateManager stateManager = new SaveStateManager();
+          stateManager.push();
+
           System.out.println("health: " + saveState.loadPlayerHealth());
           System.out.println("score: "  + saveState.loadPlayerScore());
           exit();
         }
 
         if (player.compareTo(enemy) == 1) {
-          player.setSize((player.getSize() - 1));
+          player.setSize((player.getSize() - 10));
           this.remove(enemy);
           print("added enemy to remove");
           throw new RuntimeException("This is how we break a homemade forEach loop");
