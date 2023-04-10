@@ -154,7 +154,7 @@ public class Window extends PApplet implements Drawable {
     saveState = new SaveState();
   }
 
-  @Override //todo improve the code of this function
+  @Override
 
   public void keyPressed(KeyEvent event) {
     started = true;
@@ -251,8 +251,10 @@ public class Window extends PApplet implements Drawable {
           }
 
           if (player.compareTo(enemy) == 1) {
-            player.setSize((player.getSize() - 2));
-            this.remove(enemy);
+
+            player.setSize((player.getSize() - 10));
+            new Thread(()->this.remove(enemy)).start();
+
             throw new RuntimeException("Only way to break a forEach inside an anonymous func");
           }
           throw new RuntimeException("Only way to break a forEach inside an anonymous func");
@@ -271,7 +273,7 @@ public class Window extends PApplet implements Drawable {
         if (coin.collided(player)) {
           coinCount++;
           int key = Integer.valueOf(coin.hashCode());
-          sprites.remove(key);
+          new Thread(()->sprites.remove(key)).start();
         }
       });
     } catch (Exception e) {

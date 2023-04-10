@@ -4,7 +4,8 @@ This is a Java platform game developed by our team using Processing.org library.
 
 ## Setup
 To run the game, make sure you have Processing.org library installed on your system. You can run the game by running the main() method in the Window class.
-An easier way is just to pull this github repo and it will include everything necessary.
+An easier way is just to pull this github repo and it will include everything necessary. You may have trouble with environment variables, which we included in the repo. 
+See the troubleshooting at the bottom. **NOTE: You can run the game with the "current file" config, but it will not work as intended, and database will not work, as env variable is required**
 
 ## Features
 The game has the following features:
@@ -34,27 +35,31 @@ Recreate a Geometry Dash style 3d platformer game with various shapes and object
 ### Requirements:
 #### - Requirement 1:
 We could import some Processing.org libraries in order to implement an interface for user interaction features throughout our project.
-
+**We did, our game functions Entirely with Processing.org**
 #### - Requirement 2:
 At regular intervals, the user's progress will be saved or "pushed".
-
+**Another success, user progress is saved to mongoDB and we can also see top players in the console after we lose the game**
 #### - Requirement 3:
 This is included with Requirement 2, the user's progress at regular intervals in the game with a JSON file.
-
+**Yep! We can read and write Json files for anything we want, we are storing player health and score!**
 #### - Requirement 4:
 A collection of platforms, and objects posing as obstacles which are "spawned" and "deleted" based on user position
 maintained by data.
-
+**Our enemies are managed by a custom hashmap which is able to utilize o(1) lookup times and remove enemies after they go out of view.**
 #### - Requirement 5:
 - We can document progress as we go through working on the project.
 - We make sure our project is complete on final submission day.
 - Make sure there are no errors in project before submission.
+
+**At the time of writing, the project works good, all systems go, we used issues and we made many comments along the way**
 
 ## Communication, and Roles:
 ### - Communication:
 - We communicate within our group using a Discord group chat.
 - We will hold one meeting outside of class time on Tuesdays at 2pm, every week.
 - We will have an ongoing minutes document where we record attendance and group decisions.
+
+**Mission success, sort of, we did good, perhaps could have been slightly better in terms of communication.**
 
 ### - Roles:
 ## - Architect: Yuvraaj Chouhan
@@ -81,9 +86,21 @@ I'll handle database calls, will handle enemy class alongside Gurtej and fill in
 #### Project Pitch: 
 My responsibilities as the backend manager would be to create data structures that store properties of different types of enemies, accessories granted to Player upon upgrades and the data of the Player as well. As the score keeper, I would update the score and 'health' whenever the Player hits an Enemy or passes a level in the data structure.
 
+# Initial UML
+![Initial UML](InitialUML.png)
 
 
-# Project
+# Final UML
+You may want to download this to properly read it.
+![Final UML](finalUML.png)
+
+
+# Troubleshooting
+### Having trouble? We're here to help, some things to check:
+
+* Check that your run config(which should load automatically) has an environment variable (the MONGO_KEY) if for some reason it didn't work. you can add it manually, or just type it into the ide, the password is "SuperSecretPassword" without the quotes of course.
+* Help! when I run the game I can't see anything! No problem if you're running Window, try running startpage, or vice versa. 
+* My computer crashed! We can't help you here, check your ide is up to date and your specs are from this decade.
 
 ## Technical Project Requirements
 
@@ -196,5 +213,8 @@ You must use pull requests to manage your code integration:
 - If needed, make the requested fixes and commit and push again.
 - the other person (NOT YOU) will merge your PR into `main`
 - the other person (NOT YOU) will delete your branch
+
+
+
 
 
