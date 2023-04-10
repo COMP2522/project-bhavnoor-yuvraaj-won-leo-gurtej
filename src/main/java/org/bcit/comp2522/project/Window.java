@@ -21,20 +21,20 @@ public class Window extends PApplet implements Drawable {
   /**
    * The Sprites.
    */
-  MyHashMap<Integer, Sprite> sprites;
+  private MyHashMap<Integer, Sprite> sprites;
   /**
    * The Enemies.
    */
-  MyHashMap<Integer, Sprite> enemies;
+  private MyHashMap<Integer, Sprite> enemies;
 
   /**
    * The New coins.
    */
-  MyHashMap<Integer, Sprite> newCoins = new MyHashMap<>();
+  private MyHashMap<Integer, Sprite> newCoins = new MyHashMap<>();
   /**
    * The Player.
    */
-  Player player;
+  private Player player;
   /**
    * The Background image.
    */
@@ -76,10 +76,7 @@ public class Window extends PApplet implements Drawable {
    * The Min size.
    */
   int minSize = 4;
-  /**
-   * The Max size.
-   */
-  int maxSize = 10;
+
 
   /**
    * The Coin count.
@@ -254,11 +251,16 @@ public class Window extends PApplet implements Drawable {
           }
 
           if (player.compareTo(enemy) == 1) {
+
             player.setSize((player.getSize() - 10));
             new Thread(()->this.remove(enemy)).start();
+
             throw new RuntimeException("Only way to break a forEach inside an anonymous func");
           }
           throw new RuntimeException("Only way to break a forEach inside an anonymous func");
+        }
+        if (player.getPosition().x - enemy.getPosition().x > 350) {
+          this.remove(enemy);
         }
       });
     } catch (Exception e) {
