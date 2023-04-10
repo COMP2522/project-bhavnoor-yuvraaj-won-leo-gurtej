@@ -17,6 +17,9 @@ class PlayerTest {
 
   private Player player;
 
+  /**
+   * Initialises Player object before each test.
+   */
   @BeforeEach
   public void setUp() {
     PVector position = new PVector(100, 100);

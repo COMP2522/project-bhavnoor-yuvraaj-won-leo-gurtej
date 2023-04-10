@@ -7,10 +7,16 @@ import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for MyHashMap class.
+ */
 class MyHashMapTest {
 
     private MyHashMap<String, Integer> map;
 
+    /**
+     * Initialises MyHashMap object before each test.
+     */
     @BeforeEach
     void setUp() {
         map = new MyHashMap<>();

@@ -9,10 +9,16 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Test class for CoinGroup class.
+ */
 public class CoinGroupTest {
 
   private CoinGroup coinGroup;
 
+  /**
+   * Initialises CoinGroup object before each test.
+   */
   @BeforeEach
   public void setUp() {
     Window window = new Window();

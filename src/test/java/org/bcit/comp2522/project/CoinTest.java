@@ -3,9 +3,11 @@ package org.bcit.comp2522.project;
 import org.junit.jupiter.api.Test;
 import processing.core.PVector;
 import java.awt.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for Coin class.
+ */
 class CoinTest {
 
   @Test

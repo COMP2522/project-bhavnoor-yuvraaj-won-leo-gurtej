@@ -1,11 +1,10 @@
 package org.bcit.comp2522.project;
 
+import java.awt.*;
 import processing.core.PVector;
 
-import java.awt.*;
-
 /**
- * Sprite superclass, player, enemy, coin all inherit from sprite
+ * Sprite superclass, player, enemy, coin all inherit from sprite.
  *
  * @author Yuvraaj Chouhan
  * @author Bhavnoor Saroya
@@ -49,7 +48,8 @@ public class Sprite implements Drawable, Collidable {
    * @param color     the color
    * @param window    the window
    */
-  public Sprite(PVector position, PVector direction, float size, float speed, Color color, Window window) {
+  public Sprite(PVector position, PVector direction,
+                float size, float speed, Color color, Window window) {
     this.position = position;
     this.direction = direction;
     this.size = size;
@@ -118,12 +118,14 @@ public class Sprite implements Drawable, Collidable {
     this.position = new PVector(x, y, z);
   }
 
+  /**
+   * Draw method.
+   */
   public void draw() {
     window.pushStyle();
     window.fill(this.color.getRed(), this.color.getGreen(), this.color.getBlue());
     window.circle(this.position.x, this.position.y, size);
     window.popStyle();
-//    System.out.println("draw called and ran!");
   }
 
   /**

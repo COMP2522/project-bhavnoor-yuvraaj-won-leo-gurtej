@@ -7,18 +7,38 @@ import processing.core.PVector;
 
 
 /**
- * Button class.
+ * Represents a clickable button with a label and customizable colors.
  */
 public class Button implements Drawable {
+
+  /** The label of the button. */
   private String label;
+
+  /** The position of the button. */
   private PVector position;
+
+  /** The width of the button. */
   private int width;
+
+  /** The height of the button. */
   private int height;
+
+  /** The background color of the button. */
   private Color backgroundColor;
+
+  /** The foreground color of the button. */
   private Color foregroundColor;
+
+  /** The hover color of the button. */
   private Color hoverColor;
+
+  /** The PApplet instance used to draw the button. */
   private PApplet applet;
+
+  /** Whether the button has been clicked. */
   private boolean isClicked;
+
+  /** Whether the mouse is hovering over the button. */
   private boolean isHovered;
 
   /**
@@ -51,7 +71,7 @@ public class Button implements Drawable {
   }
 
   /**
-   * Draw method.
+   * Draws the button to the PApplet window.
    */
   public void draw() {
     applet.stroke(0);
@@ -72,9 +92,9 @@ public class Button implements Drawable {
   }
 
   /**
-   * Is clicked boolean.
+   * Checks if the button has been clicked.
    *
-   * @return the boolean
+   * @return true if the button was clicked, false otherwise
    */
   public boolean isClicked() {
     if (applet.mousePressed) {
