@@ -124,7 +124,15 @@ public class Window extends PApplet implements Drawable {
    */
   public void init() {
     print("started at beginning");
-    new Thread(() -> musicPlayer = SoundHandler.getInstance()).start();
+    // initialise CustomThreadPool object
+    threadPool = CustomThreadPool.getInstance(4);
+
+    try {
+      threadPool.submit(() -> musicPlayer = SoundHandler.getInstance());
+    } catch (InterruptedException e) {
+      System.out.println(e);
+    }
+
     wall = new Wall(
 
             new PVector(50, 200),
@@ -148,8 +156,6 @@ public class Window extends PApplet implements Drawable {
             new Color(0, 255, 0),
             playerImage,
             this);
-
-    threadPool = CustomThreadPool.getInstance(4);
 
     ArrayList<Sprite> en = createEnemies(numbEnemies);
     enemies.addAll(en); //add enemies that were created into enemies arraylist
@@ -232,9 +238,8 @@ public class Window extends PApplet implements Drawable {
           PApplet.runSketch(appletArgs, startPage);
 
           this.dispose();
-          //todo add necessary save state and server calls here
 
-
+          // All necessary save state and server calls here
             saveState.savePlayerData(0, saveState.loadPlayerScore());
             try {
               saveState.createJSON(System.getProperty("user.name"),
@@ -267,9 +272,9 @@ public class Window extends PApplet implements Drawable {
 
             player.setSize((player.getSize() - 10));
             try {
-              threadPool.submit(()->this.remove(enemy));
+              threadPool.submit(() -> this.remove(enemy));
             } catch (InterruptedException e) {
-              System.out.println(); //caught exeption e
+              System.out.println(e); //caught exeption e
             }
 
             throw new RuntimeException("Only way to break a forEach inside an anonymous func");
@@ -290,7 +295,11 @@ public class Window extends PApplet implements Drawable {
         if (coin.collided(player)) {
           coinCount++;
           int key = Integer.valueOf(coin.hashCode());
-          new Thread(()->sprites.remove(key)).start();
+          try {
+            threadPool.submit(() -> sprites.remove(key));
+          } catch (InterruptedException e) {
+            System.out.println(e);
+          }
         }
       });
     } catch (Exception e) {
