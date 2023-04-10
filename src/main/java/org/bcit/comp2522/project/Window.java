@@ -214,13 +214,20 @@ public class Window extends PApplet implements Drawable {
 
     }
 
-    try {
-      enemies.forEach((n) -> {
-        Enemy enemy = (Enemy) (((Node) n).getValue());
-        if (Collidable.collided(player, enemy)) {
-          //print("COLLIDED");
-          if (player.compareTo(enemy) <= 0) {
-            this.dispose();
+
+//    new implementation starts:
+    try { enemies.forEach((n) -> {
+      Enemy enemy = (Enemy)(((Node)n).getValue());
+      if (Collidable.collided(player, enemy)) {
+        print("COLLIDED");
+        if (player.compareTo(enemy) <= 0) {
+          String[] appletArgs = new String[]{"gameover"};
+          GameOverPage startPage = new GameOverPage(player,this);
+          PApplet.runSketch(appletArgs, startPage);
+
+          this.dispose();
+          //todo add necessary save state and server calls here
+
 
             saveState.savePlayerData(0, saveState.loadPlayerScore());
             try {

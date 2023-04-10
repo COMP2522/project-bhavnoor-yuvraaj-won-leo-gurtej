@@ -2,6 +2,7 @@ package org.bcit.comp2522.project;
 
 import java.awt.*;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 
@@ -23,6 +24,9 @@ public class StartPage extends PApplet implements Drawable {
    * The Game window.
    */
   public Window gameWindow;
+  private PImage backgroundImage;
+
+  private static String userDir;
 
   /**
    * Called once at the beginning of the program.
@@ -36,6 +40,12 @@ public class StartPage extends PApplet implements Drawable {
    * Initializes all objects.
    */
   public void setup() {
+    if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+      userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
+    } else {
+      userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
+    }
+    backgroundImage = loadImage("images/bg2.png");
     this.init();
   }
 
@@ -59,7 +69,7 @@ public class StartPage extends PApplet implements Drawable {
    * in order of function calls.
    */
   public void draw() {
-    background(0);
+    background(backgroundImage);
     startButton.draw();
   }
 
