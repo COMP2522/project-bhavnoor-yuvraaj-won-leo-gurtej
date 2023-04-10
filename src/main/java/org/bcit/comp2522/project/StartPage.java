@@ -73,11 +73,6 @@ public class StartPage extends PApplet implements Drawable {
     }
   }
 
-  @Override
-  public void keyPressed(KeyEvent event) {
-    // Do nothing
-  }
-
   /**
    * Main function.
    *
