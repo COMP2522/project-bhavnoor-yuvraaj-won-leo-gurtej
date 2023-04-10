@@ -8,10 +8,16 @@ import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for Sprite class.
+ */
 public class SpriteTest {
   private Window window;
   private Sprite sprite;
 
+  /**
+   * Initialises Window and Sprite objects object before each test.
+   */
   @BeforeEach
   public void setup() {
     window = new Window();

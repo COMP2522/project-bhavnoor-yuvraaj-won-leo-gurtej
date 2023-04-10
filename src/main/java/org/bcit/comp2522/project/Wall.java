@@ -30,6 +30,9 @@ public class Wall extends Sprite {
     super(position, direction, size, speed, color, window);
   }
 
+  /**
+   * Draw method.
+   */
   @Override
   public void draw() {
     window.pushStyle();

@@ -1,11 +1,18 @@
 package org.bcit.comp2522.project;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for StartPage class.
+ */
 public class StartPageTest {
   private StartPage startPage;
 
+  /**
+   * Initialises StartPage object before each test.
+   */
   @BeforeEach
   public void setUp() {
     startPage = new StartPage();

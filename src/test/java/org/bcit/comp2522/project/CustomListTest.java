@@ -5,9 +5,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test class for CustomList class.
+ */
 public class CustomListTest {
   private CustomList<Integer, String> list;
 
+  /**
+   * Initialises CustomList object before each test.
+   */
   @BeforeEach
   public void setup() {
     list = new CustomList<>();

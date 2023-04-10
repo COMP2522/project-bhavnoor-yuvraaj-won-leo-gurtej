@@ -16,10 +16,8 @@ public class SaveStateManager {
   DatabaseHandler databaseHandler;
 
   /**
-   * The current SaveState object for the player.
+   * Constructor to create SaveStateManager object.
    */
-  SaveState saveState;
-
   public SaveStateManager() {
   }
 
@@ -28,11 +26,8 @@ public class SaveStateManager {
    * This method runs on a separate thread to prevent blocking the UI thread.
    */
   public void push() {
-
     databaseHandler = DatabaseHandler.getInstance();
-    //mongo.put(saveState);
     databaseHandler.saveToDb();
-
   }
 
   /**

@@ -4,9 +4,6 @@ import java.awt.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
-import processing.event.KeyEvent;
-
-
 
 
 /**
@@ -24,7 +21,15 @@ public class StartPage extends PApplet implements Drawable {
    * The Game window.
    */
   public Window gameWindow;
+
+  /**
+   * The background image for the start page.
+   */
   private PImage backgroundImage;
+
+  /**
+   * The user directory for the image file.
+   */
 
   private static String userDir;
 
@@ -41,7 +46,8 @@ public class StartPage extends PApplet implements Drawable {
    */
   public void setup() {
     if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-      userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
+      userDir = System.getProperty("user.dir")
+        + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
     } else {
       userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
     }
@@ -50,7 +56,7 @@ public class StartPage extends PApplet implements Drawable {
   }
 
   /**
-   * Init.
+   * Initializes the start button.
    */
   public void init() {
     startButton = new Button(
@@ -73,6 +79,10 @@ public class StartPage extends PApplet implements Drawable {
     startButton.draw();
   }
 
+  /**
+   * Called whenever the mouse is pressed.
+   * Launches the game window when the Start button is clicked.
+   */
   @Override
   public void mousePressed() {
     if (startButton.isClicked()) {
@@ -84,9 +94,9 @@ public class StartPage extends PApplet implements Drawable {
   }
 
   /**
-   * Main function.
+   * Main function drives the class.
    *
-   * @param passedArgs arguments from command line
+   * @param passedArgs unused
    */
   public static void main(String[] passedArgs) {
     String[] appletArgs = new String[]{"StartPage"};

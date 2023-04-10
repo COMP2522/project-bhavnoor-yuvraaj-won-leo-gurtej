@@ -1,20 +1,23 @@
 package org.bcit.comp2522.project;
 
-import org.bcit.comp2522.project.Button;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import processing.core.PApplet;
 import processing.core.PVector;
-
 import java.awt.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for Button class.
+ */
 public class ButtonTest {
 
   private Button button;
   private PApplet applet;
 
+  /**
+   * Initialises button and PApplet object before each test.
+   */
   @BeforeEach
   public void setup() {
     applet = new PApplet();

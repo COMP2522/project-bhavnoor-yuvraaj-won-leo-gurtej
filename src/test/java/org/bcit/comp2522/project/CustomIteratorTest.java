@@ -7,11 +7,17 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for CustomIterator class.
+ */
 class CustomIteratorTest {
 
   private MyHashMap<Integer, String> hashMap;
   private CustomIterator iterator;
 
+  /**
+   * Initialises MyHashMap and CustomIterator objects before each test.
+   */
   @BeforeEach
   void setUp() {
     hashMap = new MyHashMap<>();

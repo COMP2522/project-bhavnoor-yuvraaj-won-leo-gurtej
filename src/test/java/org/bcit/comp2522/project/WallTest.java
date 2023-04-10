@@ -7,9 +7,15 @@ import processing.core.PVector;
 
 import java.awt.*;
 
+/**
+ * Test class for Wall class.
+ */
 public class WallTest {
   private Wall wall;
 
+  /**
+   * Initialises Wall object before each test.
+   */
   @BeforeEach
   public void setUp() {
     PVector position = new PVector(0, 0);
