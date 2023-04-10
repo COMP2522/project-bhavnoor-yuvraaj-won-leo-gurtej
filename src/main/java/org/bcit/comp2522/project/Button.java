@@ -110,5 +110,20 @@ public class Button implements Drawable {
   public Color getHoverColor() {
     return hoverColor;
   }
+  public Color getColor() {
+    if (isHovered) {
+      return hoverColor;
+    } else {
+      return backgroundColor;
+    }
+  }
+
+  public Color getTextColor() {
+    if (isHovered) {
+      return hoverColor;
+    } else {
+      return foregroundColor;
+    }
+  }
 
 }

@@ -1,25 +1,36 @@
 package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class GameOverPage extends PApplet implements Drawable {
-  private Button retryButton;
+  private Button exit;
   Player player;
+  Window window;
+  PImage backgroundImage;
+  String userDir;
 
-  public GameOverPage (Player player){
+  public GameOverPage (Player player, Window window){
     this.player = player;
+    this.window = window;
   }
   public void settings() {
     size(640, 360);
   }
 
   public void setup() {
-    retryButton = new Button(
-            "Retry",
+    if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+      userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
+    } else {
+      userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
+    }
+    backgroundImage = loadImage("images/bg2.png");
+    exit = new Button(
+            "exit",
             new PVector(this.width / 2, this.height - 100),
             new Color(255, 255, 255),
             new Color(0, 0, 0),
@@ -29,26 +40,25 @@ public class GameOverPage extends PApplet implements Drawable {
   }
 
   public void draw() {
-    background(0);
+    background(backgroundImage);
     textSize(32);
     textAlign(CENTER);
-    fill(255, 255, 255);
-    text("Game Over", width/2, height/3);
+    fill(255, 0, 0);
+    text("Game Over", width/2, height/2-35);
     text("Score: " + player.getPosition().x, width/2, height/2);
-    retryButton.draw();
+    text("coin " + window.coinCount, width/2, height/2+35);
+    exit.draw();
   }
 
   public void mousePressed() {
-    if (retryButton.isClicked()) {
+    if (exit.isClicked()) {
       // Restart the game
-      Window gameWindow = new Window();
-      gameWindow.init();
-      PApplet.runSketch(new String[]{"eatBubbles"}, gameWindow);
+      exit();
     }
   }
 
   public Button getRetryButton() {
-    return retryButton;
+    return exit;
   }
 
 

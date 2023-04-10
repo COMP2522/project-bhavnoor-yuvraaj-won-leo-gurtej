@@ -4,7 +4,7 @@ import processing.core.PVector;
 
 import java.awt.*;
 
-public class Sprite implements Drawable, Collided{
+public class Sprite implements Drawable, Collidable {
   protected PVector position;
   protected PVector direction;
 
@@ -20,6 +20,7 @@ public class Sprite implements Drawable, Collided{
     this.size = size;
     this.speed = speed;
     this.window = window;
+    this.color = color;
     this.color = color;
   }
 
@@ -58,9 +59,9 @@ public class Sprite implements Drawable, Collided{
   public void draw() {
     window.pushStyle();
     window.fill(this.color.getRed(), this.color.getGreen(), this.color.getBlue());
-    window.ellipse(this.position.x, this.position.y, size, size);
+    window.circle(this.position.x, this.position.y, size);
     window.popStyle();
-    System.out.println("draw called and ran!");
+//    System.out.println("draw called and ran!");
   }
 
   public void setDirection(PVector direction) {

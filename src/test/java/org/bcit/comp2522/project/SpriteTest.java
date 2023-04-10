@@ -1,5 +1,5 @@
-import org.bcit.comp2522.project.Sprite;
-import org.bcit.comp2522.project.Window;
+package org.bcit.comp2522.project;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import processing.core.PVector;
@@ -63,5 +63,16 @@ public class SpriteTest {
     sprite.setSize(20);
     float size = sprite.getSize();
     assertEquals(20, size);
+    sprite.setSize(5);
+    size = sprite.getSize();
+    assertEquals(5, size);
+    sprite.setSize(10);
+    size = sprite.getSize();
+    assertEquals(10, size);
+    sprite.setSize(17);
+    size = sprite.getSize();
+    assertEquals(17, size);
+
   }
+
 }
