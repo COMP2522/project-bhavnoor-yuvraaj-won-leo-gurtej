@@ -9,7 +9,6 @@ import processing.core.PImage;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 
-
 /**
  * Window class, this is a general manager class to manage everything visible.
  *
@@ -214,20 +213,18 @@ public class Window extends PApplet implements Drawable {
 
     }
 
+    // new implementation starts:
+    try {
+      enemies.forEach((n) -> {
+        Enemy enemy = (Enemy) (((Node) n).getValue());
+        if (Collidable.collided(player, enemy)) {
+          print("COLLIDED");
+          if (player.compareTo(enemy) <= 0) {
+            String[] appletArgs = new String[]{"gameover"};
+            GameOverPage startPage = new GameOverPage(player, this);
+            PApplet.runSketch(appletArgs, startPage);
 
-//    new implementation starts:
-    try { enemies.forEach((n) -> {
-      Enemy enemy = (Enemy)(((Node)n).getValue());
-      if (Collidable.collided(player, enemy)) {
-        print("COLLIDED");
-        if (player.compareTo(enemy) <= 0) {
-          String[] appletArgs = new String[]{"gameover"};
-          GameOverPage startPage = new GameOverPage(player,this);
-          PApplet.runSketch(appletArgs, startPage);
-
-          this.dispose();
-          //todo add necessary save state and server calls here
-
+            this.dispose();
 
             saveState.savePlayerData(0, saveState.loadPlayerScore());
             try {
@@ -252,15 +249,15 @@ public class Window extends PApplet implements Drawable {
               }
             } catch (Exception e) {
               //This is here in the event that there are less than three players
+              System.out.println(e);
             }
-
             exit();
           }
 
           if (player.compareTo(enemy) == 1) {
 
             player.setSize((player.getSize() - 10));
-            new Thread(()->this.remove(enemy)).start();
+            new Thread(() -> this.remove(enemy)).start();
 
             throw new RuntimeException("Only way to break a forEach inside an anonymous func");
           }
@@ -280,33 +277,29 @@ public class Window extends PApplet implements Drawable {
         if (coin.collided(player)) {
           coinCount++;
           int key = Integer.valueOf(coin.hashCode());
-          new Thread(()->sprites.remove(key)).start();
+          new Thread(() -> sprites.remove(key)).start();
         }
       });
     } catch (Exception e) {
       print("caught exeption e");
     }
 
-    //Enemy Reger
+    //Enemy regeneration
     if (player.position.x % 1280 == 0) {
       MyHashMap<Integer, Enemy> newEnemies = new MyHashMap<>();
       newEnemies.addAll(createEnemies(numbEnemies));
       enemies.addAll(newEnemies);
       sprites.addAll(newEnemies);
 
-
       newCoins.addAll((ArrayList) new CoinGroup(
               (int) random(1, 10),
               new PVector(player.position.x + this.width,
                       random(0, this.height)), this).getCoins());
-
-
       sprites.addAll(newCoins);
 
       // save stats
       saveState.savePlayerData(player.getSize(), player.getPosition().x);
     }
-
 
     //gravity and y min/max limits
     if (player.position.y > this.height - player.size / 2) {
@@ -315,7 +308,6 @@ public class Window extends PApplet implements Drawable {
     } else {
       player.gravity();
     }
-
   }
 
   private ArrayList createEnemies(int numEnemies) {
@@ -341,7 +333,7 @@ public class Window extends PApplet implements Drawable {
 
 
   /**
-   * remove method to remove the enemy from both arraylists.
+   * Remove method to remove the enemy from both arraylists.
    *
    * @param s the sprite to remove.
    */

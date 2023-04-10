@@ -11,14 +11,13 @@ import java.io.File;
 import org.bson.Document;
 import processing.data.JSONObject;
 
-
-
 /**
  * The DatabaseHandler class handles the connection to the
  * MongoDB Atlas database and provides methods for inserting
  * and retrieving data from the database.
 
  * @author Bhavnoor Saroya
+ * @author Gurtej Malik
  */
 public class DatabaseHandler {
   /**
@@ -78,16 +77,12 @@ public class DatabaseHandler {
    */
   public void put(SaveState saveState) {
     Document player = new Document();
-    // also gonna append name but later
     player.append("name", System.getProperty("user.name"));
     player.append("health", saveState.loadPlayerHealth());
     player.append("score", saveState.loadPlayerScore());
 
-
     database.getCollection("Players").insertOne(player);
   }
-
-
 
   /**
    * Save to db, puts player data to db.
@@ -150,7 +145,5 @@ public class DatabaseHandler {
     DatabaseHandler q = new DatabaseHandler();
 
     q.saveToDb();
-
-
   }
 }

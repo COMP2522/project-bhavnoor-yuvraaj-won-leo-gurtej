@@ -1,7 +1,5 @@
 package org.bcit.comp2522.project;
 
-import java.util.Iterator;
-
 /**
  * The type Custom list.
  *

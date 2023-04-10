@@ -10,15 +10,29 @@ import java.util.Iterator;
  * @param <V> value
  *
  * @author Bhavnoor Saroya
+ * @author Gurtej Malik
  */
 public class MyHashMap<K, V> implements Iterable {
 
+  /**
+   * The initial size of the table.
+   * */
   private static final int STARTING_SIZE = 16;
+
+  /**
+   * The load factor at which the table should be resized.
+   * */
   private static final float LOAD_FACTOR = 0.75f;
 
+  /**
+   * The table of lists used to store key-value pairs.
+   */
   private CustomList<K, V>[] table;
-  private int size;
 
+  /**
+   * The number of key-value pairs stored in the map.
+   */
+  private int size;
 
   /**
    * Instantiates a new My hash map.
@@ -39,9 +53,10 @@ public class MyHashMap<K, V> implements Iterable {
   }
 
   /**
-   * Add all.
+   * Adds all the key-value pairs from the specified
+   * hash map to this one.
    *
-   * @param map the map
+   * @param map The map containing the key-value pairs to add.
    */
   public void addAll(MyHashMap map) {
     for (CustomList<K, V> list : map.table) {
@@ -58,15 +73,14 @@ public class MyHashMap<K, V> implements Iterable {
         }
       }
     }
-
-    //done implement add all method
-    //see java arraylist addAll docs, code needs cleanup soon
   }
 
   /**
-   * Add all.
+   * Adds all the values from the specified list to this map.
    *
-   * @param list the list
+   * @param list The list containing the values to add.
+   * @throws ClassCastException if an element in the list cannot be cast to type {@code Sprite}.
+   * @throws NullPointerException if an element in the list is null
    */
   public void addAll(ArrayList<V> list) {
     if (!(list.get(0) instanceof Sprite)) {
@@ -87,10 +101,10 @@ public class MyHashMap<K, V> implements Iterable {
   }
 
   /**
-   * Add.
+   * Adds a key-value pair to the map.
    *
-   * @param key   the key
-   * @param value the value
+   * @param key The key used to index the value.
+   * @param value The value to store in the map.
    */
   void add(K key, V value) {
     int index = hash(key);
@@ -102,9 +116,10 @@ public class MyHashMap<K, V> implements Iterable {
   }
 
   /**
-   * Add.
+   * Adds a value to the map.
+   * The key used to index the value is derived from the value's hash code.
    *
-   * @param value the value
+   * @param value The value to store in the map.
    */
   void add(V value) {
     K key = (K) Integer.valueOf(value.hashCode());
@@ -146,7 +161,8 @@ public class MyHashMap<K, V> implements Iterable {
 
 
   /**
-   * Rehash.
+   * Rehash method to redistribute data in the hashmap
+   * when load factor is breached.
    */
   void rehash() {
     int newSize = table.length * 2;
@@ -164,13 +180,20 @@ public class MyHashMap<K, V> implements Iterable {
     table = doubledTable;
   }
 
-
+  /**
+   * Method to create CustomList.
+   */
   private void createLists() {
     for (int i = 0; i < table.length; i++) {
       table[i] = new CustomList<K, V>();
     }
   }
 
+  /**
+   * Overloaded method to create new CustomList.
+   *
+   * @param table - CustomList object
+   */
   private void createLists(CustomList<K, V>[] table) {
     for (int i = 0; i < table.length; i++) {
       table[i] = new CustomList<K, V>();

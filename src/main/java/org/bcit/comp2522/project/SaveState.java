@@ -26,11 +26,6 @@ public class SaveState {
   private float score;
 
   /**
-   * The name of the player.
-   */
-  private String name;
-
-  /**
    * Constructs a SaveState object.
    */
   public SaveState() {
@@ -87,6 +82,7 @@ public class SaveState {
 
   /**
    * Write in player stats.
+   * player-stats file will contain a JSON object for only the present player.
    *
    * @param playerStats the player stats
    */
@@ -107,6 +103,7 @@ public class SaveState {
 
   /**
    * Write in game logs.
+   * game-logs file contains the history of all games ever played.
    *
    * @param playerStats the player stats
    */
@@ -136,6 +133,5 @@ public class SaveState {
       e.printStackTrace();
     }
   }
-
 
 }
