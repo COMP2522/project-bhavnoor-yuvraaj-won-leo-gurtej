@@ -21,20 +21,20 @@ public class Window extends PApplet implements Drawable {
   /**
    * The Sprites.
    */
-  MyHashMap<Integer, Sprite> sprites;
+  private MyHashMap<Integer, Sprite> sprites;
   /**
    * The Enemies.
    */
-  MyHashMap<Integer, Sprite> enemies;
+  private MyHashMap<Integer, Sprite> enemies;
 
   /**
    * The New coins.
    */
-  MyHashMap<Integer, Sprite> newCoins = new MyHashMap<>();
+  private MyHashMap<Integer, Sprite> newCoins = new MyHashMap<>();
   /**
    * The Player.
    */
-  Player player;
+  private Player player;
   /**
    * The Background image.
    */
@@ -76,10 +76,7 @@ public class Window extends PApplet implements Drawable {
    * The Min size.
    */
   int minSize = 4;
-  /**
-   * The Max size.
-   */
-  int maxSize = 10;
+
 
   /**
    * The Coin count.
