@@ -90,6 +90,11 @@ public class Window extends PApplet implements Drawable {
   public static String userDir;
 
   /**
+   * Custom ThreadPool. Thats how cool we are.
+   */
+  CustomThreadPool threadPool;
+
+  /**
    * Called once at the beginning of the program.
    */
   public void settings() {
@@ -144,6 +149,7 @@ public class Window extends PApplet implements Drawable {
             playerImage,
             this);
 
+    threadPool = CustomThreadPool.getInstance(4);
 
     ArrayList<Sprite> en = createEnemies(numbEnemies);
     enemies.addAll(en); //add enemies that were created into enemies arraylist
@@ -260,7 +266,11 @@ public class Window extends PApplet implements Drawable {
           if (player.compareTo(enemy) == 1) {
 
             player.setSize((player.getSize() - 10));
-            new Thread(()->this.remove(enemy)).start();
+            try {
+              threadPool.submit(()->this.remove(enemy));
+            } catch (InterruptedException e) {
+              //because checkstyle requires the try catch
+            }
 
             throw new RuntimeException("Only way to break a forEach inside an anonymous func");
           }
