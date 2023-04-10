@@ -5,7 +5,7 @@ This is a Java platform game developed by our team using Processing.org library.
 ## Setup
 To run the game, make sure you have Processing.org library installed on your system. You can run the game by running the main() method in the Window class.
 An easier way is just to pull this github repo and it will include everything necessary. You may have trouble with environment variables, which we included in the repo. 
-See the troubleshooting at the bottom. 
+See the troubleshooting at the bottom. **NOTE: You can run the game with the "current file" config, but it will not work as intended, and database will not work, as env variable is required**
 
 ## Features
 The game has the following features:
