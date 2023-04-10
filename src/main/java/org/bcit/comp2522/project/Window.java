@@ -1,5 +1,6 @@
 package org.bcit.comp2522.project;
 
+import org.bson.Document;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -217,17 +218,16 @@ public class Window extends PApplet implements Drawable {
       if (Collidable.collided(player, enemy)) {
         print("COLLIDED");
         if (player.compareTo(enemy) <= 0) {
-          print("you lost!!!!!!!");
+          this.dispose();
           //todo add necessary save state and server calls here
 
-          // debugging bro
-          // setting player health to 0 once it dies
-          // it's not actually 0 since it dies if smaller than enemy size
+
           saveState.savePlayerData(0, saveState.loadPlayerScore());
           try {
             saveState.createJSON(System.getProperty("user.name"), saveState.loadPlayerHealth(), saveState.loadPlayerScore());
           } catch (IOException e) {
             System.out.println(e);
+            System.out.println("savetoJson failed");
           }
 
           SaveStateManager stateManager = new SaveStateManager();
@@ -235,7 +235,21 @@ public class Window extends PApplet implements Drawable {
 
           System.out.println("health: " + saveState.loadPlayerHealth());
           System.out.println("score: "  + saveState.loadPlayerScore());
+          System.out.println("TOP PLAYERS:");
+          Document[] topThreePlayers = DatabaseHandler.getInstance().getTopThreePlayersByScore();
+
+          try {
+            for (int i=0; i<topThreePlayers.length; i++) {
+              System.out.println(topThreePlayers[i].toJson());
+            }
+          } catch (Exception e){
+            //This is here in the even that there are less than three players
+          }
+
+
+          System.out.println("about to stop");
           exit();
+          System.out.println("broken how tf");
         }
 
         if (player.compareTo(enemy) == 1) {

@@ -28,10 +28,11 @@ public class SaveStateManager {
    * This method runs on a separate thread to prevent blocking the UI thread.
    */
   public void push() {
-    new Thread(() -> {
+
+      databaseHandler = DatabaseHandler.getInstance();
       //mongo.put(saveState);
       databaseHandler.saveToDB();
-    }).start();
+
   }
 
   /**
