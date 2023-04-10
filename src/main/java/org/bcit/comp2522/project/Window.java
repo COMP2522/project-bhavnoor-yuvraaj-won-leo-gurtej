@@ -254,11 +254,14 @@ public class Window extends PApplet implements Drawable {
           }
 
           if (player.compareTo(enemy) == 1) {
-            player.setSize((player.getSize() - 10));
+            player.setSize((player.getSize() - 2));
             this.remove(enemy);
             throw new RuntimeException("Only way to break a forEach inside an anonymous func");
           }
           throw new RuntimeException("Only way to break a forEach inside an anonymous func");
+        }
+        if (player.getPosition().x - enemy.getPosition().x > 350) {
+          this.remove(enemy);
         }
       });
     } catch (Exception e) {
