@@ -269,7 +269,7 @@ public class Window extends PApplet implements Drawable {
             try {
               threadPool.submit(()->this.remove(enemy));
             } catch (InterruptedException e) {
-              //because checkstyle requires the try catch
+              System.out.println(); //caught exeption e
             }
 
             throw new RuntimeException("Only way to break a forEach inside an anonymous func");
