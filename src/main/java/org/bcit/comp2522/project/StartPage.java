@@ -1,18 +1,27 @@
 package org.bcit.comp2522.project;
 
+import java.awt.*;
 import processing.core.PApplet;
 import processing.core.PVector;
 import processing.event.KeyEvent;
-import java.awt.*;
-import java.util.ArrayList;
+
+
 
 
 /**
  * Start page for the game.
  * Displays a "Start" button that launches the game window.
+ *
+ * @author YoungWon Kim
  */
 public class StartPage extends PApplet implements Drawable {
+  /**
+   * The Start button.
+   */
   public Button startButton;
+  /**
+   * The Game window.
+   */
   public Window gameWindow;
 
   /**
@@ -30,13 +39,16 @@ public class StartPage extends PApplet implements Drawable {
     this.init();
   }
 
+  /**
+   * Init.
+   */
   public void init() {
     startButton = new Button(
             "Start",
             new PVector(this.width / 2, this.height / 2),
             new Color(255, 255, 255),
             new Color(0, 0, 0),
-            new Color(255,0,0),
+            new Color(255, 0, 0),
             this
     );
   }

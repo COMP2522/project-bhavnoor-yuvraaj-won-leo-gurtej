@@ -4,276 +4,270 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Myhashmap class, certified awesome hashmap, featuring iterable and o(1) lookup times
+ * Myhashmap class, certified awesome hashmap, featuring iterable and o(1) lookup times.
+ *
+ * @param <K> key
+ * @param <V> value
  *
  * @author Bhavnoor Saroya
- *
- * @param <K>  key
- * @param <V> value
  */
-public class MyHashMap<K, V> implements Iterable{
+public class MyHashMap<K, V> implements Iterable {
 
-    private static final int STARTING_SIZE = 16;
-    private static final float LOAD_FACTOR = 0.75f;
+  private static final int STARTING_SIZE = 16;
+  private static final float LOAD_FACTOR = 0.75f;
 
-    private CustomList<K, V>[] table;
-    private int size;
+  private CustomList<K, V>[] table;
+  private int size;
 
 
-    /**
-     * Instantiates a new My hash map.
-     */
-    public MyHashMap() {
-        this.table = new CustomList[STARTING_SIZE];
-        createLists();
-    }
+  /**
+   * Instantiates a new My hash map.
+   */
+  public MyHashMap() {
+    this.table = new CustomList[STARTING_SIZE];
+    createLists();
+  }
 
-    /**
-     * Instantiates a new My hash map.
-     *
-     * @param length the length
-     */
-    public MyHashMap(int length) {
-        this.table = new CustomList[length];
-        createLists();
-    }
+  /**
+   * Instantiates a new My hash map.
+   *
+   * @param length the length
+   */
+  public MyHashMap(int length) {
+    this.table = new CustomList[length];
+    createLists();
+  }
 
-    /**
-     * Add all.
-     *
-     * @param map the map
-     */
-    public void addAll(MyHashMap map){
-        for (CustomList<K, V> list : map.table) {
-            Node<K, V> current = list.getHead();
-            while (current != null) {
-                K key = current.getKey();
-                V val = current.getValue();
-                this.add(key, val);
-                //size++ is done by this.add()
+  /**
+   * Add all.
+   *
+   * @param map the map
+   */
+  public void addAll(MyHashMap map) {
+    for (CustomList<K, V> list : map.table) {
+      Node<K, V> current = list.getHead();
+      while (current != null) {
+        K key = current.getKey();
+        V val = current.getValue();
+        this.add(key, val);
+        //size++ is done by this.add()
 
-                current = current.next;
-                if ((float) size / table.length > LOAD_FACTOR) {
-                    rehash();
-                }
-            }
-        }
-
-        //done implement add all method
-        //see java arraylist addAll docs, code needs cleanup soon
-    }
-
-    /**
-     * Add all.
-     *
-     * @param list the list
-     */
-    public void addAll(ArrayList<V> list){
-        if (!(list.get(0) instanceof Sprite)) {
-            throw new ClassCastException();
-        }
-        for (V val : list) {
-            if (val == null) {
-                throw new NullPointerException();
-            }
-            else {
-                K key = (K) Integer.valueOf(val.hashCode());
-//                K key = (K) Integer.valueOf(id);
-                this.add(key, val);
-//                size++;//this is done by the add method
-                if ((float) size / table.length > LOAD_FACTOR) {
-                    rehash();
-                }
-            }
-//            id = (id.toInteger)//not used
-        }
-
-        //done implement add all method with arraylist param
-        //look at this polymorphism
-    }
-
-    /**
-     * Add.
-     *
-     * @param key   the key
-     * @param value the value
-     */
-    void add(K key, V value) {
-        int index = hash(key);
-        table[index].add(key, value);
-        size++;
+        current = current.next;
         if ((float) size / table.length > LOAD_FACTOR) {
-            rehash();
+          rehash();
         }
+      }
     }
 
-    /**
-     * Add.
-     *
-     * @param value the value
-     */
-    void add(V value) {
-        K key = (K) Integer.valueOf(value.hashCode());
-        int index = hash(key);
-        table[index].add(key, value);
-        size++;
+    //done implement add all method
+    //see java arraylist addAll docs, code needs cleanup soon
+  }
+
+  /**
+   * Add all.
+   *
+   * @param list the list
+   */
+  public void addAll(ArrayList<V> list) {
+    if (!(list.get(0) instanceof Sprite)) {
+      throw new ClassCastException();
+    }
+    for (V val : list) {
+      if (val == null) {
+        throw new NullPointerException();
+      } else {
+        K key = (K) Integer.valueOf(val.hashCode());
+        this.add(key, val);
         if ((float) size / table.length > LOAD_FACTOR) {
-            rehash();
+          rehash();
         }
+      }
     }
 
-    /**
-     * Remove node.
-     *
-     * @param key the key
-     * @return the node
-     */
-    public Node remove(K key) {
-        int index = hash(key);
-        Node removedNode = table[index].getHead();
-        if (removedNode != null) {
-            removedNode = table[index].remove(key);
-            size--;
+  }
+
+  /**
+   * Add.
+   *
+   * @param key   the key
+   * @param value the value
+   */
+  void add(K key, V value) {
+    int index = hash(key);
+    table[index].add(key, value);
+    size++;
+    if ((float) size / table.length > LOAD_FACTOR) {
+      rehash();
+    }
+  }
+
+  /**
+   * Add.
+   *
+   * @param value the value
+   */
+  void add(V value) {
+    K key = (K) Integer.valueOf(value.hashCode());
+    int index = hash(key);
+    table[index].add(key, value);
+    size++;
+    if ((float) size / table.length > LOAD_FACTOR) {
+      rehash();
+    }
+  }
+
+  /**
+   * Remove node.
+   *
+   * @param key the key
+   * @return the node
+   */
+  public Node remove(K key) {
+    int index = hash(key);
+    Node removedNode = table[index].getHead();
+    if (removedNode != null) {
+      removedNode = table[index].remove(key);
+      size--;
+    }
+    return removedNode;
+  }
+
+
+  /**
+   * Get v.
+   *
+   * @param key the key
+   * @return the v
+   */
+  V get(K key) {
+    int index = hash(key);
+    return table[index].get(key);
+  }
+
+
+  /**
+   * Rehash.
+   */
+  void rehash() {
+    int newSize = table.length * 2;
+    CustomList<K, V>[] doubledTable = new CustomList[newSize];
+    createLists(doubledTable);
+
+    for (int i = 0; i < table.length; i++) {
+      Node<K, V> current = table[i].getHead();
+      while (current != null) {
+        int index = hash(current.getKey(), doubledTable.length);
+        doubledTable[index].add(current.getKey(), current.getValue());
+        current = current.getNext();
+      }
+    }
+    table = doubledTable;
+  }
+
+
+  private void createLists() {
+    for (int i = 0; i < table.length; i++) {
+      table[i] = new CustomList<K, V>();
+    }
+  }
+
+  private void createLists(CustomList<K, V>[] table) {
+    for (int i = 0; i < table.length; i++) {
+      table[i] = new CustomList<K, V>();
+    }
+  }
+
+  /**
+   * Hash int.
+   *
+   * @param key the key
+   * @return the int
+   */
+  int hash(K key) {
+    return key.hashCode() % table.length;
+  }
+
+  private int hash(K key, int tableLength) {
+    return key.hashCode() % tableLength;
+  }
+
+  /**
+   * Get length int.
+   *
+   * @return the int
+   */
+  public int getLength() {
+    return table.length;
+  }
+
+  @Override
+  public Iterator iterator() {
+    return new CustomIterator(this);
+  }
+
+  /**
+   * getNextNode method.
+   *
+   * @param n a hashmap node that we wish to get the next node from
+   * @return next node in the map, null if none remaining
+   */
+  public boolean hasNextNode(Node<K, V> n) {
+    if (n.next != null) {
+      return true;
+    }
+    int index = hash(n.getKey());
+    index++;
+    if (index > table.length) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Gets next node.
+   *
+   * @param n the n
+   * @return the next node
+   */
+  public Node<K, V> getNextNode(Node<K, V> n) {
+    if (n == null) {
+      for (int i = 0; i < table.length; i++) {
+        if (table[i].getHead() != null) {
+          return table[i].head;
         }
-        return removedNode;
+      }
     }
-
-
-    /**
-     * Get v.
-     *
-     * @param key the key
-     * @return the v
-     */
-    V get(K key) {
-        int index = hash(key);
-        return table[index].get(key);
+    if (n.next != null) {
+      return n.next;
     }
-
-
-    /**
-     * Rehash.
-     */
-    void rehash() {
-        int newSize = table.length * 2;
-        CustomList<K, V>[] doubledTable = new CustomList[newSize];
-        createLists(doubledTable);
-
-        for (int i = 0; i < table.length; i++) {
-            Node<K, V> current = table[i].getHead();
-            while (current != null) {
-                int index = hash(current.getKey(), doubledTable.length);
-                doubledTable[index].add(current.getKey(), current.getValue());
-                current = current.getNext();
-            }
-        }
-        table = doubledTable;
+    int index = hash(n.getKey());
+    for (int i = index + 1; i < table.length; i++) {
+      if (table[i].getHead() != null) {
+        return table[i].head;
+      }
     }
+    return null;
+  }
 
-    //the method overloading is a form of polymorphism, should help aid the rest of the team in their development
-
-    private void createLists(){
-        for (int i = 0; i < table.length; i++) {
-            table[i] = new CustomList<K, V>();
-        }
+  /**
+   * Contains key boolean.
+   *
+   * @param key the key
+   * @return the boolean
+   */
+  public boolean containsKey(K key) {
+    int index = hash(key);
+    if (index > table.length) {
+      return false;
     }
-
-    private void createLists(CustomList<K, V>[] table) {
-        for (int i = 0; i < table.length; i++) {
-            table[i] = new CustomList<K, V>();
-        }
-    }
-
-    /**
-     * Hash int.
-     *
-     * @param key the key
-     * @return the int
-     */
-    int hash(K key) {
-        return key.hashCode() % table.length;
-    }
-    private int hash(K key, int tableLength) {
-        return key.hashCode() % tableLength;
-    }
-
-    /**
-     * Get length int.
-     *
-     * @return the int
-     */
-    public int getLength(){
-        return table.length;
-    }
-
-    @Override
-    public Iterator iterator() {
-        return new CustomIterator(this);
-    }
-
-    /**
-     * getNextNode method.
-     *
-     * @param n a hashmap node that we wish to get the next node from
-     * @return next node in the map, null if none remaining
-     */
-    public boolean hasNextNode(Node<K, V> n) {
-        if (n.next != null){
-            return true;
-        }
-        int index = hash(n.getKey());
-        index++;
-        if (index>table.length){
-            return false;
-        }
+    Node curr = table[index].getHead();
+    while (curr != null) {
+      if (curr.getKey() == key) {
         return true;
+      }
+      curr = curr.next;
     }
-
-    /**
-     * Gets next node.
-     *
-     * @param n the n
-     * @return the next node
-     */
-    public Node<K, V> getNextNode(Node<K, V> n) {
-        if (n == null){
-            for(int i = 0; i < table.length; i++){
-                if (table[i].getHead() != null){
-                    return table[i].head;
-                }
-            }
-        }
-        if (n.next != null){
-            return n.next;
-        }
-        int index = hash(n.getKey());
-        for(int i = index + 1; i< table.length; i++){
-            if (table[i].getHead() != null){
-                return table[i].head;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Contains key boolean.
-     *
-     * @param key the key
-     * @return the boolean
-     */
-    public boolean containsKey(K key){
-        int index = hash(key);
-        if (index > table.length){
-            return false;
-        }
-        Node curr = table[index].getHead();
-        while (curr != null){
-            if (curr.getKey() == key){
-                return true;
-            }
-            curr = curr.next;
-        }
-        return false;
-    }
+    return false;
+  }
 
 }

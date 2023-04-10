@@ -8,6 +8,7 @@ import processing.core.PVector;
  * The Player class represents a player object in a game.
  * It extends the Sprite class and implements the Comparable
  * interface.
+ *
  * @author Yuvraaj Chouhan
  */
 public class Player extends Sprite implements Comparable {
