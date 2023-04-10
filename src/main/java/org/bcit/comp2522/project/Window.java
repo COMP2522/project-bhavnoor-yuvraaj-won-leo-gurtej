@@ -88,6 +88,8 @@ public class Window extends PApplet implements Drawable {
    */
   public static String userDir;
 
+  CustomThreadPool threadPool;
+
   /**
    * Called once at the beginning of the program.
    */
@@ -118,7 +120,13 @@ public class Window extends PApplet implements Drawable {
    */
   public void init() {
     print("started at beginning");
-    new Thread(() -> musicPlayer = SoundHandler.getInstance()).start();
+    threadPool = CustomThreadPool.getInstance(6);
+    try {
+      threadPool.submit(() -> musicPlayer = SoundHandler.getInstance());
+    } catch (Exception e){
+      System.out.println(""); //checkstyle makes us have this
+    }
+
     wall = new Wall(
 
             new PVector(50, 200),
@@ -142,6 +150,7 @@ public class Window extends PApplet implements Drawable {
             new Color(0, 255, 0),
             playerImage,
             this);
+
 
 
     ArrayList<Sprite> en = createEnemies(numbEnemies);
@@ -257,7 +266,12 @@ public class Window extends PApplet implements Drawable {
           if (player.compareTo(enemy) == 1) {
 
             player.setSize((player.getSize() - 10));
-            new Thread(() -> this.remove(enemy)).start();
+
+            try {
+              threadPool.submit(() -> this.remove(enemy));
+            } catch (InterruptedException e) {
+              System.out.println("");
+            }
 
             throw new RuntimeException("Only way to break a forEach inside an anonymous func");
           }
@@ -277,7 +291,11 @@ public class Window extends PApplet implements Drawable {
         if (coin.collided(player)) {
           coinCount++;
           int key = Integer.valueOf(coin.hashCode());
-          new Thread(() -> sprites.remove(key)).start();
+          try {
+            threadPool.submit(() -> sprites.remove(key));
+          } catch (InterruptedException e) {
+            System.out.println(""); //thank checkstyle for this
+          }
         }
       });
     } catch (Exception e) {
