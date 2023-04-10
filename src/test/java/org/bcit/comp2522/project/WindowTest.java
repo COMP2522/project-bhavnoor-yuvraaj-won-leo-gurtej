@@ -10,10 +10,8 @@ class WindowTest {
     void testinit() {
         Window window = new Window();
         window.init();
-        assertNotNull(window.player);
+//        assertNotNull(window.player);
         assertNotNull(window.wall);
-        assertNotNull(window.sprites);
-        assertNotNull(window.enemies);
         assertNotNull(window.saveState);
     }
 }

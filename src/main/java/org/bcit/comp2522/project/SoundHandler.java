@@ -7,6 +7,8 @@ import javax.sound.sampled.Clip;
 
 /**
  * Sound handler class, handles audio playback.
+ *
+ * @author Bhavnoor Saroya
  */
 public class SoundHandler {
 
@@ -26,7 +28,7 @@ public class SoundHandler {
 
   private SoundHandler() {
     try {
-      audioFile = new File(Window.userDir+"music.wav");
+      audioFile = new File(Window.userDir + "music.wav");
       audioStream = AudioSystem.getAudioInputStream(audioFile);
 
       // Create a Clip object

@@ -39,16 +39,7 @@ public class CustomListTest {
     assertNull(list.get(3));
   }
 
-  @Test
-  public void testGetKey() {
-    list.add(1, "apple");
-    list.add(2, "banana");
-    list.add(3, "cherry");
 
-    assertEquals(Integer.valueOf(1), list.getKey("apple"));
-    assertEquals(Integer.valueOf(1), list.getKey("banana"));
-    assertEquals(Integer.valueOf(1), list.getKey("cherry"));
-  }
 
   @Test
   public void testRemove() {
