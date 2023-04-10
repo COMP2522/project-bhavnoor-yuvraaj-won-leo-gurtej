@@ -1,11 +1,13 @@
 package org.bcit.comp2522.project;
 
+import org.bson.Document;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -219,21 +221,42 @@ public class Window extends PApplet implements Drawable {
       if (Collidable.collided(player, enemy)) {
         print("COLLIDED");
         if (player.compareTo(enemy) <= 0) {
-          print("you lost!!!!!!!");
+          this.dispose();
           //todo add necessary save state and server calls here
+
+
+          saveState.savePlayerData(0, saveState.loadPlayerScore());
+          try {
+            saveState.createJSON(System.getProperty("user.name"), saveState.loadPlayerHealth(), saveState.loadPlayerScore());
+          } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("savetoJson failed");
+          }
+
           SaveStateManager stateManager = new SaveStateManager();
           stateManager.push();
-          // debugging bro
-          // setting player health to 0 once it dies
-          // it's not actually 0 since it dies if smaller than enemy size
-          saveState.savePlayerData(0, saveState.loadPlayerScore());
+
           System.out.println("health: " + saveState.loadPlayerHealth());
           System.out.println("score: "  + saveState.loadPlayerScore());
+          System.out.println("TOP PLAYERS:");
+          Document[] topThreePlayers = DatabaseHandler.getInstance().getTopThreePlayersByScore();
+
+          try {
+            for (int i=0; i<topThreePlayers.length; i++) {
+              System.out.println(topThreePlayers[i].toJson());
+            }
+          } catch (Exception e){
+            //This is here in the even that there are less than three players
+          }
+
+
+          System.out.println("about to stop");
           exit();
+          System.out.println("broken how tf");
         }
 
         if (player.compareTo(enemy) == 1) {
-          player.setSize((player.getSize() - 1));
+          player.setSize((player.getSize() - 10));
           this.remove(enemy);
           print("added enemy to remove");
           throw new RuntimeException("This is how we break a homemade forEach loop");
@@ -242,7 +265,7 @@ public class Window extends PApplet implements Drawable {
       }
     });
   } catch (Exception e){
-      System.out.println("this is how we break a loop with our custom for each B)");
+      System.out.println("loop broken");
     }
 
     try {  newCoins.forEach((n) -> {
