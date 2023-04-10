@@ -10,8 +10,10 @@ public interface Collidable {
 
   /**
    * Checks if two Sprite objects have collided with each other.
+
    * @param a the first Sprite object
    * @param b the second Sprite object
+   *
    * @return true if the two Sprite objects have collided, false otherwise
    */
   public static boolean collided(Sprite a, Sprite b) {

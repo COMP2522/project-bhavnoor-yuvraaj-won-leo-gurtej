@@ -1,21 +1,21 @@
 package org.bcit.comp2522.project;
 
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
 import org.bson.Document;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
-
 
 /**
  * Window class, this is a general manager class to manage everything visible.
+ *
  * @author Bhavnoor Saroya
  * @author Yuvraaj Chouhan
- *
+ * @author Paul Bucci - again we took some inspiration from lab02
  */
 public class Window extends PApplet implements Drawable {
   /**
@@ -48,6 +48,9 @@ public class Window extends PApplet implements Drawable {
    */
   SaveState saveState;
 
+  /**
+   * The Music player.
+   */
   SoundHandler musicPlayer;
 
   private boolean started = false;
@@ -103,9 +106,11 @@ public class Window extends PApplet implements Drawable {
    */
   public void setup() {
     if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-      userDir = System.getProperty("user.dir") + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
+      userDir = System.getProperty("user.dir")
+              + "\\src\\main\\java\\org\\bcit\\comp2522\\project\\";
     } else {
-      userDir = System.getProperty("user.dir") + "/src/main/java/org/bcit/comp2522/project/";
+      userDir = System.getProperty("user.dir")
+              + "/src/main/java/org/bcit/comp2522/project/";
     }
     backgroundImage = loadImage("images/background.jpeg");
     playerImage = loadImage("images/topG.png"); //added this for player to be an image.
@@ -117,8 +122,7 @@ public class Window extends PApplet implements Drawable {
    */
   public void init() {
     print("started at beginning");
-    new Thread(()->musicPlayer = SoundHandler.getInstance()).start();
-//    musicPlayer = SoundHandler.getInstance();
+    new Thread(() -> musicPlayer = SoundHandler.getInstance()).start();
     wall = new Wall(
 
             new PVector(50, 200),
@@ -132,11 +136,11 @@ public class Window extends PApplet implements Drawable {
     enemies = new MyHashMap<>();
     sprites = new MyHashMap<>();
 
-    
+
     player = Player.getInstance(
             new PVector(this.width / 2, this.height / 2),
             new PVector(1, 0),
-            minSize + 50 ,
+            minSize + 50,
             5,
             1,
             new Color(0, 255, 0),
@@ -144,9 +148,8 @@ public class Window extends PApplet implements Drawable {
             this);
 
 
-
     ArrayList<Sprite> en = createEnemies(numbEnemies);
-    enemies.addAll(en);//add enemies that were created into enemies arraylist
+    enemies.addAll(en); //add enemies that were created into enemies arraylist
     sprites.addAll(enemies);
     sprites.add(player);
     sprites.add(wall);
@@ -164,11 +167,14 @@ public class Window extends PApplet implements Drawable {
     switch (keyCode) {
 
       case ' ', UP, 'W', 'w': {
-        if (player.getDirection().y > 0)
-            player.setDirection(new PVector(player.getspeedX(), 0, 0));
+        if (player.getDirection().y > 0) {
+          player.setDirection(new PVector(player.getspeedX(), 0, 0));
+        }
         player.fly();
         break;
       }
+      default:
+        //no default case
     }
 
   }
@@ -202,98 +208,77 @@ public class Window extends PApplet implements Drawable {
     float cameraX = -player.position.x + width / 2;
     translate(cameraX, 0);
 
-//    New implementation using custom hashmap class, because I am a badass
     for (Object sprite : sprites) {
-      if (sprite != null){
-      }
       print(sprite);
-      try{
-        ((Sprite)((Node)sprite).getValue()).update();
-        ((Sprite)((Node)sprite).getValue()).draw();
-      }catch (Exception e){
-      }
+
+      ((Sprite) ((Node) sprite).getValue()).update();
+      ((Sprite) ((Node) sprite).getValue()).draw();
+
 
     }
 
-//    new implementation starts:
-    try { enemies.forEach((n) -> {
-      Enemy enemy = (Enemy)(((Node)n).getValue());
-      if (Collidable.collided(player, enemy)) {
-        print("COLLIDED");
-        if (player.compareTo(enemy) <= 0) {
-          this.dispose();
-          //todo add necessary save state and server calls here
+    try {
+      enemies.forEach((n) -> {
+        Enemy enemy = (Enemy) (((Node) n).getValue());
+        if (Collidable.collided(player, enemy)) {
+          //print("COLLIDED");
+          if (player.compareTo(enemy) <= 0) {
+            this.dispose();
 
-
-          saveState.savePlayerData(0, saveState.loadPlayerScore());
-          try {
-            saveState.createJSON(System.getProperty("user.name"), saveState.loadPlayerHealth(), saveState.loadPlayerScore());
-          } catch (IOException e) {
-            System.out.println(e);
-            System.out.println("savetoJson failed");
-          }
-
-          SaveStateManager stateManager = new SaveStateManager();
-          stateManager.push();
-
-          System.out.println("health: " + saveState.loadPlayerHealth());
-          System.out.println("score: "  + saveState.loadPlayerScore());
-          System.out.println("TOP PLAYERS:");
-          Document[] topThreePlayers = DatabaseHandler.getInstance().getTopThreePlayersByScore();
-
-          try {
-            for (int i=0; i<topThreePlayers.length; i++) {
-              System.out.println(topThreePlayers[i].toJson());
+            saveState.savePlayerData(0, saveState.loadPlayerScore());
+            try {
+              saveState.createJSON(System.getProperty("user.name"),
+                      saveState.loadPlayerHealth(), saveState.loadPlayerScore());
+            } catch (IOException e) {
+              System.out.println(e);
+              System.out.println("savetoJson failed");
             }
-          } catch (Exception e){
-            //This is here in the even that there are less than three players
+
+            SaveStateManager stateManager = new SaveStateManager();
+            stateManager.push();
+
+            System.out.println("health: " + saveState.loadPlayerHealth());
+            System.out.println("score: " + saveState.loadPlayerScore());
+            System.out.println("TOP PLAYERS:");
+            Document[] topThreePlayers = DatabaseHandler.getInstance().getTopThreePlayersByScore();
+
+            try {
+              for (int i = 0; i < topThreePlayers.length; i++) {
+                System.out.println(topThreePlayers[i].toJson());
+              }
+            } catch (Exception e) {
+              //This is here in the event that there are less than three players
+            }
+
+            exit();
           }
 
-
-          System.out.println("about to stop");
-          exit();
-          System.out.println("broken how tf");
+          if (player.compareTo(enemy) == 1) {
+            player.setSize((player.getSize() - 10));
+            this.remove(enemy);
+            throw new RuntimeException("Only way to break a forEach inside an anonymous func");
+          }
+          throw new RuntimeException("Only way to break a forEach inside an anonymous func");
         }
-
-        if (player.compareTo(enemy) == 1) {
-          player.setSize((player.getSize() - 10));
-          this.remove(enemy);
-          print("added enemy to remove");
-          throw new RuntimeException("This is how we break a homemade forEach loop");
-        }
-        throw new RuntimeException("This is how to break a homemade forEach loop");
-      }
-    });
-  } catch (Exception e){
+      });
+    } catch (Exception e) {
       System.out.println("loop broken");
     }
 
-    try {  newCoins.forEach((n) -> {
-      Coin coin = (Coin)(((Node)n).getValue());
-      print("looping through coins\n");
-//      float dist = PVector.dist(coin.getPosition(), player.getPosition());
-//      float dist = PVector.dist(coin.getPosition(), player.getPosition());
-      print("\nplayer:", player.position, "coin:", coin.position);
-      if (coin.collided(player)){
-        System.out.println("collidedcoin");
-        coinCount++;
-        int key =  Integer.valueOf(coin.hashCode());
-        System.out.println("\nremoved obj" + newCoins.remove(key).getValue());
-        sprites.remove(key);
-        System.out.println("\ncalled remove on coin");
-      }
-    });
-    } catch (Exception e){
+    try {
+      newCoins.forEach((n) -> {
+        Coin coin = (Coin) (((Node) n).getValue());
+        if (coin.collided(player)) {
+          coinCount++;
+          int key = Integer.valueOf(coin.hashCode());
+          sprites.remove(key);
+        }
+      });
+    } catch (Exception e) {
       print("caught exeption e");
     }
 
-
-
-
-    //new implementation ends
-
-    //todo change enemy to better regen
-    //regen enemies as they continue through the map
+    //Enemy Reger
     if (player.position.x % 1280 == 0) {
       MyHashMap<Integer, Enemy> newEnemies = new MyHashMap<>();
       newEnemies.addAll(createEnemies(numbEnemies));
@@ -301,12 +286,11 @@ public class Window extends PApplet implements Drawable {
       sprites.addAll(newEnemies);
 
 
-      newCoins.addAll((ArrayList)new CoinGroup(
-              (int)random(1, 10),
+      newCoins.addAll((ArrayList) new CoinGroup(
+              (int) random(1, 10),
               new PVector(player.position.x + this.width,
-              random(0, this.height)), this).getCoins());
+                      random(0, this.height)), this).getCoins());
 
-//      newCoins.forEach((n)-> print("coin", ((Coin)((Node)(n)).getValue())));
 
       sprites.addAll(newCoins);
 
@@ -316,11 +300,10 @@ public class Window extends PApplet implements Drawable {
 
 
     //gravity and y min/max limits
-    if (player.position.y > this.height - player.size/2) {
-      player.position.y = this.height - player.size/2;
+    if (player.position.y > this.height - player.size / 2) {
+      player.position.y = this.height - player.size / 2;
       player.setDirection(new PVector(player.getspeedX(), 0, 0));
-    }
-    else {
+    } else {
       player.gravity();
     }
 
@@ -330,7 +313,9 @@ public class Window extends PApplet implements Drawable {
     ArrayList<Enemy> enems = new ArrayList<>();
     for (int i = 0; i < numEnemies; i++) {
       Enemy j = new Enemy(
-              new PVector(random(player.position.x + 320, player.position.x + 320 + this.width), random(0, this.height)),
+              new PVector(random(player.position.x + 320,
+                      player.position.x + 320 + this.width),
+                      random(0, this.height)),
               new PVector(random(-1, 1), random(-1, 1)),
               10,
               random(0, 2),
@@ -360,9 +345,9 @@ public class Window extends PApplet implements Drawable {
   /**
    * Main function.
    *
-   * @param passedArgs arguments from command line
+   * @param args arguments from command line
    */
-  public static void main(String[] passedArgs) {
+  public static void main(String[] args) {
     String[] appletArgs = new String[]{"eatBubbles"};
     Window eatBubbles = new Window();
     PApplet.runSketch(appletArgs, eatBubbles);

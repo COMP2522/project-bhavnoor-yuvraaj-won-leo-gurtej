@@ -1,15 +1,17 @@
 package org.bcit.comp2522.project;
 
+import java.io.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
 
 /**
  * The SaveState class represents the data saved for a player in a game.
  * It contains information about the player's health and score.
+ *
+ * @author Gurtej Malik
  */
 public class SaveState {
 
@@ -38,7 +40,7 @@ public class SaveState {
    * Saves the player's health and score.
    *
    * @param health the health of the player
-   * @param score the score of the player
+   * @param score  the score of the player
    */
   public void savePlayerData(float health, float score) {
     this.health = health;
@@ -63,6 +65,14 @@ public class SaveState {
     return score;
   }
 
+  /**
+   * Create json.
+   *
+   * @param name   the name
+   * @param health the health
+   * @param score  the score
+   * @throws IOException the io exception
+   */
   public void createJSON(String name, float health, float score) throws IOException {
     JSONObject playerStats = new JSONObject();
     playerStats.put("Name", name);
@@ -73,46 +83,14 @@ public class SaveState {
     // 'write' function calls
     writeInPlayerStats(playerStats);
     writeInGameLogs(playerStats);
-
-
-
-//    try {
-//      // read existing data from file
-//      JSONArray existingData;
-//      try (FileReader fileReader = new FileReader("player-stats.josn")) {
-//        existingData = (JSONArray) new JSONParser().parse(fileReader);
-//      } catch (ParseException | FileNotFoundException e) {
-//        existingData = new JSONArray();
-//      }
-//
-//      // add the new object to existing data array
-//      existingData.add(playerStats);
-//
-//      // write the updated array to JSON file
-//      File jsonFile = new File("player-stats.json");
-//
-////      try (FileWriter fileWriter = new FileWriter("player-stats.json", true)) {
-////        fileWriter.write(existingData.toJSONString());
-////      }
-////    } catch (IOException | ClassCastException e) {
-////      e.printStackTrace();
-////    }
-//
-//      FileWriter fileWriter = new FileWriter(jsonFile, true);
-//      if (jsonFile.length() > 0) { // file already exists and has content
-//        fileWriter.write(",\n"); // add comma to separate objects
-//      }
-//      fileWriter.write(existingData.toJSONString());
-//      fileWriter.write("\n");
-//      //fileWriter.write(playerStats.toJSONString());
-//      fileWriter.flush();
-//      fileWriter.close();
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
   }
 
-  public void writeInPlayerStats(JSONObject playerStats){
+  /**
+   * Write in player stats.
+   *
+   * @param playerStats the player stats
+   */
+  public void writeInPlayerStats(JSONObject playerStats) {
     try {
       // write to JSON file
       File jsonFile = new File("player-stats.json");
@@ -127,6 +105,11 @@ public class SaveState {
     }
   }
 
+  /**
+   * Write in game logs.
+   *
+   * @param playerStats the player stats
+   */
   public void writeInGameLogs(JSONObject playerStats) {
 
     try {
@@ -152,16 +135,6 @@ public class SaveState {
     } catch (IOException | ClassCastException e) {
       e.printStackTrace();
     }
-  }
-
-
-  public static void main(String[] args) throws IOException {
-    SaveState saveState = new SaveState();
-    saveState.createJSON("Paul1", 0, 1000);
-    saveState.createJSON("Paul2", 0, 1000);
-    saveState.createJSON("Paul3", 0, 1000);
-    saveState.createJSON("Paul4", 0, 1000);
-
   }
 
 

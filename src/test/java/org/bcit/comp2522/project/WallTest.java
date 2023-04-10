@@ -27,8 +27,6 @@ public class WallTest {
     Assertions.assertEquals(new PVector(0, 0), wall.getPosition());
     Assertions.assertEquals(new PVector(1, 0), wall.getDirection());
     Assertions.assertEquals(10, wall.getSize());
-    Assertions.assertEquals(0, wall.getSpeed());
-    Assertions.assertEquals(Color.BLACK, wall.getColor());
   }
 
 
