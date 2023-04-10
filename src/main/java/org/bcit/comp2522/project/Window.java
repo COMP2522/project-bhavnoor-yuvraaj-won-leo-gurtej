@@ -89,11 +89,6 @@ public class Window extends PApplet implements Drawable {
   public static String userDir;
 
   /**
-   * Custom ThreadPool. Thats how cool we are.
-   */
-  CustomThreadPool threadPool;
-
-  /**
    * Called once at the beginning of the program.
    */
   public void settings() {
@@ -123,15 +118,7 @@ public class Window extends PApplet implements Drawable {
    */
   public void init() {
     print("started at beginning");
-    // initialise CustomThreadPool object
-    threadPool = CustomThreadPool.getInstance(4);
-
-    try {
-      threadPool.submit(() -> musicPlayer = SoundHandler.getInstance());
-    } catch (InterruptedException e) {
-      System.out.println(e);
-    }
-
+    new Thread(() -> musicPlayer = SoundHandler.getInstance()).start();
     wall = new Wall(
 
             new PVector(50, 200),
@@ -155,6 +142,7 @@ public class Window extends PApplet implements Drawable {
             new Color(0, 255, 0),
             playerImage,
             this);
+
 
     ArrayList<Sprite> en = createEnemies(numbEnemies);
     enemies.addAll(en); //add enemies that were created into enemies arraylist
@@ -236,19 +224,8 @@ public class Window extends PApplet implements Drawable {
             GameOverPage startPage = new GameOverPage(player, this);
             PApplet.runSketch(appletArgs, startPage);
 
-//    new implementation starts:
-    try { enemies.forEach((n) -> {
-      Enemy enemy = (Enemy)(((Node)n).getValue());
-      if (Collidable.collided(player, enemy)) {
-        print("COLLIDED");
-        if (player.compareTo(enemy) <= 0) {
-          String[] appletArgs = new String[]{"gameover"};
-          GameOverPage startPage = new GameOverPage(player,this);
-          PApplet.runSketch(appletArgs, startPage);
+            this.dispose();
 
-          this.dispose();
-
-          // All necessary save state and server calls here
             saveState.savePlayerData(0, saveState.loadPlayerScore());
             try {
               saveState.createJSON(System.getProperty("user.name"),
@@ -280,13 +257,7 @@ public class Window extends PApplet implements Drawable {
           if (player.compareTo(enemy) == 1) {
 
             player.setSize((player.getSize() - 10));
-
-            try {
-              threadPool.submit(() -> this.remove(enemy));
-            } catch (InterruptedException e) {
-              System.out.println(e); //caught exeption e
-            }
-
+            new Thread(() -> this.remove(enemy)).start();
 
             throw new RuntimeException("Only way to break a forEach inside an anonymous func");
           }
@@ -306,13 +277,7 @@ public class Window extends PApplet implements Drawable {
         if (coin.collided(player)) {
           coinCount++;
           int key = Integer.valueOf(coin.hashCode());
-
-          try {
-            threadPool.submit(() -> sprites.remove(key));
-          } catch (InterruptedException e) {
-            System.out.println(e);
-          }
-          
+          new Thread(() -> sprites.remove(key)).start();
         }
       });
     } catch (Exception e) {
