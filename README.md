@@ -1,4 +1,106 @@
-# Project
+# Java Platform Game using Processing.org Library
+
+This is a Java platform game developed by our team using Processing.org library. The game showcases our ability to use different data structures and design patterns. The objective of the game is to navigate the player through various obstacles and enemies to reach the end goal.
+
+## Setup
+To run the game, make sure you have Processing.org library installed on your system. You can run the game by running the main() method in the Window class.
+An easier way is just to pull this github repo and it will include everything necessary. You may have trouble with environment variables, which we included in the repo. 
+See the troubleshooting at the bottom. **NOTE: You can run the game with the "current file" config, but it will not work as intended, and database will not work, as env variable is required**
+
+## Features
+The game has the following features:
+
+* A player that can be controlled using the arrow/spacebar keys
+* Enemies that move in random directions and can damage the player.
+* Coins that the player can collect for points.
+* Health system for the player.
+* Score and coin counter.
+
+## Code
+* The Window class is the main class that manages everything visible in the game. It extends the PApplet class from the Processing.org library and implements the Drawable interface.
+* The game uses various data structures such as MyHashMap(a custom hashmap) and ArrayList to manage sprites, enemies and coins.
+* Design patterns used in the game include the Singleton pattern for the player instance.
+* The game can be controlled using the arrow keys or spacebar to make the player jump.
+
+## Credits
+This game was developed by our team including Bhavnoor Saroya, Yuvraaj Chouhan, Gurtej Malik, Youngwon Kim, Leo Lastname.
+
+
+# Initial Project Pitch from beginning of term:
+## Project Pitch
+
+### One-Liner:
+Recreate a Geometry Dash style 3d platformer game with various shapes and objects.
+
+### Requirements:
+#### - Requirement 1:
+We could import some Processing.org libraries in order to implement an interface for user interaction features throughout our project.
+**We did, our game functions Entirely with Processing.org**
+#### - Requirement 2:
+At regular intervals, the user's progress will be saved or "pushed".
+**Another success, user progress is saved to mongoDB and we can also see top players in the console after we lose the game**
+#### - Requirement 3:
+This is included with Requirement 2, the user's progress at regular intervals in the game with a JSON file.
+**Yep! We can read and write Json files for anything we want, we are storing player health and score!**
+#### - Requirement 4:
+A collection of platforms, and objects posing as obstacles which are "spawned" and "deleted" based on user position
+maintained by data.
+**Our enemies are managed by a custom hashmap which is able to utilize o(1) lookup times and remove enemies after they go out of view.**
+#### - Requirement 5:
+- We can document progress as we go through working on the project.
+- We make sure our project is complete on final submission day.
+- Make sure there are no errors in project before submission.
+
+**At the time of writing, the project works good, all systems go, we used issues and we made many comments along the way**
+
+## Communication, and Roles:
+### - Communication:
+- We communicate within our group using a Discord group chat.
+- We will hold one meeting outside of class time on Tuesdays at 2pm, every week.
+- We will have an ongoing minutes document where we record attendance and group decisions.
+
+**Mission success, sort of, we did good, perhaps could have been slightly better in terms of communication.**
+
+### - Roles:
+## - Architect: Yuvraaj Chouhan
+#### Project Pitch:
+My responsibilities as an architect is to manage the Enemy and Player classes. In detail, I will manage how the
+Enemy class will create obstacles with different sizes at different positions. My management for the Player class will
+include how to select Player appearance, etc. With each upgrade in score, Player's appearance (eg: color, size etc.) would change indicating a bump or drop in the score.
+
+## - Test Maker: Leo
+#### Project Pitch:
+Making tests is what I'm responsible for. When one of our group members creates classes or functions,
+I test every scenario and make sure the output matches what we anticipate.
+
+## - UI/UX lead: Won
+#### Project Pitch: 
+I am responsible for all the visible stuffs in our projects. I will help my teammates
+to keep track of what I intended and what it should be in terms of UX/UI.
+
+## - Backend + Async + data structures: Bhavnoor Saroya
+#### Project Pitch:
+I'll handle database calls, will handle enemy class alongside Gurtej and fill in gaps as necessary. additionally I will take on the reponsibility of handling map refresh. Regen map elements based on how far player has reached. I likely will also contribute to data structures, and fill in anywhere else that my help is needed.
+
+## - Scoring/Backend: Gurtej
+#### Project Pitch: 
+My responsibilities as the backend manager would be to create data structures that store properties of different types of enemies, accessories granted to Player upon upgrades and the data of the Player as well. As the score keeper, I would update the score and 'health' whenever the Player hits an Enemy or passes a level in the data structure.
+
+# Initial UML
+![Initial UML](InitialUML.png)
+
+
+# Final UML
+You may want to download this to properly read it.
+![Final UML](finalUML.png)
+
+
+# Troubleshooting
+### Having trouble? We're here to help, some things to check:
+
+* Check that your run config(which should load automatically) has an environment variable (the MONGO_KEY) if for some reason it didn't work. you can add it manually, or just type it into the ide, the password is "SuperSecretPassword" without the quotes of course.
+* Help! when I run the game I can't see anything! No problem if you're running Window, try running startpage, or vice versa. 
+* My computer crashed! We can't help you here, check your ide is up to date and your specs are from this decade.
 
 ## Technical Project Requirements
 
@@ -111,5 +213,8 @@ You must use pull requests to manage your code integration:
 - If needed, make the requested fixes and commit and push again.
 - the other person (NOT YOU) will merge your PR into `main`
 - the other person (NOT YOU) will delete your branch
+
+
+
 
 
